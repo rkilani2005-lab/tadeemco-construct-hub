@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { LanguageToggle } from './LanguageToggle';
 import { Menu, X } from 'lucide-react';
+import tadeemcoLogo from '@/assets/tadeemco-logo.png';
 
 interface NavigationProps {
   language: 'ar' | 'en';
@@ -40,13 +41,15 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <div className="text-2xl font-bold text-primary">
-              {language === 'ar' ? 'تدعيمكو' : 'Tadeemco'}
-            </div>
+            <img 
+              src={tadeemcoLogo} 
+              alt={language === 'ar' ? 'شركة تدعيمكو' : 'Tadeemco Company'} 
+              className="h-12 w-auto"
+            />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8 rtl:space-x-reverse">
+          <div className={`hidden md:flex items-center gap-8 ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
             {items.map((item) => (
               <Link
                 key={item.href}
@@ -79,7 +82,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden pb-4">
-            <div className="flex flex-col space-y-4">
+            <div className={`flex flex-col space-y-4 ${language === 'ar' ? 'items-end' : 'items-start'}`}>
               {items.map((item) => (
                 <Link
                   key={item.href}
