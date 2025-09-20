@@ -39,13 +39,8 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="container-width">
         <div className="flex items-center justify-between py-4">
-          {/* Language Toggle - Far Left */}
-          <div className="flex items-center">
-            <LanguageToggle currentLang={language} onLanguageChange={onLanguageChange} />
-          </div>
-
-          {/* Logo - Center */}
-          <Link to="/" className="flex items-center absolute left-1/2 transform -translate-x-1/2">
+          {/* Logo - Far Left */}
+          <Link to="/" className="flex items-center">
             <img 
               src={tadeemcoLogo} 
               alt={language === 'ar' ? 'شركة تدعيمكو' : 'Tadeemco Company'} 
@@ -53,7 +48,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
             />
           </Link>
 
-          {/* Desktop Navigation - Right */}
+          {/* Desktop Navigation - Center */}
           <div className={`hidden md:flex items-center gap-6 ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
             {items.map((item) => (
               <Link
@@ -70,8 +65,14 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
             ))}
           </div>
 
+          {/* Language Toggle - Far Right */}
+          <div className="hidden md:flex items-center">
+            <LanguageToggle currentLang={language} onLanguageChange={onLanguageChange} />
+          </div>
+
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center gap-4">
+            <LanguageToggle currentLang={language} onLanguageChange={onLanguageChange} />
             <Button
               variant="ghost"
               size="sm"
