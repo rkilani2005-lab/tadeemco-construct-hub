@@ -81,9 +81,9 @@ export const Contact = ({
                       </h3>
                       <div className="space-y-1 text-muted-foreground">
                         <p>90001662</p>
-                        <p>9222 3657</p>
-                        <p>9966 7785</p>
-                        <p>9088 8809</p>
+                        <p>92223657</p>
+                        <p>99667785</p>
+                        <p>90888809</p>
                       </div>
                     </div>
                   </div>
