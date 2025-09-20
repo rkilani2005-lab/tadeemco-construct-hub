@@ -131,31 +131,31 @@ export const Contact = ({
               <Card className="service-card">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
+                    <label className={`block text-sm font-medium text-foreground mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
                       {isArabic ? 'الاسم الكامل' : 'Full Name'}
                     </label>
-                    <Input type="text" name="name" value={formData.name} onChange={handleChange} required className="w-full" placeholder={isArabic ? 'أدخل اسمك الكامل' : 'Enter your full name'} />
+                    <Input type="text" name="name" value={formData.name} onChange={handleChange} required className={`w-full ${isArabic ? 'text-right' : 'text-left'}`} placeholder={isArabic ? 'أدخل اسمك الكامل' : 'Enter your full name'} dir={isArabic ? 'rtl' : 'ltr'} />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
+                    <label className={`block text-sm font-medium text-foreground mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
                       {isArabic ? 'البريد الإلكتروني' : 'Email Address'}
                     </label>
-                    <Input type="email" name="email" value={formData.email} onChange={handleChange} required className="w-full" placeholder={isArabic ? 'أدخل بريدك الإلكتروني' : 'Enter your email address'} />
+                    <Input type="email" name="email" value={formData.email} onChange={handleChange} required className={`w-full ${isArabic ? 'text-right' : 'text-left'}`} placeholder={isArabic ? 'أدخل بريدك الإلكتروني' : 'Enter your email address'} dir={isArabic ? 'rtl' : 'ltr'} />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
+                    <label className={`block text-sm font-medium text-foreground mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
                       {isArabic ? 'رقم الهاتف' : 'Phone Number'}
                     </label>
-                    <Input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full" placeholder={isArabic ? 'أدخل رقم هاتفك' : 'Enter your phone number'} />
+                    <Input type="tel" name="phone" value={formData.phone} onChange={handleChange} className={`w-full ${isArabic ? 'text-right' : 'text-left'}`} placeholder={isArabic ? 'أدخل رقم هاتفك' : 'Enter your phone number'} dir={isArabic ? 'rtl' : 'ltr'} />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-foreground mb-2">
+                    <label className={`block text-sm font-medium text-foreground mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
                       {isArabic ? 'الرسالة' : 'Message'}
                     </label>
-                    <Textarea name="message" value={formData.message} onChange={handleChange} required rows={5} className="w-full" placeholder={isArabic ? 'اكتب رسالتك هنا...' : 'Write your message here...'} />
+                    <Textarea name="message" value={formData.message} onChange={handleChange} required rows={5} className={`w-full ${isArabic ? 'text-right' : 'text-left'}`} placeholder={isArabic ? 'اكتب رسالتك هنا...' : 'Write your message here...'} dir={isArabic ? 'rtl' : 'ltr'} />
                   </div>
 
                   <Button type="submit" className="btn-hero w-full">
