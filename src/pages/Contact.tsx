@@ -4,12 +4,12 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useState } from 'react';
-
 interface ContactProps {
   language: 'ar' | 'en';
 }
-
-export const Contact = ({ language }: ContactProps) => {
+export const Contact = ({
+  language
+}: ContactProps) => {
   const isArabic = language === 'ar';
   const [formData, setFormData] = useState({
     name: '',
@@ -17,22 +17,18 @@ export const Contact = ({ language }: ContactProps) => {
     phone: '',
     message: ''
   });
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission here
     console.log('Form submitted:', formData);
   };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
-
-  return (
-    <div className={`${isArabic ? 'font-cairo' : 'font-roboto'} min-h-screen`}>
+  return <div className={`${isArabic ? 'font-cairo' : 'font-roboto'} min-h-screen`}>
       {/* Hero Section */}
       <section className="section-padding bg-muted">
         <div className="container-width">
@@ -41,9 +37,7 @@ export const Contact = ({ language }: ContactProps) => {
               {isArabic ? 'تواصل معنا' : 'Contact Us'}
             </h1>
             <p className={`text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic
-                ? 'نحن هنا لمساعدتكم في جميع احتياجاتكم التقنية. تواصلوا معنا للحصول على استشارة مجانية'
-                : 'We are here to help you with all your technical needs. Contact us for a free consultation'}
+              {isArabic ? 'نحن هنا لمساعدتكم في جميع احتياجاتكم التقنية. تواصلوا معنا للحصول على استشارة مجانية' : 'We are here to help you with all your technical needs. Contact us for a free consultation'}
             </p>
           </div>
         </div>
@@ -70,9 +64,7 @@ export const Contact = ({ language }: ContactProps) => {
                         {isArabic ? 'العنوان' : 'Address'}
                       </h3>
                       <p className="text-muted-foreground leading-relaxed">
-                        {isArabic
-                          ? 'مدينة الكويت – مبنى الدروازة 51 – دور 6 – مكتب 30'
-                          : 'Kuwait City - Darwaza Building 51 - Floor 6 - Office 30'}
+                        {isArabic ? 'مدينة الكويت – مبنى الدروازة 51 – دور 6 – مكتب 30' : 'Kuwait City - Darwaza Building 51 - Floor 6 - Office 30'}
                       </p>
                     </div>
                   </div>
@@ -88,7 +80,7 @@ export const Contact = ({ language }: ContactProps) => {
                         {isArabic ? 'أرقام الهاتف' : 'Phone Numbers'}
                       </h3>
                       <div className="space-y-1 text-muted-foreground">
-                        <p>9000 1662</p>
+                        <p>90001662</p>
                         <p>9222 3657</p>
                         <p>9966 7785</p>
                         <p>9088 8809</p>
@@ -142,59 +134,28 @@ export const Contact = ({ language }: ContactProps) => {
                     <label className="block text-sm font-medium text-foreground mb-2">
                       {isArabic ? 'الاسم الكامل' : 'Full Name'}
                     </label>
-                    <Input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full"
-                      placeholder={isArabic ? 'أدخل اسمك الكامل' : 'Enter your full name'}
-                    />
+                    <Input type="text" name="name" value={formData.name} onChange={handleChange} required className="w-full" placeholder={isArabic ? 'أدخل اسمك الكامل' : 'Enter your full name'} />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
                       {isArabic ? 'البريد الإلكتروني' : 'Email Address'}
                     </label>
-                    <Input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full"
-                      placeholder={isArabic ? 'أدخل بريدك الإلكتروني' : 'Enter your email address'}
-                    />
+                    <Input type="email" name="email" value={formData.email} onChange={handleChange} required className="w-full" placeholder={isArabic ? 'أدخل بريدك الإلكتروني' : 'Enter your email address'} />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
                       {isArabic ? 'رقم الهاتف' : 'Phone Number'}
                     </label>
-                    <Input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full"
-                      placeholder={isArabic ? 'أدخل رقم هاتفك' : 'Enter your phone number'}
-                    />
+                    <Input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full" placeholder={isArabic ? 'أدخل رقم هاتفك' : 'Enter your phone number'} />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
                       {isArabic ? 'الرسالة' : 'Message'}
                     </label>
-                    <Textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={5}
-                      className="w-full"
-                      placeholder={isArabic ? 'اكتب رسالتك هنا...' : 'Write your message here...'}
-                    />
+                    <Textarea name="message" value={formData.message} onChange={handleChange} required rows={5} className="w-full" placeholder={isArabic ? 'اكتب رسالتك هنا...' : 'Write your message here...'} />
                   </div>
 
                   <Button type="submit" className="btn-hero w-full">
@@ -224,15 +185,12 @@ export const Contact = ({ language }: ContactProps) => {
                   {isArabic ? 'مكتبنا في الكويت' : 'Our Office in Kuwait'}
                 </h3>
                 <p className="text-muted-foreground">
-                  {isArabic
-                    ? 'مدينة الكويت – مبنى الدروازة 51 – دور 6 – مكتب 30'
-                    : 'Kuwait City - Darwaza Building 51 - Floor 6 - Office 30'}
+                  {isArabic ? 'مدينة الكويت – مبنى الدروازة 51 – دور 6 – مكتب 30' : 'Kuwait City - Darwaza Building 51 - Floor 6 - Office 30'}
                 </p>
               </div>
             </div>
           </Card>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
