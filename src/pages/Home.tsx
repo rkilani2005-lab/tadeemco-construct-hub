@@ -7,6 +7,8 @@ import heroImage from '@/assets/hero-construction.jpg';
 import dewateringImage from '@/assets/dewatering-equipment.jpg';
 import shoringImage from '@/assets/shoring-excavation.jpg';
 import kuwaitProject from '@/assets/kuwait-project.jpg';
+import constructionSite from '@/assets/construction-site.jpg';
+import pumpingSystem from '@/assets/pumping-system.jpg';
 
 interface HomeProps {
   language: 'ar' | 'en';
@@ -19,7 +21,10 @@ export const Home = ({ language }: HomeProps) => {
   const heroImages = [
     { src: heroImage, alt: 'Construction Site' },
     { src: dewateringImage, alt: 'Dewatering Equipment' },
-    { src: shoringImage, alt: 'Shoring Excavation' }
+    { src: shoringImage, alt: 'Shoring Excavation' },
+    { src: kuwaitProject, alt: 'Kuwait Project' },
+    { src: constructionSite, alt: 'Modern Construction Site' },
+    { src: pumpingSystem, alt: 'Pumping System' }
   ];
 
   const services = [
