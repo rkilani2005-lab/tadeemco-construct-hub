@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Droplets, Shield, Shovel, Wrench } from 'lucide-react';
 import heroImage from '@/assets/hero-construction.jpg';
@@ -14,6 +15,12 @@ interface HomeProps {
 export const Home = ({ language }: HomeProps) => {
   const isArabic = language === 'ar';
   const ArrowIcon = isArabic ? ArrowLeft : ArrowRight;
+
+  const heroImages = [
+    { src: heroImage, alt: 'Construction Site' },
+    { src: dewateringImage, alt: 'Dewatering Equipment' },
+    { src: shoringImage, alt: 'Shoring Excavation' }
+  ];
 
   const services = [
     {
@@ -49,15 +56,25 @@ export const Home = ({ language }: HomeProps) => {
   return (
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        >
-          <div className="absolute inset-0 hero-gradient opacity-85"></div>
-        </div>
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        <Carousel className="absolute inset-0 w-full h-full" opts={{ loop: true }}>
+          <CarouselContent className="-ml-0">
+            {heroImages.map((image, index) => (
+              <CarouselItem key={index} className="pl-0 basis-full">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full"
+                  style={{ backgroundImage: `url(${image.src})` }}
+                >
+                  <div className="absolute inset-0 hero-gradient opacity-85"></div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20" />
+          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20" />
+        </Carousel>
         
-        <div className="relative container-width py-20">
+        <div className="relative container-width py-20 z-10">
           <div className="max-w-4xl">
             <h1 className={`text-5xl md:text-7xl font-bold text-white mb-6 leading-tight ${isArabic ? 'text-right' : 'text-left'}`}>
               {isArabic ? (
