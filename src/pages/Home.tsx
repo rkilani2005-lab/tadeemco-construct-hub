@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import Autoplay from "embla-carousel-autoplay";
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Droplets, Shield, Shovel, Wrench } from 'lucide-react';
 import heroImage from '@/assets/hero-construction.jpg';
@@ -19,7 +20,7 @@ export const Home = ({ language }: HomeProps) => {
   const ArrowIcon = isArabic ? ArrowLeft : ArrowRight;
 
   const heroImages = [
-    { src: heroImage, alt: 'Construction Site' },
+    { src: heroImage, alt: 'Hero Construction' },
     { src: dewateringImage, alt: 'Dewatering Equipment' },
     { src: shoringImage, alt: 'Shoring Excavation' },
     { src: kuwaitProject, alt: 'Kuwait Project' },
@@ -62,21 +63,31 @@ export const Home = ({ language }: HomeProps) => {
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
-        <Carousel className="absolute inset-0 w-full h-full" opts={{ loop: true }}>
-          <CarouselContent className="-ml-0">
+        <Carousel 
+          className="absolute inset-0 w-full h-full" 
+          opts={{ loop: true, align: "start" }}
+          plugins={[
+            Autoplay({
+              delay: 4000,
+            }),
+          ]}
+        >
+          <CarouselContent>
             {heroImages.map((image, index) => (
-              <CarouselItem key={index} className="pl-0 basis-full">
-                <div 
-                  className="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full"
-                  style={{ backgroundImage: `url(${image.src})` }}
-                >
-                  <div className="absolute inset-0 hero-gradient opacity-85"></div>
+              <CarouselItem key={index}>
+                <div className="relative w-full h-screen">
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full"
+                    style={{ backgroundImage: `url(${image.src})` }}
+                  >
+                    <div className="absolute inset-0 hero-gradient opacity-85"></div>
+                  </div>
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20" />
-          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20" />
+          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20 z-10" />
+          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20 z-10" />
         </Carousel>
         
         <div className="relative container-width py-20 z-10">
