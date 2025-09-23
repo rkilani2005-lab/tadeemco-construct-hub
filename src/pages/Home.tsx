@@ -65,23 +65,30 @@ export const Home = ({ language }: HomeProps) => {
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <Carousel 
           className="absolute inset-0 w-full h-full" 
-          opts={{ loop: true, align: "start" }}
+          opts={{ 
+            loop: true, 
+            align: "start",
+            skipSnaps: false,
+            dragFree: false
+          }}
           plugins={[
             Autoplay({
               delay: 4000,
+              stopOnInteraction: true,
+              stopOnMouseEnter: true,
             }),
           ]}
         >
-          <CarouselContent>
+          <CarouselContent className="-ml-0">
             {heroImages.map((image, index) => (
-              <CarouselItem key={index}>
+              <CarouselItem key={index} className="pl-0 basis-full">
                 <div className="relative w-full h-screen">
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full"
-                    style={{ backgroundImage: `url(${image.src})` }}
-                  >
-                    <div className="absolute inset-0 hero-gradient opacity-85"></div>
-                  </div>
+                  <img 
+                    src={image.src}
+                    alt={image.alt}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 hero-gradient opacity-85"></div>
                 </div>
               </CarouselItem>
             ))}
