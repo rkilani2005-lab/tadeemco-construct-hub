@@ -79,14 +79,15 @@ export const Home = ({ language }: HomeProps) => {
             }),
           ]}
         >
-          <CarouselContent className="-ml-0">
+          <CarouselContent>
             {heroImages.map((image, index) => (
-              <CarouselItem key={index} className="pl-0 basis-full">
+              <CarouselItem key={index} className="basis-full">
                 <div className="relative w-full h-screen">
                   <img 
                     src={image.src}
                     alt={image.alt}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="w-full h-full object-cover"
+                    loading={index === 0 ? "eager" : "lazy"}
                   />
                   <div className="absolute inset-0 hero-gradient opacity-85"></div>
                 </div>
