@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { LanguageToggle } from './LanguageToggle';
 import { Menu, X } from 'lucide-react';
-import tadeemcoLogo from '@/assets/tadeemco-logo.png';
+import tadeemcoLogo from '@/assets/tadeemco-logo.jpg';
 
 interface NavigationProps {
   language: 'ar' | 'en';
