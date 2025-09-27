@@ -44,7 +44,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
             <img 
               src={tadeemcoLogo} 
               alt={language === 'ar' ? 'شركة تدعيمكو' : 'Tadeemco Company'} 
-              className="h-12 w-auto"
+              className="h-10 w-auto"
             />
           </Link>
 
