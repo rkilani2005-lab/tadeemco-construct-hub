@@ -1,12 +1,11 @@
 import { MapPin, Phone, Mail } from 'lucide-react';
-
 interface FooterProps {
   language: 'ar' | 'en';
 }
-
-export const Footer = ({ language }: FooterProps) => {
-  return (
-    <footer className="bg-primary text-primary-foreground">
+export const Footer = ({
+  language
+}: FooterProps) => {
+  return <footer className="bg-primary text-primary-foreground">
       <div className="container-width section-padding">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
@@ -15,9 +14,7 @@ export const Footer = ({ language }: FooterProps) => {
               {language === 'ar' ? 'شركة تدعيمكو' : 'Tadeemco'}
             </h3>
             <p className="text-primary-foreground/80 mb-4">
-              {language === 'ar'
-                ? 'خبرة في نزح المياه والتدعيم وأعمال الحفر'
-                : 'Experts in Dewatering, Shoring & Excavation Works'}
+              {language === 'ar' ? 'خبرة في نزح المياه والتدعيم وأعمال الحفر' : 'Experts in Dewatering, Shoring & Excavation Works'}
             </p>
           </div>
 
@@ -30,14 +27,12 @@ export const Footer = ({ language }: FooterProps) => {
               <div className="flex items-center gap-3">
                 <MapPin className="h-5 w-5" />
                 <span className="text-sm">
-                  {language === 'ar'
-                    ? 'مدينة الكويت – مبنى الدروازة 51 – دور 6 – مكتب 30'
-                    : 'Kuwait City - Darwaza Building 51 - Floor 6 - Office 30'}
+                  {language === 'ar' ? 'مدينة الكويت – مبنى الدروازة 51 – دور 6 – مكتب 30' : 'Kuwait City - Darwaza Building 51 - Floor 6 - Office 30'}
                 </span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5" />
-                <span className="text-sm">9000 1662 | 9222 3657</span>
+                <span className="text-sm">90001662 | 92223657</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5" />
@@ -67,6 +62,5 @@ export const Footer = ({ language }: FooterProps) => {
           </p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
