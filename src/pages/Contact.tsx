@@ -4,6 +4,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 interface ContactProps {
   language: 'ar' | 'en';
 }
@@ -11,16 +13,50 @@ export const Contact = ({
   language
 }: ContactProps) => {
   const isArabic = language === 'ar';
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     message: ''
   });
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: formData
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: isArabic ? "تم إرسال الرسالة بنجاح" : "Message sent successfully",
+        description: isArabic ? "شكراً لتواصلكم معنا. سنقوم بالرد عليكم قريباً" : "Thank you for contacting us. We will get back to you soon.",
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
+      });
+    } catch (error: any) {
+      console.error('Error sending email:', error);
+      toast({
+        title: isArabic ? "خطأ في إرسال الرسالة" : "Error sending message",
+        description: isArabic ? "حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى" : "An error occurred while sending your message. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -158,8 +194,11 @@ export const Contact = ({
                     <Textarea name="message" value={formData.message} onChange={handleChange} required rows={5} className={`w-full ${isArabic ? 'text-right' : 'text-left'}`} placeholder={isArabic ? 'اكتب رسالتك هنا...' : 'Write your message here...'} dir={isArabic ? 'rtl' : 'ltr'} />
                   </div>
 
-                  <Button type="submit" className="btn-hero w-full">
-                    {isArabic ? 'إرسال الرسالة' : 'Send Message'}
+                  <Button type="submit" className="btn-hero w-full" disabled={isSubmitting}>
+                    {isSubmitting 
+                      ? (isArabic ? 'جاري الإرسال...' : 'Sending...') 
+                      : (isArabic ? 'إرسال الرسالة' : 'Send Message')
+                    }
                   </Button>
                 </form>
               </Card>
