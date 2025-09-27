@@ -99,9 +99,14 @@ export const Contact = ({
                       <h3 className="text-xl font-semibold mb-2">
                         {isArabic ? 'العنوان' : 'Address'}
                       </h3>
-                      <p className="text-muted-foreground leading-relaxed">
+                      <a 
+                        href="https://maps.google.com/?q=Kuwait+City+Darwaza+Building+51+Floor+6+Office+30"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground leading-relaxed hover:text-primary transition-colors cursor-pointer"
+                      >
                         {isArabic ? 'مدينة الكويت – مبنى الدروازة 51 – دور 6 – مكتب 30' : 'Kuwait City - Darwaza Building 51 - Floor 6 - Office 30'}
-                      </p>
+                      </a>
                     </div>
                   </div>
                 </Card>
@@ -116,10 +121,10 @@ export const Contact = ({
                         {isArabic ? 'أرقام الهاتف' : 'Phone Numbers'}
                       </h3>
                       <div className="space-y-1 text-muted-foreground">
-                        <p>90001662</p>
-                        <p>92223657</p>
-                        <p>99667785</p>
-                        <p>90888809</p>
+                        <a href="tel:+96590001662" className="block hover:text-primary transition-colors cursor-pointer">90001662</a>
+                        <a href="tel:+96592223657" className="block hover:text-primary transition-colors cursor-pointer">92223657</a>
+                        <a href="tel:+96599667785" className="block hover:text-primary transition-colors cursor-pointer">99667785</a>
+                        <a href="tel:+96590888809" className="block hover:text-primary transition-colors cursor-pointer">90888809</a>
                       </div>
                     </div>
                   </div>
@@ -134,7 +139,12 @@ export const Contact = ({
                       <h3 className="text-xl font-semibold mb-2">
                         {isArabic ? 'البريد الإلكتروني' : 'Email'}
                       </h3>
-                      <p className="text-muted-foreground">info@tadeemco.com</p>
+                      <a 
+                        href="mailto:info@tadeemco.com"
+                        className="text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+                      >
+                        info@tadeemco.com
+                      </a>
                     </div>
                   </div>
                 </Card>
@@ -217,7 +227,12 @@ export const Contact = ({
           </div>
           
           <Card className="overflow-hidden shadow-construction">
-            <div className="h-96 bg-muted flex items-center justify-center">
+            <a 
+              href="https://maps.google.com/?q=Kuwait+City+Darwaza+Building+51+Floor+6+Office+30"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block h-96 bg-muted flex items-center justify-center hover:bg-muted/80 transition-colors cursor-pointer"
+            >
               <div className="text-center">
                 <MapPin className="h-16 w-16 text-primary mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-foreground mb-2">
@@ -227,7 +242,7 @@ export const Contact = ({
                   {isArabic ? 'مدينة الكويت – مبنى الدروازة 51 – دور 6 – مكتب 30' : 'Kuwait City - Darwaza Building 51 - Floor 6 - Office 30'}
                 </p>
               </div>
-            </div>
+            </a>
           </Card>
         </div>
       </section>
