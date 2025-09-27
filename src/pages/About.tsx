@@ -19,7 +19,7 @@ export const About = ({ language }: AboutProps) => {
             </h1>
             <p className={`text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed ${isArabic ? 'text-right' : 'text-left'}`}>
               {isArabic
-                ? 'شركة تدعيمكو هي شركة كويتية متخصصة في أعمال نزح المياه الجوفية والتدعيم والحفر، تأسست لتقديم حلول تقنية متطورة في مجال البناء والتشييد'
+                ? 'ﺷﺮﻛﺔ ﺗﺪﻋﻴﻤﻜﻮ ﻣﺘﺨﺼﺼﺔ ﻓﻲ أﻋﻤﺎل اﻟﺤﻔﺮ ، اﻟﺘﺪﻋﻴﻢ وﺳﺤﺐ  اﻟﻤﻴﺎه اﻟﺠﻮﻓﻴﺔ، واﻟﺘﻲﺗُﻌﺪ ﻣﻦ اﻷﻋﻤﺎل اﻷوﻟﻰ ﻓﻲ ﺗﻨﻔﻴﺬ ﻣﺸﺎرﻳﻊ  اﻟﺒﻨﻴﺔ اﻟﺘﺤﺘﻴﺔ ﻣﻦ ﻣﻘﺎوﻻت اﻟﺒﻨﺎء.  ﺗﺘﻤﻴﺰ اﻟﺸﺮﻛﺔ ﺑﻜﻮﻧﻬﺎ ﻓﻲ ﻣﻘﺪﻣﺔ اﻟﺸﺮﻛﺎت اﻟﺤﺪﻳﺜﺔ اﻟﻌﺎﻣﻠﺔ وﻓﻖ  أﻋﻠﻰ اﻟﻤﻌﺎﻳﻴﺮ اﻟﻔﻨﻴﺔ واﻟﺘﻘﻨﻴﺎت اﻟﻤﺘﻘﺪﻣﺔ، وﻳﻘﻮد أﻋﻤﺎﻟﻬﺎ ﻓﺮﻳﻖ ﻣﻦ  اﻟﻤﻬﻨﺪﺳﻴﻦ واﻟﻔﻨﻴﻴﻦ ذوي اﻟﺨﺒﺮة اﻟﻮاﺳﻌﺔ ﻓﻲ ﻣﺠﺎﻻت ﻧﺰح اﻟﻤﻴﺎه،  اﻟﺘﺪﻋﻴﻢ، ﺣﻔﺮ اﻷﺳﺎس.'
                 : 'Tadeemco is a Kuwaiti specialized contractor in groundwater dewatering, shoring, and excavation works, established to provide advanced technical solutions in construction and infrastructure'}
             </p>
           </div>
