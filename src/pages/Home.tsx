@@ -69,7 +69,8 @@ export const Home = ({ language }: HomeProps) => {
             loop: true, 
             align: "start",
             skipSnaps: false,
-            dragFree: false
+            dragFree: false,
+            direction: "ltr"
           }}
           plugins={[
             Autoplay({
