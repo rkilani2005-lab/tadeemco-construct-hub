@@ -62,7 +62,7 @@ export const Home = ({ language }: HomeProps) => {
   return (
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center overflow-hidden" dir="ltr">
         <Carousel 
           className="absolute inset-0 w-full h-full" 
           opts={{ 
