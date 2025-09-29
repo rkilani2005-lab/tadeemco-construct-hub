@@ -74,7 +74,7 @@ export const Home = ({ language }: HomeProps) => {
           }}
           plugins={[
             Autoplay({
-              delay: 4000,
+              delay: 10000,
               stopOnInteraction: true,
               stopOnMouseEnter: true,
             }),
