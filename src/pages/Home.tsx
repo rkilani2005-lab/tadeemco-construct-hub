@@ -164,37 +164,50 @@ export const Home = ({ language }: HomeProps) => {
       </section>
 
       {/* Services Overview */}
-      <section className="section-padding">
-        <div className="container-width">
-          <div className="text-center mb-16">
-            <h2 className={`text-4xl font-bold text-foreground mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic ? 'خدماتنا المتخصصة' : 'Our Specialized Services'}
+      <section className="section-padding bg-primary relative overflow-hidden">
+        {/* Decorative diagonal lines */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-1/4 w-px h-full bg-white transform -rotate-12"></div>
+          <div className="absolute top-0 right-1/4 w-px h-full bg-white transform -rotate-12"></div>
+        </div>
+        
+        <div className="container-width relative z-10">
+          <div className="mb-12">
+            <h2 className={`text-5xl md:text-6xl font-bold text-white mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
+              {isArabic ? 'مجالات خبرتنا' : 'Our areas of expertise'}
             </h2>
+            <p className={`text-xl text-white/90 max-w-4xl leading-relaxed ${isArabic ? 'text-right' : 'text-left'}`}>
+              {isArabic
+                ? 'من المعقد إلى المتخصص، لدى تدعيمكو عمق الخبرة والتخصص لتقديم احتياجات إدارة المياه الدقيقة.'
+                : 'From the complex to the compartmentalised, Tadeemco has the depth of experience and expertise to deliver to your exact water management needs.'}
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <Card key={index} className="service-card text-center group">
-                <div className="text-primary mb-6 group-hover:scale-110 transition-professional">
-                  <service.icon className="h-16 w-16 mx-auto" />
+              <div key={index} className="border-2 border-white rounded-bl-[3rem] bg-primary hover:bg-primary/90 transition-professional group">
+                <div className="aspect-video bg-muted relative overflow-hidden">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <service.icon className="h-24 w-24 text-primary" />
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-4">
-                  {service.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {service.description}
-                </p>
-              </Card>
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold text-[hsl(var(--info))] mb-4">
+                    {service.title}
+                  </h3>
+                  <p className="text-white/90 leading-relaxed mb-6">
+                    {service.description}
+                  </p>
+                  <Link 
+                    to="/services" 
+                    className={`flex items-center gap-2 text-white font-semibold hover:text-[hsl(var(--info))] transition-professional ${isArabic ? 'flex-row-reverse' : 'flex-row'}`}
+                  >
+                    <span>{isArabic ? 'اعرف المزيد' : 'Learn more'}</span>
+                    <ArrowIcon className="h-5 w-5" />
+                  </Link>
+                </div>
+              </div>
             ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/services">
-              <Button className="btn-hero">
-                {isArabic ? 'تفاصيل الخدمات' : 'Service Details'}
-                <ArrowIcon className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
