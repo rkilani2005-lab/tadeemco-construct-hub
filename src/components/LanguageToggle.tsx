@@ -19,7 +19,7 @@ export const LanguageToggle = ({ currentLang, onLanguageChange }: LanguageToggle
       <img 
         src={currentLang === 'ar' ? ukFlag : kuwaitFlag}
         alt={currentLang === 'ar' ? 'British Flag' : 'Kuwait Flag'}
-        className="w-6 h-4 object-cover rounded-sm"
+        className="w-6 h-4 object-cover"
       />
       <span className="hidden md:inline">{currentLang === 'ar' ? 'English' : 'العربية'}</span>
     </Button>
