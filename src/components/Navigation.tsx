@@ -103,32 +103,6 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
                   </Link>
                 ))}
               </div>
-              
-              {/* Contact Information in Mobile Menu */}
-              <div className="mt-6 pt-6 border-t border-white/20">
-                <div className={`bg-secondary p-4 rounded-lg ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-                  <h3 className={`text-lg font-bold text-secondary-foreground mb-4 ${language === 'ar' ? 'font-cairo' : 'font-roboto'}`}>
-                    {language === 'ar' ? 'تواصل معنا اليوم' : 'Contact us today'}
-                  </h3>
-                  <div className="space-y-3 text-secondary-foreground">
-                    <div>
-                      <p className="font-semibold mb-1">{language === 'ar' ? 'مكتب الكويت:' : 'Kuwait Office:'}</p>
-                      <a href="tel:90001662" className="flex items-center gap-2 hover:text-secondary-foreground/80">
-                        <Phone className="h-4 w-4" />
-                        <span>90001662</span>
-                      </a>
-                      <a href="tel:92223657" className="flex items-center gap-2 hover:text-secondary-foreground/80 mt-1">
-                        <Phone className="h-4 w-4" />
-                        <span>92223657</span>
-                      </a>
-                    </div>
-                    <a href="mailto:info@tadeemco.com" className="flex items-center gap-2 hover:text-secondary-foreground/80">
-                      <Mail className="h-4 w-4" />
-                      <span>info@tadeemco.com</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
             </div>
           )}
         </div>
