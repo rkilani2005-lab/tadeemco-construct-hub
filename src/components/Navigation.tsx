@@ -21,10 +21,8 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
       { href: '/projects', label: 'مشاريعنا' },
       { href: '/services', label: 'خدماتنا' },
       { href: '/about', label: 'من نحن' },
-      { href: '/', label: 'الرئيسية' },
     ],
     en: [
-      { href: '/', label: 'Home' },
       { href: '/about', label: 'About Us' },
       { href: '/services', label: 'Services' },
       { href: '/projects', label: 'Projects' },
