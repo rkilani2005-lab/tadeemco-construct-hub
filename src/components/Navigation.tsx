@@ -34,9 +34,9 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
   const items = navigationItems[language];
 
   return (
-    <nav className="sticky top-0 z-50">
-      {/* Main Navigation - Dark Navy */}
-      <div className="bg-primary shadow-md">
+    <nav>
+      {/* Main Navigation - Dark Navy - Sticky */}
+      <div className="bg-primary shadow-md sticky top-0 z-50">
         <div className="container-width">
           <div className="flex items-center justify-between py-4">
             {/* Logo - Far Left */}
