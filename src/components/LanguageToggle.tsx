@@ -21,7 +21,7 @@ export const LanguageToggle = ({ currentLang, onLanguageChange }: LanguageToggle
         alt={currentLang === 'ar' ? 'British Flag' : 'Kuwait Flag'}
         className="w-6 h-4 object-cover"
       />
-      <span className="hidden md:inline">{currentLang === 'ar' ? 'English' : 'العربية'}</span>
+      <span className={`hidden md:inline text-white ${currentLang === 'en' ? 'font-cairo' : ''}`}>{currentLang === 'ar' ? 'English' : 'العربية'}</span>
     </Button>
   );
 };
