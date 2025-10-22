@@ -13,7 +13,7 @@ export const LanguageToggle = ({ currentLang, onLanguageChange }: LanguageToggle
       variant="outline"
       size="sm"
       onClick={() => onLanguageChange(currentLang === 'ar' ? 'en' : 'ar')}
-      className="flex items-center gap-2 text-sm font-medium"
+      className="flex items-center gap-2 text-sm font-medium rounded-none bg-transparent border-white/30 hover:bg-white/10"
       aria-label={currentLang === 'ar' ? 'Switch to English' : 'Switch to Arabic'}
     >
       <img 
