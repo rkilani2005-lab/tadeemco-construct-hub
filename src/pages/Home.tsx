@@ -1,7 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import Autoplay from "embla-carousel-autoplay";
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Droplets, Shield, Shovel, Wrench } from 'lucide-react';
 import heroImage from '@/assets/hero-construction.jpg';
@@ -18,15 +16,6 @@ interface HomeProps {
 export const Home = ({ language }: HomeProps) => {
   const isArabic = language === 'ar';
   const ArrowIcon = isArabic ? ArrowLeft : ArrowRight;
-
-  const heroImages = [
-    { src: heroImage, alt: 'Hero Construction' },
-    { src: dewateringImage, alt: 'Dewatering Equipment' },
-    { src: shoringImage, alt: 'Shoring Excavation' },
-    { src: kuwaitProject, alt: 'Kuwait Project' },
-    { src: constructionSite, alt: 'Modern Construction Site' },
-    { src: pumpingSystem, alt: 'Pumping System' }
-  ];
 
   const services = [
     {
@@ -62,73 +51,59 @@ export const Home = ({ language }: HomeProps) => {
   return (
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden" dir="ltr">
-        <Carousel 
-          className="absolute inset-0 w-full h-full" 
-          opts={{ 
-            loop: true, 
-            align: "start",
-            skipSnaps: false,
-            dragFree: false,
-            direction: "ltr"
-          }}
-          plugins={[
-            Autoplay({
-              delay: 10000,
-              stopOnInteraction: false,
-              stopOnMouseEnter: false,
-            }),
-          ]}
-        >
-          <CarouselContent>
-            {heroImages.map((image, index) => (
-              <CarouselItem key={index} className="basis-full">
-                <div className="relative w-full h-screen">
-                  <img 
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-full object-cover"
-                    loading={index === 0 ? "eager" : "lazy"}
-                  />
-                  <div className="absolute inset-0 hero-gradient opacity-85"></div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20 z-10" />
-          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 text-white hover:bg-white/20 z-10" />
-        </Carousel>
-        
-        <div className="relative container-width py-20 z-10">
-          <div className="max-w-4xl">
-            <h1 className={`text-5xl md:text-7xl font-bold text-white mb-6 leading-tight ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic ? (
-                <>
-                  شركة <span className="text-yellow-300">تدعيمكو</span>
-                </>
-              ) : (
-                <>
-                  <span className="text-yellow-300">Tadeemco</span> Corporation
-                </>
-              )}
-            </h1>
-            <p className={`text-xl md:text-2xl text-white/90 mb-8 leading-relaxed ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic
-                ? 'خبرة في نزح المياه والتدعيم وأعمال الحفر'
-                : 'Experts in Dewatering, Shoring & Excavation Works'}
-            </p>
-            <div className={`flex flex-col sm:flex-row gap-4 ${isArabic ? 'justify-end' : 'justify-start'}`}>
-              <Link to="/services">
-                <Button className="btn-hero">
-                  {isArabic ? 'خدماتنا' : 'Our Services'}
-                  <ArrowIcon className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link to="/projects">
-                <Button className="btn-outline-white">
-                  {isArabic ? 'مشاريعنا' : 'Our Projects'}
-                </Button>
-              </Link>
+      <section className="relative min-h-[calc(100vh-8rem)] flex items-center overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="container-width py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className={isArabic ? 'order-2 lg:order-1' : 'order-1'}>
+              <h1 className={`text-5xl md:text-7xl font-bold mb-6 leading-tight ${isArabic ? 'text-right' : 'text-left'}`}>
+                {isArabic ? (
+                  <>
+                    <span className="text-[hsl(var(--info))]">مؤسسة في</span><br />
+                    <span className="text-[hsl(var(--info))]">الهندسة،</span><br />
+                    <span className="text-foreground">منجزة في</span><br />
+                    <span className="text-foreground">الشراكة.</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-[hsl(var(--info))]">Grounded in</span><br />
+                    <span className="text-[hsl(var(--info))]">engineering,</span><br />
+                    <span className="text-foreground">delivered in</span><br />
+                    <span className="text-foreground">partnership.</span>
+                  </>
+                )}
+              </h1>
+              <p className={`text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed max-w-xl ${isArabic ? 'text-right' : 'text-left'}`}>
+                {isArabic
+                  ? 'تدعيمكو تقدم حلول إدارة المياه المصممة خصيصاً والتي تجمع بين المبادئ العلمية مع نهج استشاري لتحقيق النجاح في جميع أنحاء العالم.'
+                  : 'Tadeemco provides tailored water management solutions that combine scientific principles with a consultative approach to deliver success around the world.'}
+              </p>
+              <div className={`flex flex-col sm:flex-row gap-4 ${isArabic ? 'justify-end' : 'justify-start'}`}>
+                <Link to="/contact">
+                  <Button className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg rounded-none font-semibold transition-professional">
+                    {isArabic ? 'ابدأ الآن' : 'Get started'}
+                  </Button>
+                </Link>
+                <Link to="/about" className={`flex items-center gap-2 text-foreground hover:text-primary transition-professional font-medium text-lg ${isArabic ? 'flex-row-reverse' : 'flex-row'}`}>
+                  <span>{isArabic ? 'شاهد الفيديو' : 'Watch video'}</span>
+                  <ArrowIcon className="h-5 w-5" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Image with Curved Overlay */}
+            <div className={`relative ${isArabic ? 'order-1 lg:order-2' : 'order-2'}`}>
+              <div className="relative aspect-[4/3] rounded-full overflow-hidden">
+                <img 
+                  src={heroImage}
+                  alt={isArabic ? 'مشروع تدعيمكو' : 'Tadeemco Project'}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent"></div>
+              </div>
+              {/* Decorative circles */}
+              <div className="absolute -top-8 -left-8 w-32 h-32 border-4 border-[hsl(var(--info))] rounded-full opacity-30"></div>
+              <div className="absolute -bottom-8 -right-8 w-24 h-24 border-4 border-[hsl(var(--info))] rounded-full opacity-30"></div>
             </div>
           </div>
         </div>

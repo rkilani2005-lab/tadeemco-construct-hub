@@ -37,28 +37,8 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
 
   return (
     <nav className="sticky top-0 z-50">
-      {/* Top Contact Bar */}
-      <div className="bg-primary/90 backdrop-blur-sm">
-        <div className="container-width">
-          <div className={`flex items-center justify-end gap-6 py-2 text-sm text-primary-foreground ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
-            <a href="mailto:info@tadeemco.com" className="flex items-center gap-2 hover:text-primary-foreground/80 transition-professional">
-              <Mail className="h-4 w-4" />
-              <span>info@tadeemco.com</span>
-            </a>
-            <a href="tel:90001662" className="flex items-center gap-2 hover:text-primary-foreground/80 transition-professional">
-              <Phone className="h-4 w-4" />
-              <span>90001662</span>
-            </a>
-            <a href="tel:92223657" className="flex items-center gap-2 hover:text-primary-foreground/80 transition-professional">
-              <Phone className="h-4 w-4" />
-              <span>92223657</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Navigation */}
-      <div className="bg-white shadow-md">
+      {/* Main Navigation - Dark Navy */}
+      <div className="bg-primary shadow-md">
         <div className="container-width">
           <div className="flex items-center justify-between py-4">
             {/* Logo - Far Left */}
@@ -71,15 +51,15 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
             </Link>
 
             {/* Desktop Navigation - Center */}
-            <div className={`hidden md:flex items-center gap-6 ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
+            <div className={`hidden md:flex items-center gap-8 ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
               {items.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
-                  className={`font-medium transition-professional hover:text-primary ${
+                  className={`font-medium text-lg transition-professional ${
                     location.pathname === item.href
-                      ? 'text-primary border-b-2 border-primary'
-                      : 'text-foreground'
+                      ? 'text-white'
+                      : 'text-white/80 hover:text-white'
                   } ${language === 'ar' ? 'font-cairo' : 'font-roboto'}`}
                 >
                   {item.label}
@@ -114,10 +94,10 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
                     key={item.href}
                     to={item.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`font-medium transition-professional hover:text-primary px-4 py-2 ${
+                    className={`font-medium transition-professional px-4 py-2 ${
                       location.pathname === item.href
-                        ? 'text-primary bg-secondary rounded-lg'
-                        : 'text-foreground'
+                        ? 'text-white bg-white/20 rounded-lg'
+                        : 'text-white/80 hover:text-white'
                     } ${language === 'ar' ? 'font-cairo text-right' : 'font-roboto text-left'}`}
                   >
                     {item.label}
@@ -126,6 +106,32 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
               </div>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Contact Bar - Light Blue */}
+      <div className="bg-secondary">
+        <div className="container-width">
+          <div className={`flex items-center justify-between gap-6 py-3 text-sm font-medium ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
+            <span className="text-secondary-foreground">
+              {language === 'ar' ? 'تواصل معنا اليوم' : 'Contact us today'}
+            </span>
+            <div className={`flex items-center gap-6 ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
+              <a href="mailto:info@tadeemco.com" className="flex items-center gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional">
+                <Mail className="h-4 w-4" />
+                <span>info@tadeemco.com</span>
+              </a>
+              <a href="tel:90001662" className="flex items-center gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional">
+                <span>{language === 'ar' ? 'مكتب الكويت:' : 'Kuwait Office:'}</span>
+                <Phone className="h-4 w-4" />
+                <span>90001662</span>
+              </a>
+              <a href="tel:92223657" className="flex items-center gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional">
+                <Phone className="h-4 w-4" />
+                <span>92223657</span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
