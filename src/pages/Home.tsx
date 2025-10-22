@@ -84,10 +84,6 @@ export const Home = ({ language }: HomeProps) => {
                     {isArabic ? 'ابدأ الآن' : 'Get started'}
                   </Button>
                 </Link>
-                <Link to="/about" className={`flex items-center gap-2 text-foreground hover:text-primary transition-professional font-medium text-lg ${isArabic ? 'flex-row-reverse' : 'flex-row'}`}>
-                  <span>{isArabic ? 'شاهد الفيديو' : 'Watch video'}</span>
-                  <ArrowIcon className="h-5 w-5" />
-                </Link>
               </div>
             </div>
 
