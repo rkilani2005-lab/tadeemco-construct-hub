@@ -110,61 +110,55 @@ export const Home = ({ language }: HomeProps) => {
       </section>
 
       {/* Company Introduction */}
-      <section className="section-padding bg-muted">
+      <section className="section-padding bg-white">
         <div className="container-width">
-          <div className="text-center mb-16">
-            <h2 className={`text-4xl font-bold text-foreground mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic ? 'لماذا تختار تدعيمكو؟' : 'Why Choose Tadeemco?'}
+          <div className="mb-12">
+            <h2 className={`text-5xl md:text-6xl font-bold text-[hsl(var(--info))] mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
+              {isArabic ? 'فرق تدعيمكو' : 'The Tadeemco difference'}
             </h2>
-            <p className={`text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed ${isArabic ? 'text-right' : 'text-left'}`}>
+            <p className={`text-xl md:text-2xl text-foreground max-w-4xl leading-relaxed ${isArabic ? 'text-right' : 'text-left'}`}>
               {isArabic
-                ? 'نحن شركة متخصصة في أعمال نزح المياه الجوفية والتدعيم والحفر، نقدم حلولاً تقنية متطورة مع فريق من المهندسين ذوي الخبرة العالية'
-                : 'We are a specialized contractor in groundwater dewatering, shoring, and excavation works, providing advanced technical solutions with our highly experienced engineering team'}
+                ? 'حلولنا تتجاوز المعتاد، مستمدة من خبرة عالمية واسعة لضمان التميز.'
+                : 'Our solutions go beyond the ordinary, drawing from extensive global expertise to ensure excellence.'}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="service-card text-center">
-              <div className="text-primary mb-4">
-                <Shield className="h-12 w-12 mx-auto" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {isArabic ? 'معايير تقنية عالية' : 'High Technical Standards'}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="border-2 border-foreground rounded-bl-[3rem] p-8 bg-white hover:shadow-lg transition-professional">
+              <div className="text-[hsl(var(--info))] text-7xl font-bold mb-6">01</div>
+              <h3 className="text-2xl font-bold text-foreground mb-4">
+                {isArabic ? 'المبادئ العلمية' : 'Scientific principles'}
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-foreground/80 text-lg leading-relaxed">
                 {isArabic
-                  ? 'نلتزم بأعلى المعايير التقنية في جميع مشاريعنا'
-                  : 'We maintain the highest technical standards in all our projects'}
+                  ? 'الدقة الأكاديمية تدفع حلولنا الهندسية المبتكرة التي تقلل من المخاطر.'
+                  : 'Academic rigour drives our innovative, risk-minimising engineering solutions.'}
               </p>
-            </Card>
+            </div>
 
-            <Card className="service-card text-center">
-              <div className="text-primary mb-4">
-                <Wrench className="h-12 w-12 mx-auto" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {isArabic ? 'فريق مهندسين متخصص' : 'Specialized Engineering Team'}
+            <div className="border-2 border-foreground rounded-bl-[3rem] p-8 bg-white hover:shadow-lg transition-professional">
+              <div className="text-[hsl(var(--info))] text-7xl font-bold mb-6">02</div>
+              <h3 className="text-2xl font-bold text-foreground mb-4">
+                {isArabic ? 'شامل واستشاري' : 'Holistic and consultative'}
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-foreground/80 text-lg leading-relaxed">
                 {isArabic
-                  ? 'فريق من المهندسين ذوي الخبرة والتخصص العالي'
-                  : 'Experienced and highly specialized engineering team'}
+                  ? 'نقدم حلولاً تركز على العميل من خلال نهج شامل وشفاف.'
+                  : 'We deliver client-focused solutions through a holistic, transparent approach.'}
               </p>
-            </Card>
+            </div>
 
-            <Card className="service-card text-center">
-              <div className="text-primary mb-4">
-                <Droplets className="h-12 w-12 mx-auto" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {isArabic ? 'تقنيات متطورة' : 'Advanced Technologies'}
+            <div className="border-2 border-foreground rounded-bl-[3rem] p-8 bg-white hover:shadow-lg transition-professional">
+              <div className="text-[hsl(var(--info))] text-7xl font-bold mb-6">03</div>
+              <h3 className="text-2xl font-bold text-foreground mb-4">
+                {isArabic ? 'خبرة عالمية، فهم محلي' : 'Global expertise, local understanding'}
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-foreground/80 text-lg leading-relaxed">
                 {isArabic
-                  ? 'استخدام أحدث التقنيات والمعدات في السوق'
-                  : 'Utilizing the latest technologies and equipment in the market'}
+                  ? 'خبرتنا حول العالم لا مثيل لها. لا توجد حالة أرضية لم نواجهها.'
+                  : 'Our experience around the world is unmatched. There isn\'t a ground condition we haven\'t encountered.'}
               </p>
-            </Card>
+            </div>
           </div>
         </div>
       </section>
