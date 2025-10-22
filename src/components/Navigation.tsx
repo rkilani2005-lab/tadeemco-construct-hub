@@ -112,7 +112,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
         <div className="container-width">
           <div className={`flex items-center justify-between gap-6 py-3 text-sm font-medium ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
             <Link to="/contact#contact-form" className="text-secondary-foreground hover:text-secondary-foreground/80 transition-professional font-medium">
-              {language === 'ar' ? 'تواصل معنا اليوم' : 'Contact us today'}
+              {language === 'ar' ? 'تواصل معنا' : 'Contact us'}
             </Link>
             <div className={`flex items-center gap-6 ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
               <a href="mailto:info@tadeemco.com" className="flex items-center gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional">
