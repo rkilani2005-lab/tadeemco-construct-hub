@@ -137,22 +137,22 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
       {/* Contact Bar - Light Blue */}
       <div className="bg-secondary">
         <div className="container-width">
-          <div className={`flex items-center justify-between gap-2 md:gap-6 py-3 text-xs md:text-sm font-medium ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
-            <Link to="/contact#contact-form" className={`text-secondary-foreground hover:text-secondary-foreground/80 transition-professional font-medium whitespace-nowrap ${language === 'ar' ? 'font-cairo' : 'font-roboto'}`}>
+          <div className={`md:flex items-center justify-between gap-2 md:gap-6 py-6 md:py-3 text-xs md:text-sm font-medium ${language === 'ar' ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
+            <Link to="/contact#contact-form" className={`block md:inline text-secondary-foreground hover:text-secondary-foreground/80 transition-professional font-medium whitespace-nowrap mb-3 md:mb-0 text-base md:text-sm ${language === 'ar' ? 'font-cairo text-right' : 'font-roboto text-left'}`}>
               {language === 'ar' ? 'تواصل معنا' : 'Contact us'}
             </Link>
-            <div className={`flex items-center gap-2 md:gap-6 ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
-              <a href="mailto:info@tadeemco.com" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional">
-                <Mail className="h-3 w-3 md:h-4 md:w-4" />
-                <span className="hidden sm:inline">info@tadeemco.com</span>
+            <div className={`flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-6 ${language === 'ar' ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
+              <a href="mailto:info@tadeemco.com" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional w-full md:w-auto">
+                <Mail className="h-4 w-4 flex-shrink-0" />
+                <span>info@tadeemco.com</span>
               </a>
-              <a href="tel:90001662" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional">
+              <a href="tel:90001662" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional w-full md:w-auto">
                 <span className="hidden md:inline">{language === 'ar' ? 'مكتب الكويت:' : 'Kuwait Office:'}</span>
-                <Phone className="h-3 w-3 md:h-4 md:w-4" />
+                <Phone className="h-4 w-4 flex-shrink-0" />
                 <span className="whitespace-nowrap">90001662</span>
               </a>
-              <a href="tel:92223657" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional">
-                <Phone className="h-3 w-3 md:h-4 md:w-4" />
+              <a href="tel:92223657" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional w-full md:w-auto">
+                <Phone className="h-4 w-4 flex-shrink-0" />
                 <span className="whitespace-nowrap">92223657</span>
               </a>
             </div>
