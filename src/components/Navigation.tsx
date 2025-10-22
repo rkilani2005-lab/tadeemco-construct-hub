@@ -35,32 +35,6 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
 
   return (
     <>
-      {/* Contact Bar - Light Blue - Scrolls Away */}
-      <div className="bg-secondary">
-        <div className="container-width">
-          <div className={`md:flex items-center justify-between gap-2 md:gap-6 py-6 md:py-3 text-xs md:text-sm font-medium ${language === 'ar' ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
-            <Link to="/contact#contact-form" className={`block md:inline text-secondary-foreground hover:text-secondary-foreground/80 transition-professional font-medium whitespace-nowrap mb-3 md:mb-0 text-base md:text-sm ${language === 'ar' ? 'font-cairo text-right' : 'font-roboto text-left'}`}>
-              {language === 'ar' ? 'تواصل معنا' : 'Contact us'}
-            </Link>
-            <div className={`flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-6 ${language === 'ar' ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
-              <a href="mailto:info@tadeemco.com" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional w-full md:w-auto">
-                <Mail className="h-4 w-4 flex-shrink-0" />
-                <span>info@tadeemco.com</span>
-              </a>
-              <a href="tel:90001662" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional w-full md:w-auto">
-                <span className="hidden md:inline">{language === 'ar' ? 'مكتب الكويت:' : 'Kuwait Office:'}</span>
-                <Phone className="h-4 w-4 flex-shrink-0" />
-                <span className="whitespace-nowrap">90001662</span>
-              </a>
-              <a href="tel:92223657" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional w-full md:w-auto">
-                <Phone className="h-4 w-4 flex-shrink-0" />
-                <span className="whitespace-nowrap">92223657</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Navigation - Dark Navy - Sticky */}
       <nav className="sticky top-0 z-50 bg-primary shadow-md">
         <div className="container-width">
@@ -159,6 +133,32 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
           )}
         </div>
       </nav>
+
+      {/* Contact Bar - Light Blue - Scrolls Away */}
+      <div className="bg-secondary">
+        <div className="container-width">
+          <div className={`md:flex items-center justify-between gap-2 md:gap-6 py-6 md:py-3 text-xs md:text-sm font-medium ${language === 'ar' ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
+            <Link to="/contact#contact-form" className={`block md:inline text-secondary-foreground hover:text-secondary-foreground/80 transition-professional font-medium whitespace-nowrap mb-3 md:mb-0 text-base md:text-sm ${language === 'ar' ? 'font-cairo text-right' : 'font-roboto text-left'}`}>
+              {language === 'ar' ? 'تواصل معنا' : 'Contact us'}
+            </Link>
+            <div className={`flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-6 ${language === 'ar' ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
+              <a href="mailto:info@tadeemco.com" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional w-full md:w-auto">
+                <Mail className="h-4 w-4 flex-shrink-0" />
+                <span>info@tadeemco.com</span>
+              </a>
+              <a href="tel:90001662" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional w-full md:w-auto">
+                <span className="hidden md:inline">{language === 'ar' ? 'مكتب الكويت:' : 'Kuwait Office:'}</span>
+                <Phone className="h-4 w-4 flex-shrink-0" />
+                <span className="whitespace-nowrap">90001662</span>
+              </a>
+              <a href="tel:92223657" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional w-full md:w-auto">
+                <Phone className="h-4 w-4 flex-shrink-0" />
+                <span className="whitespace-nowrap">92223657</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
