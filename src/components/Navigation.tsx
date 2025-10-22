@@ -115,9 +115,9 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
               {language === 'ar' ? 'تواصل معنا' : 'Contact us'}
             </Link>
             <div className={`flex items-center gap-2 md:gap-6 ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
-              <a href="mailto:info@tadeemco.com" className="hidden sm:flex items-center gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional">
-                <Mail className="h-4 w-4" />
-                <span>info@tadeemco.com</span>
+              <a href="mailto:info@tadeemco.com" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional">
+                <Mail className="h-3 w-3 md:h-4 md:w-4" />
+                <span className="hidden sm:inline">info@tadeemco.com</span>
               </a>
               <a href="tel:90001662" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional">
                 <span className="hidden md:inline">{language === 'ar' ? 'مكتب الكويت:' : 'Kuwait Office:'}</span>
