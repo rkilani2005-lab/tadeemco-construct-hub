@@ -57,7 +57,7 @@ export const Footer = ({
 
         <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center">
           <p className="text-primary-foreground/60 text-sm">
-            © 2024 {language === 'ar' ? 'شركة تدعيمكو' : 'Tadeemco'}. 
+            © 2025 {language === 'ar' ? 'شركة تدعيمكو' : 'Tadeemco'}. 
             {language === 'ar' ? ' جميع الحقوق محفوظة.' : ' All rights reserved.'}
           </p>
         </div>
