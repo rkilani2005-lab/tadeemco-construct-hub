@@ -16,11 +16,11 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
 
   const navigationItems = {
     ar: [
-      { href: '/contact', label: 'تواصل معنا' },
-      { href: '/equipment', label: 'المعدات' },
-      { href: '/projects', label: 'مشاريعنا' },
-      { href: '/services', label: 'خدماتنا' },
       { href: '/about', label: 'من نحن' },
+      { href: '/services', label: 'خدماتنا' },
+      { href: '/projects', label: 'مشاريعنا' },
+      { href: '/equipment', label: 'المعدات' },
+      { href: '/contact', label: 'تواصل معنا' },
     ],
     en: [
       { href: '/about', label: 'About Us' },
