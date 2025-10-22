@@ -169,7 +169,7 @@ export const Contact = ({
             </div>
 
             {/* Contact Form */}
-            <div>
+            <div id="contact-form">
               <h2 className={`text-3xl font-bold text-foreground mb-8 ${isArabic ? 'text-right' : 'text-left'}`}>
                 {isArabic ? 'أرسل لنا رسالة' : 'Send us a Message'}
               </h2>
