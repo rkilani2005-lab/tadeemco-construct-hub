@@ -49,7 +49,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
             </Link>
 
             {/* Desktop Navigation - Center */}
-            <div className={`hidden md:flex items-center gap-8 ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
+            <div className="hidden md:flex items-center gap-8">
               {items.map((item) => (
                 <Link
                   key={item.href}
