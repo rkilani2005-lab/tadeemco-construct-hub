@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         'cairo': ['Cairo', 'sans-serif'],
         'roboto': ['Roboto', 'sans-serif'],
+        'display': ['Playfair Display', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -42,6 +43,10 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+        },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",

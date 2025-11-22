@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -140,6 +140,11 @@
     text-align: left;
   }
 
+  /* Premium Serif Headings */
+  .font-display {
+    font-family: 'Playfair Display', serif;
+  }
+
   /* Professional Construction Elements */
   .construction-gradient {
     background: var(--gradient-primary);
@@ -164,20 +169,44 @@
   .transition-professional {
     transition: var(--transition-professional);
   }
+
+  /* Premium Section Dividers */
+  .section-divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
+  }
+
+  /* Floating Cards */
+  .floating-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .floating-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px -10px hsl(var(--primary) / 0.2);
+  }
 }
 
 @layer components {
   /* Professional Button Variants */
   .btn-hero {
-    @apply bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-lg font-medium transition-professional shadow-construction;
+    @apply bg-accent hover:bg-accent/90 text-accent-foreground px-10 py-5 text-lg font-semibold transition-professional shadow-construction uppercase tracking-wide;
   }
 
   .btn-outline-white {
-    @apply border-2 border-white text-white hover:bg-white hover:text-primary px-6 py-3 rounded-lg font-medium transition-professional;
+    @apply border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold transition-professional uppercase tracking-wide;
+  }
+
+  .btn-secondary {
+    @apply bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg font-semibold transition-professional;
   }
 
   /* Construction Section Styling */
   .section-padding {
+    @apply py-20 px-4 md:px-8 lg:py-32;
+  }
+
+  .section-padding-sm {
     @apply py-16 px-4 md:px-8;
   }
 
@@ -185,13 +214,23 @@
     @apply max-w-7xl mx-auto;
   }
 
-  /* Service Card Styling */
+  /* Premium Service Cards */
   .service-card {
-    @apply bg-card p-8 rounded-xl shadow-card hover:shadow-construction transition-professional;
+    @apply bg-card p-10 shadow-card transition-professional border-l-4 border-accent;
   }
 
-  /* Project Card Styling */
+  /* Premium Project Cards */
   .project-card {
-    @apply bg-card rounded-xl overflow-hidden shadow-card hover:shadow-construction transition-professional hover:scale-105;
+    @apply bg-card overflow-hidden shadow-card transition-professional;
+  }
+
+  /* Stats Cards */
+  .stats-card {
+    @apply bg-card p-8 text-center border-t-4 border-primary;
+  }
+
+  /* Client Logo Cards */
+  .client-card {
+    @apply bg-white p-6 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300;
   }
 }
