@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        'cairo': ['Cairo', 'sans-serif'],
+        'geflow': ['GE Flow', 'sans-serif'],
         'roboto': ['Roboto', 'sans-serif'],
         'display': ['Playfair Display', 'serif'],
       },

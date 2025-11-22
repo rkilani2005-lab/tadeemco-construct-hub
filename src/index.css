@@ -1,4 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+
+@font-face {
+  font-family: 'GE Flow';
+  src: url('/fonts/GEFlow-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GE Flow';
+  src: url('/fonts/GEFlow-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -128,7 +144,7 @@
 
   /* Arabic Text Styling */
   .font-arabic {
-    font-family: 'Cairo', sans-serif;
+    font-family: 'GE Flow', sans-serif;
     direction: rtl;
     text-align: right;
   }
