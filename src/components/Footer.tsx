@@ -25,7 +25,7 @@ export const Footer = ({ language }: FooterProps) => {
   ];
 
   return (
-    <footer className="bg-primary-dark text-white" style={{ backgroundColor: 'hsl(var(--primary-dark))' }}>
+    <footer className="bg-gradient-footer text-white">
       {/* Accent top bar */}
       <div className="h-1.5 bg-accent" />
 
