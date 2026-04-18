@@ -5,6 +5,7 @@ import coastalSiteImg from '@/assets/real/hero/hero-coastal-site.jpg';
 import pumpFleetImg from '@/assets/real/equipment/pump-fleet.jpg';
 import { company, projects, mainContractors } from '@/lib/company-data';
 import { IconShoring, IconDewatering, IconWaterproofing, IconExcavation } from '@/components/ServiceIcons';
+import { HeroVideo } from '@/components/HeroVideo';
 
 interface HomeProps {
   language: 'ar' | 'en';
