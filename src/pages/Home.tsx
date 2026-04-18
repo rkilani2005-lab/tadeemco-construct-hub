@@ -5,7 +5,6 @@ import coastalSiteImg from '@/assets/real/hero/hero-coastal-site.jpg';
 import pumpFleetImg from '@/assets/real/equipment/pump-fleet.jpg';
 import { company, projects, mainContractors } from '@/lib/company-data';
 import { IconShoring, IconDewatering, IconWaterproofing, IconExcavation } from '@/components/ServiceIcons';
-import { HeroVideo } from '@/components/HeroVideo';
 
 interface HomeProps {
   language: 'ar' | 'en';
@@ -82,12 +81,32 @@ export const Home = ({ language }: HomeProps) => {
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       {/* ═══════════ HERO ═══════════ */}
       <section className="relative min-h-[60vh] md:min-h-[68vh] flex items-center overflow-hidden">
-        <HeroVideo
-          youtubeId="q1KdHVHmPEw"
-          poster={heroImg}
-          posterAlt={t('موقع حفر تابع لشركة تدعيمكو', 'Tadeemco drilling site')}
-        />
-        {/* Gradient overlay sits above the video */}
+        {/* Background: video if HERO_VIDEO_URL set, otherwise the poster image */}
+        <div className="absolute inset-0 z-0 bg-primary-dark" style={{ backgroundColor: 'hsl(var(--primary-dark))' }}>
+          {HERO_VIDEO_URL ? (
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster={heroImg}
+              preload="metadata"
+              aria-hidden="true"
+              className="w-full h-full object-cover object-center"
+            >
+              <source src={HERO_VIDEO_URL} type="video/mp4" />
+            </video>
+          ) : (
+            <img
+              src={heroImg}
+              alt={t('موقع حفر تابع لشركة تدعيمكو', 'Tadeemco drilling site')}
+              className="w-full h-full object-cover object-center"
+              loading="eager"
+              fetchPriority="high"
+            />
+          )}
+        </div>
+        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-hero z-[1]" aria-hidden />
 
         <div
@@ -132,20 +151,6 @@ export const Home = ({ language }: HomeProps) => {
             </div>
           </div>
         </div>
-
-        {/* Equipment-brand credit — small, corner-placed, discreet */}
-        <a
-          href="https://www.huedig.de/en/home"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`absolute bottom-4 z-10 text-white/70 text-xs hover:text-white/90 transition-colors ${isArabic ? 'left-4' : 'right-4'}`}
-          aria-label={t('معدات هوديج - مصنوع في ألمانيا', 'HÜDIG equipment — Made in Germany')}
-        >
-          <span className="block text-[10px] uppercase tracking-[0.2em] opacity-70">
-            {t('معدات', 'Equipment by')}
-          </span>
-          <span className="font-bold tracking-wider">HÜDIG · Celle</span>
-        </a>
       </section>
 
       {/* ═══════════ CONTACT STRIP ═══════════ */}
