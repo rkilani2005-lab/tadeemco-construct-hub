@@ -154,7 +154,7 @@ export const Home = ({ language }: HomeProps) => {
           <div className={`max-w-3xl mb-16 ${isArabic ? 'text-right ml-auto' : 'text-left'}`}>
             <p className="eyebrow mb-4">{t('خدماتنا', 'Our Services')}</p>
             <h2 className="text-4xl md:text-5xl font-black text-foreground mb-6 text-balance">
-              {t('أربع خدمات متخصصة. إتقان كامل لكل واحدة منها.', 'Four specialized services. Mastered end-to-end.')}
+              {t('أربع خدمات متخصصة. معيار واحد: الإتقان.', 'Four core disciplines. One commitment to excellence.')}
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed">
               {t(
