@@ -10,23 +10,6 @@ interface HomeProps {
   language: 'ar' | 'en';
 }
 
-/**
- * Hero video URL — paste any direct .mp4/.webm URL here and it will play as the hero background.
- *
- * If left as empty string '', the poster image (hero-drilling-sunrise.jpg) stays visible — safe default.
- *
- * Recommended sources for licensed footage:
- *   1. BEST: your own 10–15 sec site clip (drone or handheld), bundled at /public/videos/hero.mp4
- *      and referenced here as '/videos/hero.mp4'.
- *   2. Pixabay Videos (pixabay.com/videos/) — Content License allows commercial use, no attribution.
- *   3. Pexels Videos (pexels.com/videos/) — free for commercial use, no attribution required.
- *   4. Mixkit — ONLY clips under the "Free License" (not "Restricted License"). Check each clip's page.
- *
- * DO NOT paste URLs to equipment manufacturers' marketing videos (JCB, CAT, HÖDIG-CELLE, etc.) —
- * that's their trademarked content and using it implies a partnership that doesn't exist.
- */
-const HERO_VIDEO_URL = '';
-
 export const Home = ({ language }: HomeProps) => {
   const isArabic = language === 'ar';
   const Arrow = isArabic ? ArrowLeft : ArrowRight;
@@ -80,46 +63,39 @@ export const Home = ({ language }: HomeProps) => {
   return (
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       {/* ═══════════ HERO ═══════════ */}
-      <section className="relative min-h-[60vh] md:min-h-[68vh] flex items-center overflow-hidden">
-        {/* Background: video if HERO_VIDEO_URL set, otherwise the poster image */}
-        <div className="absolute inset-0 z-0 bg-primary-dark" style={{ backgroundColor: 'hsl(var(--primary-dark))' }}>
-          {HERO_VIDEO_URL ? (
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster={heroImg}
-              preload="metadata"
-              aria-hidden="true"
-              className="w-full h-full object-cover object-center"
-            >
-              <source src={HERO_VIDEO_URL} type="video/mp4" />
-            </video>
-          ) : (
-            <img
-              src={heroImg}
-              alt={t('موقع حفر تابع لشركة تدعيمكو', 'Tadeemco drilling site')}
-              className="w-full h-full object-cover object-center"
-              loading="eager"
-              fetchPriority="high"
-            />
-          )}
+      <section className="relative min-h-[48vh] md:min-h-[55vh] lg:min-h-[58vh] flex items-center overflow-hidden">
+        {/* Full-bleed hero image, no color tint */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={heroImg}
+            alt={t('موقع حفر تابع لشركة تدعيمكو', 'Tadeemco drilling site')}
+            className="w-full h-full object-cover object-center"
+            loading="eager"
+            fetchPriority="high"
+          />
+          {/* Subtle dark-only scrim for text legibility — no blue tint.
+              Darker on the text side, fading to transparent on the opposite side. */}
+          <div
+            className={`absolute inset-0 ${
+              isArabic
+                ? 'bg-gradient-to-l from-black/60 via-black/30 to-transparent'
+                : 'bg-gradient-to-r from-black/60 via-black/30 to-transparent'
+            }`}
+            aria-hidden
+          />
         </div>
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-hero z-[1]" aria-hidden />
 
         <div
           className={`absolute top-0 ${isArabic ? 'left-0' : 'right-0'} h-2 w-48 bg-accent z-10`}
           aria-hidden
         />
 
-        <div className={`container-width relative z-10 py-16 md:py-20 ${isArabic ? 'text-right' : 'text-left'}`}>
+        <div className={`container-width relative z-10 py-12 md:py-16 ${isArabic ? 'text-right' : 'text-left'}`}>
           <div className="max-w-4xl">
-            <p className="eyebrow mb-6 text-white/90">
+            <p className="eyebrow mb-5 text-white/90">
               <span className="text-accent">{t('شركة تدعيمكو', 'TADEEMCO')}</span>
             </p>
-            <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] mb-6 text-balance">
+            <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] mb-5 text-balance">
               {isArabic ? (
                 <>
                   لأعمال الحفر<br />
@@ -133,7 +109,7 @@ export const Home = ({ language }: HomeProps) => {
                 </>
               )}
             </h1>
-            <p className="text-white/85 text-base md:text-lg mb-8 max-w-2xl leading-relaxed text-pretty">
+            <p className="text-white/85 text-base md:text-lg mb-7 max-w-2xl leading-relaxed text-pretty">
               {t(
                 'متخصصون في أعمال التأسيسات تحت الأرض في دولة الكويت. نعمل مع كبرى شركات المقاولات والمكاتب الاستشارية على تنفيذ أعقد مراحل البناء بأعلى معايير الجودة والسلامة.',
                 'Substructure specialists serving the State of Kuwait. We partner with leading main contractors and consulting offices to deliver the most demanding early-stage construction work to the highest quality and safety standards.'

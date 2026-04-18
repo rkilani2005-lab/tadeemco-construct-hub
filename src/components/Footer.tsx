@@ -1,6 +1,6 @@
 import { MapPin, Phone, Mail, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import tadeemcoLogo from '@/assets/tadeemco-logo-new.jpg';
+import tadeemcoLogo from '@/assets/tadeemco-logo-transparent.png';
 import { company, serviceIndex } from '@/lib/company-data';
 
 interface FooterProps {
@@ -34,7 +34,7 @@ export const Footer = ({ language }: FooterProps) => {
           {/* Brand block */}
           <div className="lg:col-span-1">
             <div className={`flex items-center gap-3 mb-5 ${isArabic ? 'justify-end' : ''}`}>
-              <img src={tadeemcoLogo} alt={company.name.en} className="h-16 w-16 object-contain bg-white p-1.5" />
+              <img src={tadeemcoLogo} alt={company.name.en} className="h-20 w-20 object-contain" />
             </div>
             <h3 className="text-xl font-bold mb-3">{isArabic ? company.name.ar : company.name.en}</h3>
             <p className="text-white/70 text-sm leading-relaxed">
