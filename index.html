@@ -5,48 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#067096" />
 
+    <!-- Structural / global tags only. Per-route title, description, canonical,
+         hreflang, Open Graph, and Twitter tags are managed by react-helmet-async
+         via <SEO> in each page component. Keeping duplicates out of this file
+         prevents browsers/crawlers from seeing the wrong (stale) canonical. -->
+
     <link rel="icon" href="/logo.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="/logo.jpg" />
 
+    <!-- Font preconnect — ~200ms LCP improvement on cold loads -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <title>تدعيمكو | متخصصون في نزح المياه والتدعيم وأعمال الحفر في الكويت</title>
-    <meta name="description" content="شركة تدعيمكو - متخصصون في نزح المياه الجوفية، التدعيم، العازل المائي، وأعمال الحفر في دولة الكويت. نعمل مع كبرى شركات المقاولات والمكاتب الاستشارية. اتصل ٩٠٠٠١٦٦٢" />
-    <meta name="keywords" content="شركة تدعيمكو, تدعيمكو الكويت, نزح المياه الجوفية الكويت, أعمال التدعيم الكويت, العازل المائي الكويت, حفر أساسات الكويت, dewatering Kuwait, shoring Kuwait, wellpoint Kuwait" />
-    <meta name="author" content="Tadeemco" />
+    <!-- Title and description per route come from <Helmet> via the <SEO> component.
+         Keeping them out of this template prevents duplicates in the generated HTML. -->
+
+    <!-- Global robots + geo — fine to repeat across all pages -->
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="googlebot" content="index, follow" />
-
     <meta name="geo.region" content="KW" />
     <meta name="geo.placename" content="Kuwait City" />
     <meta name="geo.position" content="29.3759;47.9774" />
     <meta name="ICBM" content="29.3759, 47.9774" />
 
-    <link rel="canonical" href="https://tadeemco.com/" />
-    <link rel="alternate" hreflang="ar" href="https://tadeemco.com/" />
-    <link rel="alternate" hreflang="en" href="https://tadeemco.com/" />
-    <link rel="alternate" hreflang="x-default" href="https://tadeemco.com/" />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Tadeemco" />
-    <meta property="og:title" content="Tadeemco | Dewatering, Shoring & Excavation Specialists in Kuwait" />
-    <meta property="og:description" content="Substructure specialists serving Kuwait's leading main contractors. Groundwater dewatering, shoring, waterproofing, and excavation." />
-    <meta property="og:url" content="https://tadeemco.com/" />
-    <meta property="og:image" content="https://tadeemco.com/og-image.jpg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Tadeemco construction site in Kuwait" />
-    <meta property="og:locale" content="ar_KW" />
-    <meta property="og:locale:alternate" content="en_KW" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Tadeemco | Dewatering, Shoring & Excavation — Kuwait" />
-    <meta name="twitter:description" content="Substructure specialists serving Kuwait's leading main contractors." />
-    <meta name="twitter:image" content="https://tadeemco.com/og-image.jpg" />
-
+    <!-- Sitemap pointer -->
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
 
+    <!-- Organization-level structured data (applies site-wide).
+         Route-level structured data (if needed) goes through the SEO component. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
