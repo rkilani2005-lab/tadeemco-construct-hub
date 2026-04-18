@@ -224,17 +224,17 @@ export const Projects = ({ language }: ProjectsProps) => {
       </section>
 
       {/* CTA Section */}
-      <section className="section-padding construction-gradient text-white">
+      <section className="section-padding bg-muted text-foreground">
         <div className="container-width text-center">
-          <h2 className={`text-4xl font-bold mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
+          <h2 className="text-4xl font-bold mb-6">
             {isArabic ? 'مستعدون لمشروعكم القادم؟' : 'Ready for Your Next Project?'}
           </h2>
-          <p className={`text-xl mb-8 opacity-90 max-w-3xl mx-auto ${isArabic ? 'text-right' : 'text-left'}`}>
+          <p className="text-xl mb-8 text-muted-foreground max-w-3xl mx-auto">
             {isArabic
               ? 'انضموا إلى قائمة عملائنا الراضين واستفيدوا من خبرتنا المتميزة'
               : 'Join our list of satisfied clients and benefit from our distinguished expertise'}
           </p>
-          <Button className="btn-outline-white">
+          <Button className="btn-primary-solid">
             {isArabic ? 'ابدأ مشروعك الآن' : 'Start Your Project Now'}
           </Button>
         </div>
