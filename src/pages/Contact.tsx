@@ -4,7 +4,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 interface ContactProps {
   language: 'ar' | 'en';
@@ -27,6 +26,7 @@ export const Contact = ({
     setIsSubmitting(true);
 
     try {
+      const { supabase } = await import('@/integrations/supabase/client');
       const { data, error } = await supabase.functions.invoke('send-contact-email', {
         body: formData
       });
