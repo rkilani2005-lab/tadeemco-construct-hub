@@ -74,7 +74,7 @@ export const Home = ({ language }: HomeProps) => {
             alt={t('موقع حفر تابع لشركة تدعيمكو', 'Tadeemco drilling site')}
             className="w-full h-full object-cover object-center"
             loading="eager"
-            fetchPriority="high"
+            {...({ fetchpriority: 'high' } as any)}
           />
           {/* Subtle dark-only scrim for text legibility — no blue tint.
               Darker on the text side, fading to transparent on the opposite side. */}
