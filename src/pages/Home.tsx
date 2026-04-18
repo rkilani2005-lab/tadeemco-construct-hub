@@ -10,6 +10,23 @@ interface HomeProps {
   language: 'ar' | 'en';
 }
 
+/**
+ * Hero video URL — paste any direct .mp4/.webm URL here and it will play as the hero background.
+ *
+ * If left as empty string '', the poster image (hero-drilling-sunrise.jpg) stays visible — safe default.
+ *
+ * Recommended sources for licensed footage:
+ *   1. BEST: your own 10–15 sec site clip (drone or handheld), bundled at /public/videos/hero.mp4
+ *      and referenced here as '/videos/hero.mp4'.
+ *   2. Pixabay Videos (pixabay.com/videos/) — Content License allows commercial use, no attribution.
+ *   3. Pexels Videos (pexels.com/videos/) — free for commercial use, no attribution required.
+ *   4. Mixkit — ONLY clips under the "Free License" (not "Restricted License"). Check each clip's page.
+ *
+ * DO NOT paste URLs to equipment manufacturers' marketing videos (JCB, CAT, HÖDIG-CELLE, etc.) —
+ * that's their trademarked content and using it implies a partnership that doesn't exist.
+ */
+const HERO_VIDEO_URL = '';
+
 export const Home = ({ language }: HomeProps) => {
   const isArabic = language === 'ar';
   const Arrow = isArabic ? ArrowLeft : ArrowRight;
@@ -63,27 +80,26 @@ export const Home = ({ language }: HomeProps) => {
   return (
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       {/* ═══════════ HERO ═══════════ */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={heroImg}
-            alt={t('موقع حفر تابع لشركة تدعيمكو', 'Tadeemco drilling site')}
-            className="w-full h-full object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-hero" />
-        </div>
+      <section className="relative min-h-[60vh] md:min-h-[68vh] flex items-center overflow-hidden">
+        <HeroVideo
+          youtubeId="q1KdHVHmPEw"
+          poster={heroImg}
+          posterAlt={t('موقع حفر تابع لشركة تدعيمكو', 'Tadeemco drilling site')}
+        />
+        {/* Gradient overlay sits above the video */}
+        <div className="absolute inset-0 bg-gradient-hero z-[1]" aria-hidden />
 
         <div
           className={`absolute top-0 ${isArabic ? 'left-0' : 'right-0'} h-2 w-48 bg-accent z-10`}
           aria-hidden
         />
 
-        <div className={`container-width relative z-10 py-24 md:py-32 ${isArabic ? 'text-right' : 'text-left'}`}>
+        <div className={`container-width relative z-10 py-16 md:py-20 ${isArabic ? 'text-right' : 'text-left'}`}>
           <div className="max-w-4xl">
             <p className="eyebrow mb-6 text-white/90">
               <span className="text-accent">{t('شركة تدعيمكو', 'TADEEMCO')}</span>
             </p>
-            <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] mb-8 text-balance">
+            <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] mb-6 text-balance">
               {isArabic ? (
                 <>
                   لأعمال الحفر<br />
@@ -97,7 +113,7 @@ export const Home = ({ language }: HomeProps) => {
                 </>
               )}
             </h1>
-            <p className="text-white/85 text-lg md:text-xl mb-10 max-w-2xl leading-relaxed text-pretty">
+            <p className="text-white/85 text-base md:text-lg mb-8 max-w-2xl leading-relaxed text-pretty">
               {t(
                 'متخصصون في أعمال التأسيسات تحت الأرض في دولة الكويت. نعمل مع كبرى شركات المقاولات والمكاتب الاستشارية على تنفيذ أعقد مراحل البناء بأعلى معايير الجودة والسلامة.',
                 'Substructure specialists serving the State of Kuwait. We partner with leading main contractors and consulting offices to deliver the most demanding early-stage construction work to the highest quality and safety standards.'
@@ -115,6 +131,20 @@ export const Home = ({ language }: HomeProps) => {
             </div>
           </div>
         </div>
+
+        {/* Equipment-brand credit — small, corner-placed, discreet */}
+        <a
+          href="https://www.huedig.de/en/home"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`absolute bottom-4 z-10 text-white/70 text-xs hover:text-white/90 transition-colors ${isArabic ? 'left-4' : 'right-4'}`}
+          aria-label={t('معدات هوديج - مصنوع في ألمانيا', 'HÜDIG equipment — Made in Germany')}
+        >
+          <span className="block text-[10px] uppercase tracking-[0.2em] opacity-70">
+            {t('معدات', 'Equipment by')}
+          </span>
+          <span className="font-bold tracking-wider">HÜDIG · Celle</span>
+        </a>
       </section>
 
       {/* ═══════════ CONTACT STRIP ═══════════ */}
