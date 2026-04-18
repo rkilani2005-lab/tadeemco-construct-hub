@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import { LanguageToggle } from './LanguageToggle';
-import { Menu, X, Phone, Mail, Printer } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 import tadeemcoLogo from '@/assets/tadeemco-logo-new.jpg';
+import { company } from '@/lib/company-data';
 
 interface NavigationProps {
   language: 'ar' | 'en';
@@ -12,127 +12,129 @@ interface NavigationProps {
 
 export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const isArabic = language === 'ar';
 
-  const navigationItems = {
-    ar: [
-      { href: '/about', label: 'من نحن' },
-      { href: '/services', label: 'خدماتنا' },
-      { href: '/projects', label: 'مشاريعنا' },
-      { href: '/equipment', label: 'المعدات' },
-      { href: '/contact', label: 'تواصل معنا' },
-    ],
-    en: [
-      { href: '/about', label: 'About Us' },
-      { href: '/services', label: 'Services' },
-      { href: '/projects', label: 'Projects' },
-      { href: '/equipment', label: 'Equipment' },
-      { href: '/contact', label: 'Contact' },
-    ],
-  };
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  const items = navigationItems[language];
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
+  const navItems = isArabic
+    ? [
+        { href: '/about', label: 'من نحن' },
+        { href: '/services', label: 'خدماتنا' },
+        { href: '/projects', label: 'مشاريعنا' },
+        { href: '/equipment', label: 'المعدات' },
+        { href: '/contact', label: 'تواصل معنا' },
+      ]
+    : [
+        { href: '/about', label: 'About' },
+        { href: '/services', label: 'Services' },
+        { href: '/projects', label: 'Projects' },
+        { href: '/equipment', label: 'Equipment' },
+        { href: '/contact', label: 'Contact' },
+      ];
 
   return (
     <>
-      {/* Main Navigation - Dark Navy - Sticky */}
-      <nav className="sticky top-0 z-50 bg-primary shadow-md">
-        <div className="container-width">
-          <div className="flex items-center justify-between py-4">
-            {/* Logo - Far Left */}
-            <Link to="/" className="flex items-center">
-              <img 
-                src={tadeemcoLogo} 
-                alt={language === 'ar' ? 'شركة تدعيمكو' : 'Tadeemco Company'} 
-                className="h-[3.15rem] w-auto"
-              />
-            </Link>
-
-            {/* Desktop Navigation - Center */}
-            <div className="hidden md:flex items-center gap-8">
-              {items.map((item) => (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  className={`font-medium text-lg transition-professional ${
-                    location.pathname === item.href
-                      ? 'text-white'
-                      : 'text-white/80 hover:text-white'
-                  } ${language === 'ar' ? 'font-cairo' : 'font-roboto'}`}
-                >
-                  {item.label}
-                </Link>
-              ))}
+      {/* Top info strip — hidden on small screens */}
+      <div className="hidden md:block bg-primary-dark text-white/90 text-sm" style={{ backgroundColor: 'hsl(var(--primary-dark))' }}>
+        <div className="container-width py-2">
+          <div className={`flex items-center justify-between gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <div className="flex items-center gap-5">
+              <a href={`tel:+965${company.phones[0].replace(/\s/g, '')}`} className="flex items-center gap-1.5 hover:text-accent transition-colors" dir="ltr">
+                <Phone className="h-3.5 w-3.5" />
+                <span className="font-semibold tabular-nums">{company.phones[0]}</span>
+              </a>
+              <a href={`mailto:${company.email}`} className="hover:text-accent transition-colors">
+                {company.email}
+              </a>
             </div>
-
-            {/* Language Toggle - Far Right */}
-            <div className="hidden md:flex items-center">
-              <LanguageToggle currentLang={language} onLanguageChange={onLanguageChange} />
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center gap-4">
-              <LanguageToggle currentLang={language} onLanguageChange={onLanguageChange} />
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-white hover:text-white/80"
-              >
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </Button>
+            <div className="text-xs uppercase tracking-widest opacity-75">
+              {isArabic ? 'لأعمال الحفر والتدعيم وسحب المياه الجوفية' : 'Drilling · Shoring · Dewatering'}
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <div className="md:hidden pb-4">
-              <div className={`flex flex-col space-y-4 ${language === 'ar' ? 'items-end' : 'items-start'}`}>
-                {items.map((item) => (
+      {/* Main nav bar */}
+      <nav className={`sticky top-0 z-50 bg-white transition-shadow ${isScrolled ? 'shadow-md' : 'shadow-sm'}`}>
+        <div className="container-width">
+          <div className={`flex items-center justify-between py-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <Link to="/" className="flex items-center gap-3 shrink-0" aria-label={company.name.en}>
+              <img src={tadeemcoLogo} alt={isArabic ? company.name.ar : company.name.en} className="h-14 w-auto" />
+            </Link>
+
+            {/* Desktop nav */}
+            <div className={`hidden md:flex items-center gap-1 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              {navItems.map((item) => {
+                const active = location.pathname === item.href;
+                return (
                   <Link
                     key={item.href}
                     to={item.href}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={`font-medium transition-professional px-4 py-2 ${
-                      location.pathname === item.href
-                        ? 'text-white bg-white/20 rounded-lg'
-                        : 'text-white/80 hover:text-white'
-                    } ${language === 'ar' ? 'font-cairo text-right' : 'font-roboto text-left'}`}
+                    className={`relative px-4 py-2 font-semibold text-base transition-colors ${
+                      active ? 'text-accent' : 'text-foreground hover:text-primary'
+                    }`}
+                  >
+                    {item.label}
+                    {active && <span className="absolute bottom-0 inset-x-4 h-0.5 bg-accent" />}
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div className={`hidden md:flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <LanguageToggle currentLang={language} onLanguageChange={onLanguageChange} />
+              <Link to="/contact" className="btn-primary-solid !px-5 !py-2.5 !text-sm">
+                {isArabic ? 'عرض سعر' : 'Get Quote'}
+              </Link>
+            </div>
+
+            {/* Mobile: burger + lang */}
+            <div className="md:hidden flex items-center gap-2">
+              <LanguageToggle currentLang={language} onLanguageChange={onLanguageChange} />
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="p-2 text-foreground hover:text-primary"
+                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+              >
+                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile menu */}
+          {isMenuOpen && (
+            <div className="md:hidden pb-4 border-t border-border">
+              <div className={`flex flex-col pt-4 ${isArabic ? 'text-right' : 'text-left'}`}>
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    className={`py-3 px-2 font-semibold text-lg border-b border-border/40 last:border-0 ${
+                      location.pathname === item.href ? 'text-accent' : 'text-foreground'
+                    }`}
                   >
                     {item.label}
                   </Link>
                 ))}
+                <Link to="/contact" className="btn-primary-solid mt-4 w-full justify-center">
+                  {isArabic ? 'اطلب عرض سعر' : 'Request a Quote'}
+                </Link>
               </div>
             </div>
           )}
         </div>
       </nav>
-
-      {/* Contact Bar - Light Blue - Scrolls Away */}
-      <div className="bg-secondary">
-        <div className="container-width">
-          <div className={`md:flex items-center justify-between gap-2 md:gap-6 py-6 md:py-3 text-xs md:text-sm font-medium ${language === 'ar' ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
-            <Link to="/contact#contact-form" className={`block md:inline text-secondary-foreground hover:text-secondary-foreground/80 transition-professional font-medium whitespace-nowrap mb-3 md:mb-0 text-base md:text-sm ${language === 'ar' ? 'font-cairo text-right' : 'font-roboto text-left'}`}>
-              {language === 'ar' ? 'تواصل معنا' : 'Contact us'}
-            </Link>
-            <div className={`flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-6 ${language === 'ar' ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
-              <a href="mailto:info@tadeemco.com" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional w-full md:w-auto">
-                <Mail className="h-4 w-4 flex-shrink-0" />
-                <span>info@tadeemco.com</span>
-              </a>
-              <a href="tel:90001662" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional w-full md:w-auto">
-                <span className="hidden md:inline">{language === 'ar' ? 'مكتب الكويت:' : 'Kuwait Office:'}</span>
-                <Phone className="h-4 w-4 flex-shrink-0" />
-                <span className="whitespace-nowrap">90001662</span>
-              </a>
-              <a href="tel:92223657" className="flex items-center gap-1 md:gap-2 text-secondary-foreground hover:text-secondary-foreground/80 transition-professional w-full md:w-auto">
-                <Phone className="h-4 w-4 flex-shrink-0" />
-                <span className="whitespace-nowrap">92223657</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
     </>
   );
 };

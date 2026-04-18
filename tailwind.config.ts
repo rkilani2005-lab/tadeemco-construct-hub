@@ -16,7 +16,8 @@ export default {
       fontFamily: {
         'geflow': ['GE Flow', 'sans-serif'],
         'roboto': ['Roboto', 'sans-serif'],
-        'display': ['Playfair Display', 'serif'],
+        'cairo': ['Cairo', 'GE Flow', 'sans-serif'],
+        'display': ['Cairo', 'Roboto', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
