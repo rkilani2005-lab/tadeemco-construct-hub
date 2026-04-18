@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { Droplets, Zap, Settings, Shield, ArrowRight, ArrowLeft } from 'lucide-react';
 import dewateringImage from '@/assets/dewatering-equipment.jpg';
 import shoringImage from '@/assets/shoring-excavation.jpg';
+import { SEO } from '@/components/SEO';
+import { seo } from '@/lib/seo-data';
 
 interface EquipmentProps {
   language: 'ar' | 'en';
@@ -106,6 +108,7 @@ export const Equipment = ({ language }: EquipmentProps) => {
 
   return (
     <div className={`${isArabic ? 'font-cairo' : 'font-roboto'} min-h-screen`}>
+      <SEO page={seo.equipment} language={language} />
       {/* Hero Section */}
       <section className="section-padding bg-muted">
         <div className="container-width">

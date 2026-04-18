@@ -5,6 +5,8 @@ import { useState } from 'react';
 import dewateringImage from '@/assets/dewatering-equipment.jpg';
 import shoringImage from '@/assets/shoring-excavation.jpg';
 import kuwaitProject from '@/assets/kuwait-project.jpg';
+import { SEO } from '@/components/SEO';
+import { seo } from '@/lib/seo-data';
 
 interface ProjectsProps {
   language: 'ar' | 'en';
@@ -109,6 +111,7 @@ export const Projects = ({ language }: ProjectsProps) => {
 
   return (
     <div className={`${isArabic ? 'font-cairo' : 'font-roboto'} min-h-screen`}>
+      <SEO page={seo.projects} language={language} />
       {/* Hero Section */}
       <section className="section-padding bg-muted">
         <div className="container-width">

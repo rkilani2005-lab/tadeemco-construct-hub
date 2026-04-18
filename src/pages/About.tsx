@@ -1,5 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { Users, Award, Building, Target } from 'lucide-react';
+import { SEO } from '@/components/SEO';
+import { seo } from '@/lib/seo-data';
 
 interface AboutProps {
   language: 'ar' | 'en';
@@ -10,6 +12,7 @@ export const About = ({ language }: AboutProps) => {
 
   return (
     <div className={`${isArabic ? 'font-cairo' : 'font-roboto'} min-h-screen`}>
+      <SEO page={seo.about} language={language} />
       {/* Hero Section */}
       <section className="section-padding bg-muted">
         <div className="container-width">

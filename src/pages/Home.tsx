@@ -5,6 +5,8 @@ import coastalSiteImg from '@/assets/real/hero/hero-coastal-site.jpg';
 import pumpFleetImg from '@/assets/real/equipment/pump-fleet.jpg';
 import { company, projects, mainContractors } from '@/lib/company-data';
 import { IconShoring, IconDewatering, IconWaterproofing, IconExcavation } from '@/components/ServiceIcons';
+import { SEO } from '@/components/SEO';
+import { seo, localBusinessSchema } from '@/lib/seo-data';
 
 interface HomeProps {
   language: 'ar' | 'en';
@@ -62,6 +64,7 @@ export const Home = ({ language }: HomeProps) => {
 
   return (
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
+      <SEO page={seo.home} language={language} jsonLd={localBusinessSchema} />
       {/* ═══════════ HERO ═══════════ */}
       <section className="relative min-h-[48vh] md:min-h-[55vh] lg:min-h-[58vh] flex items-center overflow-hidden">
         {/* Full-bleed hero image, no color tint */}

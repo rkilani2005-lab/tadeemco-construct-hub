@@ -1,14 +1,8 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
+# Tadeemco — Kuwait construction specialists
+# https://tadeemco.com
 
 User-agent: *
 Allow: /
+Disallow: /api/
+
+Sitemap: https://tadeemco.com/sitemap.xml

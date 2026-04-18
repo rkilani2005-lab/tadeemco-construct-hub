@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { Droplets, Shield, Shovel, Wrench, ArrowRight, ArrowLeft, CheckCircle } from 'lucide-react';
 import dewateringImage from '@/assets/dewatering-equipment.jpg';
 import shoringImage from '@/assets/shoring-excavation.jpg';
+import { SEO } from '@/components/SEO';
+import { seo } from '@/lib/seo-data';
 
 interface ServicesProps {
   language: 'ar' | 'en';
@@ -106,6 +108,7 @@ export const Services = ({ language }: ServicesProps) => {
 
   return (
     <div className={`${isArabic ? 'font-cairo' : 'font-roboto'} min-h-screen`}>
+      <SEO page={seo.services} language={language} />
       {/* Hero Section */}
       <section className="section-padding bg-muted">
         <div className="container-width">

@@ -5,6 +5,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { SEO } from '@/components/SEO';
+import { seo } from '@/lib/seo-data';
 interface ContactProps {
   language: 'ar' | 'en';
 }
@@ -65,6 +67,7 @@ export const Contact = ({
     });
   };
   return <div className={`${isArabic ? 'font-cairo' : 'font-roboto'} min-h-screen`}>
+      <SEO page={seo.contact} language={language} />
       {/* Hero Section */}
       <section className="section-padding bg-muted">
         <div className="container-width">
