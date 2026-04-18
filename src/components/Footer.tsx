@@ -25,8 +25,8 @@ export const Footer = ({ language }: FooterProps) => {
   ];
 
   return (
-    <footer className="bg-gradient-footer text-white">
-      {/* Accent top bar */}
+    <footer className="bg-white text-foreground border-t border-border">
+      {/* Accent top bar — orange pops strongly against white */}
       <div className="h-1.5 bg-accent" />
 
       <div className="container-width py-16">
@@ -36,11 +36,11 @@ export const Footer = ({ language }: FooterProps) => {
             <div className={`flex items-center gap-3 mb-5 ${isArabic ? 'justify-end' : ''}`}>
               <img src={tadeemcoLogo} alt={company.name.en} className="h-20 w-20 object-contain" />
             </div>
-            <h3 className="text-xl font-bold mb-3">{isArabic ? company.name.ar : company.name.en}</h3>
-            <p className="text-white/70 text-sm leading-relaxed">
+            <h3 className="text-xl font-bold mb-3 text-foreground">{isArabic ? company.name.ar : company.name.en}</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed">
               {isArabic ? company.tagline.ar : company.tagline.en}
             </p>
-            <p className="text-white/60 text-sm leading-relaxed mt-3">
+            <p className="text-muted-foreground text-sm leading-relaxed mt-3">
               {isArabic ? company.shortPositioning.ar : company.shortPositioning.en}
             </p>
           </div>
@@ -53,7 +53,7 @@ export const Footer = ({ language }: FooterProps) => {
             <ul className="space-y-2.5">
               {services.map((s) => (
                 <li key={s.key}>
-                  <Link to="/services" className="text-white/80 hover:text-accent transition-colors text-sm">
+                  <Link to="/services" className="text-foreground/80 hover:text-accent transition-colors text-sm">
                     {s.label}
                   </Link>
                 </li>
@@ -69,7 +69,7 @@ export const Footer = ({ language }: FooterProps) => {
             <ul className="space-y-2.5">
               {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <Link to={link.href} className="text-white/80 hover:text-accent transition-colors text-sm">
+                  <Link to={link.href} className="text-foreground/80 hover:text-accent transition-colors text-sm">
                     {link.label}
                   </Link>
                 </li>
@@ -85,7 +85,7 @@ export const Footer = ({ language }: FooterProps) => {
             <ul className="space-y-3 text-sm">
               <li className={`flex items-start gap-2.5 ${isArabic ? 'flex-row-reverse' : ''}`}>
                 <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-accent" />
-                <span className="text-white/80 leading-relaxed">
+                <span className="text-foreground/80 leading-relaxed">
                   {isArabic ? company.address.ar : company.address.en}
                 </span>
               </li>
@@ -97,7 +97,7 @@ export const Footer = ({ language }: FooterProps) => {
                       <a
                         key={p}
                         href={`tel:+965${p.replace(/\s/g, '')}`}
-                        className="text-white/80 hover:text-accent transition-colors tabular-nums font-medium"
+                        className="text-foreground/80 hover:text-accent transition-colors tabular-nums font-medium"
                       >
                         {p}
                       </a>
@@ -107,7 +107,7 @@ export const Footer = ({ language }: FooterProps) => {
               </li>
               <li className={`flex items-center gap-2.5 ${isArabic ? 'flex-row-reverse' : ''}`}>
                 <Mail className="h-4 w-4 shrink-0 text-accent" />
-                <a href={`mailto:${company.email}`} className="text-white/80 hover:text-accent transition-colors">
+                <a href={`mailto:${company.email}`} className="text-foreground/80 hover:text-accent transition-colors">
                   {company.email}
                 </a>
               </li>
@@ -117,7 +117,7 @@ export const Footer = ({ language }: FooterProps) => {
                   href={company.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white/80 hover:text-accent transition-colors"
+                  className="text-foreground/80 hover:text-accent transition-colors"
                 >
                   {company.instagram}
                 </a>
@@ -126,8 +126,8 @@ export const Footer = ({ language }: FooterProps) => {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-12 pt-8">
-          <div className={`flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs text-white/60 ${isArabic ? 'md:flex-row-reverse' : ''}`}>
+        <div className="border-t border-border mt-12 pt-8">
+          <div className={`flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs text-muted-foreground ${isArabic ? 'md:flex-row-reverse' : ''}`}>
             <p>© {new Date().getFullYear()} {isArabic ? company.name.ar : company.name.en}. {t('جميع الحقوق محفوظة.', 'All rights reserved.')}</p>
             <p className="uppercase tracking-widest">{t('دولة الكويت', 'State of Kuwait')}</p>
           </div>
