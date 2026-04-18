@@ -1,245 +1,164 @@
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { MapPin, Calendar, Building } from 'lucide-react';
-import { useState } from 'react';
-import dewateringImage from '@/assets/dewatering-equipment.jpg';
-import shoringImage from '@/assets/shoring-excavation.jpg';
-import kuwaitProject from '@/assets/kuwait-project.jpg';
+import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { MapPin, Building2, ArrowRight, ArrowLeft } from 'lucide-react';
 import { SEO } from '@/components/SEO';
+import { PageHeader } from '@/components/PageHeader';
 import { seo } from '@/lib/seo-data';
+import { projects, serviceIndex, type ServiceKey } from '@/lib/company-data';
+import coastalImg from '@/assets/real/hero/hero-coastal-site.jpg';
 
 interface ProjectsProps {
   language: 'ar' | 'en';
 }
 
+type FilterKey = 'all' | ServiceKey;
+
 export const Projects = ({ language }: ProjectsProps) => {
   const isArabic = language === 'ar';
-  const [activeFilter, setActiveFilter] = useState('all');
+  const Arrow = isArabic ? ArrowLeft : ArrowRight;
+  const t = (ar: string, en: string) => (isArabic ? ar : en);
 
-  const filters = isArabic ? [
-    { id: 'all', label: 'جميع المشاريع' },
-    { id: 'residential', label: 'سكني' },
-    { id: 'commercial', label: 'تجاري' },
-    { id: 'industrial', label: 'صناعي' },
-    { id: 'infrastructure', label: 'بنية تحتية' }
-  ] : [
-    { id: 'all', label: 'All Projects' },
-    { id: 'residential', label: 'Residential' },
-    { id: 'commercial', label: 'Commercial' },
-    { id: 'industrial', label: 'Industrial' },
-    { id: 'infrastructure', label: 'Infrastructure' }
+  const [filter, setFilter] = useState<FilterKey>('all');
+
+  const filters: { key: FilterKey; label: string }[] = [
+    { key: 'all', label: t('جميع المشاريع', 'All Projects') },
+    { key: 'shoring', label: t(serviceIndex.shoring.ar, serviceIndex.shoring.en) },
+    { key: 'dewatering', label: t(serviceIndex.dewatering.ar, serviceIndex.dewatering.en) },
+    { key: 'waterproofing', label: t(serviceIndex.waterproofing.ar, serviceIndex.waterproofing.en) },
+    { key: 'excavation', label: t(serviceIndex.excavation.ar, serviceIndex.excavation.en) },
   ];
 
-  const projects = [
-    {
-      id: 1,
-      title: isArabic ? 'مشروع السالمية السكني' : 'Salmiya Residential Project',
-      type: 'residential',
-      location: isArabic ? 'السالمية، الكويت' : 'Salmiya, Kuwait',
-      date: '2024',
-      services: isArabic ? 'نزح المياه الجوفية والتدعيم' : 'Groundwater Dewatering & Shoring',
-      description: isArabic 
-        ? 'مشروع سكني متكامل تضمن أعمال نزح المياه الجوفية وتدعيم الحفريات لضمان سلامة البناء'
-        : 'Complete residential project including groundwater dewatering and excavation shoring for safe construction',
-      image: dewateringImage
-    },
-    {
-      id: 2,
-      title: isArabic ? 'مجمع الشويخ التجاري' : 'Shuwaikh Commercial Complex',
-      type: 'commercial',
-      location: isArabic ? 'الشويخ، الكويت' : 'Shuwaikh, Kuwait',
-      date: '2024',
-      services: isArabic ? 'أعمال الحفر والتدعيم والعزل' : 'Excavation, Shoring & Waterproofing',
-      description: isArabic
-        ? 'مشروع تجاري كبير شمل أعمال الحفر العميق والتدعيم المتطور للأساسات'
-        : 'Large commercial project featuring deep excavation and advanced foundation shoring',
-      image: shoringImage
-    },
-    {
-      id: 3,
-      title: isArabic ? 'مشروع مشرف الإسكاني' : 'Mishref Housing Project',
-      type: 'residential',
-      location: isArabic ? 'مشرف، الكويت' : 'Mishref, Kuwait',
-      date: '2023',
-      services: isArabic ? 'العزل المائي وأعمال الحفر' : 'Waterproofing & Excavation Works',
-      description: isArabic
-        ? 'مشروع إسكاني متميز تضمن أعمال العزل المائي المتطورة وحفر الأساسات'
-        : 'Distinguished housing project with advanced waterproofing and foundation excavation',
-      image: kuwaitProject
-    },
-    {
-      id: 4,
-      title: isArabic ? 'المنطقة الصناعية' : 'Industrial Zone Project',
-      type: 'industrial',
-      location: isArabic ? 'المنطقة الصناعية، الكويت' : 'Industrial Area, Kuwait',
-      date: '2023',
-      services: isArabic ? 'نزح المياه والحفر الصناعي' : 'Dewatering & Industrial Excavation',
-      description: isArabic
-        ? 'مشروع صناعي شامل تضمن أعمال نزح المياه للمصانع والمرافق الصناعية'
-        : 'Comprehensive industrial project with dewatering for factories and industrial facilities',
-      image: shoringImage
-    },
-    {
-      id: 5,
-      title: isArabic ? 'مشروع صباح السالم' : 'Sabah Al Salem Project',
-      type: 'residential',
-      location: isArabic ? 'صباح السالم، الكويت' : 'Sabah Al Salem, Kuwait',
-      date: '2023',
-      services: isArabic ? 'أعمال التدعيم والحفر' : 'Shoring & Excavation Works',
-      description: isArabic
-        ? 'مشروع سكني كبير شمل أعمال التدعيم المتقدمة والحفر الآمن'
-        : 'Large residential project featuring advanced shoring and safe excavation',
-      image: kuwaitProject
-    },
-    {
-      id: 6,
-      title: isArabic ? 'مشروع البنية التحتية' : 'Infrastructure Development',
-      type: 'infrastructure',
-      location: isArabic ? 'مدينة الكويت' : 'Kuwait City',
-      date: '2023',
-      services: isArabic ? 'جميع الخدمات المتخصصة' : 'All Specialized Services',
-      description: isArabic
-        ? 'مشروع بنية تحتية شامل تضمن جميع خدماتنا المتخصصة'
-        : 'Comprehensive infrastructure project including all our specialized services',
-      image: dewateringImage
-    }
-  ];
-
-  const filteredProjects = activeFilter === 'all' 
-    ? projects 
-    : projects.filter(project => project.type === activeFilter);
+  const visible = useMemo(() => {
+    if (filter === 'all') return projects;
+    return projects.filter((p) => p.services.includes(filter));
+  }, [filter]);
 
   return (
-    <div className={`${isArabic ? 'font-cairo' : 'font-roboto'} min-h-screen`}>
+    <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       <SEO page={seo.projects} language={language} />
-      {/* Hero Section */}
-      <section className="section-padding bg-muted">
-        <div className="container-width">
-          <div className="text-center">
-            <h1 className={`text-5xl font-bold text-foreground mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic ? 'مشاريعنا المتميزة' : 'Our Featured Projects'}
-            </h1>
-            <p className={`text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic
-                ? 'نفخر بإنجازاتنا في مجال نزح المياه والتدعيم والحفر عبر مختلف أنحاء الكويت'
-                : 'We take pride in our achievements in dewatering, shoring, and excavation across Kuwait'}
-            </p>
-          </div>
-        </div>
-      </section>
 
-      {/* Project Filters */}
-      <section className="section-padding">
-        <div className="container-width">
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {filters.map((filter) => (
-              <Button
-                key={filter.id}
-                variant={activeFilter === filter.id ? "default" : "outline"}
-                onClick={() => setActiveFilter(filter.id)}
-                className="transition-professional"
-              >
-                {filter.label}
-              </Button>
-            ))}
-          </div>
+      <PageHeader
+        language={language}
+        eyebrow={t('مشاريعنا', 'Our Projects')}
+        title={t('أعمال منجزة لدى كبرى المقاولين', "Work delivered for Kuwait's leading contractors")}
+        subtitle={t(
+          'كل مشروع في هذه القائمة تم تنفيذه مع شركة مقاولات رئيسية أو مكتب استشاري معروف في الكويت — لا مشاريع وهمية، لا أمثلة افتراضية.',
+          'Every project listed here was delivered alongside a well-known main contractor or consulting office in Kuwait — no fictional projects, no illustrative examples.'
+        )}
+        image={coastalImg}
+        imageAlt={t('موقع مشاريع تدعيمكو', 'Tadeemco project site')}
+      />
 
-          {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <Card key={project.id} className="project-card group">
-                <div 
-                  className="h-64 bg-cover bg-center relative overflow-hidden"
-                  style={{ backgroundImage: `url(${project.image})` }}
+      {/* Filter bar */}
+      <section className="section-padding-sm bg-background border-b border-border sticky top-[var(--nav-height,0px)] z-30">
+        <div className="container-width">
+          <div className={`flex flex-wrap gap-2 ${isArabic ? 'justify-end' : 'justify-start'}`}>
+            {filters.map((f) => {
+              const active = filter === f.key;
+              return (
+                <button
+                  key={f.key}
+                  onClick={() => setFilter(f.key)}
+                  className={`px-4 py-2 text-sm font-bold transition-all ${
+                    active
+                      ? 'bg-accent text-accent-foreground shadow-accent'
+                      : 'bg-secondary text-secondary-foreground hover:bg-accent/10'
+                  }`}
                 >
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-professional"></div>
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">
-                      {project.date}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-professional">
-                    {project.title}
-                  </h3>
-                  
-                  <div className="flex items-center gap-2 text-muted-foreground mb-2">
-                    <MapPin className="h-4 w-4" />
-                    <span className="text-sm">{project.location}</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2 text-muted-foreground mb-4">
-                    <Building className="h-4 w-4" />
-                    <span className="text-sm">{project.services}</span>
-                  </div>
-                  
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {project.description}
-                  </p>
-                </div>
-              </Card>
-            ))}
+                  {f.label}
+                </button>
+              );
+            })}
           </div>
+          <p className={`mt-4 text-sm text-muted-foreground ${isArabic ? 'text-right' : 'text-left'}`}>
+            {t(
+              `يعرض ${visible.length} من أصل ${projects.length} مشروع`,
+              `Showing ${visible.length} of ${projects.length} projects`
+            )}
+          </p>
         </div>
       </section>
 
-      {/* Project Stats */}
+      {/* Project grid */}
       <section className="section-padding bg-muted">
         <div className="container-width">
-          <div className="text-center mb-12">
-            <h2 className={`text-4xl font-bold text-foreground mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic ? 'إنجازاتنا بالأرقام' : 'Our Achievements in Numbers'}
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <Card className="service-card text-center">
-              <div className="text-4xl font-bold text-primary mb-2">50+</div>
-              <p className="text-muted-foreground">
-                {isArabic ? 'مشروع مكتمل' : 'Completed Projects'}
-              </p>
-            </Card>
-            
-            <Card className="service-card text-center">
-              <div className="text-4xl font-bold text-primary mb-2">15+</div>
-              <p className="text-muted-foreground">
-                {isArabic ? 'سنة خبرة' : 'Years of Experience'}
-              </p>
-            </Card>
-            
-            <Card className="service-card text-center">
-              <div className="text-4xl font-bold text-primary mb-2">100%</div>
-              <p className="text-muted-foreground">
-                {isArabic ? 'رضا العملاء' : 'Client Satisfaction'}
-              </p>
-            </Card>
-            
-            <Card className="service-card text-center">
-              <div className="text-4xl font-bold text-primary mb-2">24/7</div>
-              <p className="text-muted-foreground">
-                {isArabic ? 'دعم تقني' : 'Technical Support'}
-              </p>
-            </Card>
-          </div>
+          {visible.length === 0 ? (
+            <p className="text-center text-muted-foreground py-16">
+              {t('لا توجد مشاريع ضمن هذا التصنيف حالياً.', 'No projects in this category yet.')}
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {visible.map((p) => (
+                <article key={p.id} className="card-project group">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-primary/10">
+                    <img
+                      src={p.image}
+                      alt={isArabic ? p.type.ar : p.type.en}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className={`absolute top-3 ${isArabic ? 'right-3' : 'left-3'} bg-accent text-accent-foreground px-2.5 py-1 text-xs font-bold uppercase tracking-wide`}>
+                      {isArabic ? p.area.ar : p.area.en}
+                    </div>
+                  </div>
+                  <div className={`p-6 ${isArabic ? 'text-right' : 'text-left'}`}>
+                    <h3 className="text-lg font-bold text-foreground mb-3">
+                      {isArabic ? p.type.ar : p.type.en}
+                    </h3>
+                    <div className={`flex items-start gap-2 text-sm text-muted-foreground mb-1.5 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-accent" />
+                      <span>{isArabic ? p.area.ar : p.area.en}</span>
+                    </div>
+                    <div className={`flex items-start gap-2 text-sm text-muted-foreground mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <Building2 className="w-4 h-4 mt-0.5 flex-shrink-0 text-accent" />
+                      <span className="text-pretty">
+                        <span className="text-foreground font-semibold">
+                          {isArabic ? p.contractor.ar : p.contractor.en}
+                        </span>
+                        {p.consultant && (
+                          <span className="block text-xs mt-0.5 opacity-80">
+                            {t('استشاري:', 'Consultant:')}{' '}
+                            {isArabic ? p.consultant.ar : p.consultant.en}
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                    <div className={`flex flex-wrap gap-1.5 ${isArabic ? 'justify-end' : ''}`}>
+                      {p.services.map((svcKey) => (
+                        <span key={svcKey} className="text-xs bg-secondary text-secondary-foreground px-2 py-1 font-semibold">
+                          {isArabic ? serviceIndex[svcKey].ar : serviceIndex[svcKey].en}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="section-padding bg-muted text-foreground">
+      {/* CTA */}
+      <section className="section-padding bg-background">
         <div className="container-width text-center">
-          <h2 className="text-4xl font-bold mb-6">
-            {isArabic ? 'مستعدون لمشروعكم القادم؟' : 'Ready for Your Next Project?'}
+          <h2 className="text-3xl md:text-5xl font-black text-foreground mb-5 text-balance">
+            {t('مشروعك القادم هنا', 'Your next project belongs here')}
           </h2>
-          <p className="text-xl mb-8 text-muted-foreground max-w-3xl mx-auto">
-            {isArabic
-              ? 'انضموا إلى قائمة عملائنا الراضين واستفيدوا من خبرتنا المتميزة'
-              : 'Join our list of satisfied clients and benefit from our distinguished expertise'}
+          <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
+            {t(
+              'نحن جاهزون للانضمام إلى قائمة المقاولين الرئيسيين الذين نعمل معهم — ننفذ باحترافية، في الوقت المحدد، بأعلى معايير السلامة.',
+              "We're ready to join the roster of main contractors we work with — delivered professionally, on schedule, to the highest safety standards."
+            )}
           </p>
-          <Button className="btn-primary-solid">
-            {isArabic ? 'ابدأ مشروعك الآن' : 'Start Your Project Now'}
-          </Button>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link to="/contact" className="btn-primary-solid">
+              {t('اطلب عرض سعر', 'Request a Quote')}
+              <Arrow className="h-5 w-5" />
+            </Link>
+            <Link to="/services" className="btn-secondary-solid">
+              {t('استعرض الخدمات', 'View Services')}
+            </Link>
+          </div>
         </div>
       </section>
     </div>

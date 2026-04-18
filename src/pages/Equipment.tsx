@@ -1,11 +1,12 @@
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Droplets, Zap, Settings, Shield, ArrowRight, ArrowLeft } from 'lucide-react';
-import dewateringImage from '@/assets/dewatering-equipment.jpg';
-import shoringImage from '@/assets/shoring-excavation.jpg';
+import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
 import { SEO } from '@/components/SEO';
+import { PageHeader } from '@/components/PageHeader';
 import { seo } from '@/lib/seo-data';
+import pumpFleetImg from '@/assets/real/equipment/pump-fleet.jpg';
+import dewateringPumpsImg from '@/assets/real/equipment/dewatering-pumps.jpg';
+import excavatorImg from '@/assets/real/equipment/excavator.jpg';
+import siteOverviewImg from '@/assets/real/equipment/site-overview.jpg';
 
 interface EquipmentProps {
   language: 'ar' | 'en';
@@ -13,272 +14,167 @@ interface EquipmentProps {
 
 export const Equipment = ({ language }: EquipmentProps) => {
   const isArabic = language === 'ar';
-  const ArrowIcon = isArabic ? ArrowLeft : ArrowRight;
+  const Arrow = isArabic ? ArrowLeft : ArrowRight;
+  const t = (ar: string, en: string) => (isArabic ? ar : en);
 
-  const equipmentCategories = [
+  const categories = [
     {
       id: 'pumps',
-      icon: Droplets,
-      title: isArabic ? 'المضخات المتخصصة' : 'Specialized Pumps',
-      description: isArabic 
-        ? 'مجموعة شاملة من المضخات عالية الكفاءة لجميع أنواع أعمال نزح المياه'
-        : 'Comprehensive range of high-efficiency pumps for all types of dewatering works',
-      image: dewateringImage,
-      equipment: isArabic ? [
-        'مضخات طرد مركزي عالية الكفاءة',
-        'مضخات غاطسة متنوعة الأحجام',
-        'مضخات الضغط العالي',
-        'مضخات التفريغ (Vacuum Pumps)',
-        'أنظمة المضخات المتنقلة'
-      ] : [
-        'High-efficiency centrifugal pumps',
-        'Various sizes submersible pumps',
-        'High-pressure pumps',
-        'Vacuum pumps',
-        'Mobile pump systems'
-      ]
+      title: t('المضخات المتخصصة', 'Specialized Pumps'),
+      image: dewateringPumpsImg,
+      desc: t(
+        'مجموعة كاملة من المضخات عالية الكفاءة لجميع احتياجات سحب المياه الجوفية — من المشاريع الصغيرة إلى مواقع الحفر العميقة.',
+        'A complete range of high-capacity pumps for every dewatering need — from small projects to deep-excavation sites.'
+      ),
+      items: [
+        t('مضخات طرد مركزي عالية السعة', 'High-capacity centrifugal pumps'),
+        t('مضخات غاطسة بأقطار ٤، ٦، ٨ بوصات', 'Submersible pumps in 4", 6", 8" diameters'),
+        t('مضخات الضغط العالي', 'High-pressure pumps'),
+        t('مضخات تفريغ (Vacuum Pumps)', 'Vacuum pumps'),
+        t('مضخات احتياطية للاستمرار ٢٤/٧', 'Backup pumps for 24/7 operation'),
+      ],
+    },
+    {
+      id: 'hudig',
+      title: t('مضخات HÜDIG-CELLE الألمانية', 'HÜDIG-CELLE German Pumps'),
+      image: pumpFleetImg,
+      desc: t(
+        'أسطول من مضخات الشركة الألمانية HÜDIG — المصنع الرائد عالمياً في تقنيات سحب المياه الجوفية منذ أكثر من ٧٠ عاماً. تُعد المعيار الذهبي في المشاريع الكبرى.',
+        'A fleet from HÜDIG of Germany — the world-leading manufacturer of groundwater dewatering technology for over 70 years. The gold standard for major projects.'
+      ),
+      items: [
+        t('وحدات تفريغ بسعات متنوعة', 'Vacuum units in various capacities'),
+        t('أنظمة الآبار النقطية المتكاملة', 'Complete wellpoint system packages'),
+        t('أنابيب شفط وتوزيع محفورة حقلياً', 'Field-drilled suction and distribution piping'),
+        t('صيانة دورية وقطع غيار أصلية', 'Regular maintenance and original spare parts'),
+        t('نقل وتركيب سريع بين المواقع', 'Fast transport and installation between sites'),
+      ],
     },
     {
       id: 'wellpoint',
-      icon: Zap,
-      title: isArabic ? 'أنظمة الآبار النقطية' : 'Wellpoint Systems',
-      description: isArabic
-        ? 'أنظمة متطورة للآبار النقطية لنزح المياه الجوفية بكفاءة عالية'
-        : 'Advanced wellpoint systems for highly efficient groundwater dewatering',
-      image: shoringImage,
-      equipment: isArabic ? [
-        'آبار نقطية بأقطار متنوعة',
-        'أنظمة الشفط المركزية',
-        'أنابيب الربط والتوزيع',
-        'أجهزة مراقبة مستوى المياه',
-        'معدات التركيب المتخصصة'
-      ] : [
-        'Various diameter wellpoints',
-        'Central vacuum systems',
-        'Connection and distribution pipes',
-        'Water level monitoring devices',
-        'Specialized installation equipment'
-      ]
+      title: t('أنظمة الآبار النقطية', 'Wellpoint Systems'),
+      image: siteOverviewImg,
+      desc: t(
+        'أنظمة متكاملة لخفض منسوب المياه الجوفية حول محيط الحفر. الحل الأمثل للمواقع التي تتطلب بيئة عمل جافة تماماً.',
+        'Complete systems for lowering groundwater around the excavation perimeter. The optimal solution for sites requiring a fully dry working environment.'
+      ),
+      items: [
+        t('آبار نقطية بأقطار متنوعة', 'Wellpoints in multiple diameters'),
+        t('أنابيب رأسية وأفقية للتوزيع', 'Riser and header distribution piping'),
+        t('أجهزة مراقبة مستوى المياه (Piezometers)', 'Water-level monitoring piezometers'),
+        t('معدات الحفر والتركيب المتخصصة', 'Specialized drilling and installation equipment'),
+        t('نقاط تفريغ وفق المعايير البيئية', 'Environmentally compliant discharge points'),
+      ],
     },
     {
       id: 'shoring',
-      icon: Shield,
-      title: isArabic ? 'معدات التدعيم' : 'Shoring Equipment',
-      description: isArabic
-        ? 'أنظمة تدعيم متطورة لضمان سلامة أعمال الحفر والبناء'
-        : 'Advanced shoring systems ensuring safety in excavation and construction works',
-      image: dewateringImage,
-      equipment: isArabic ? [
-        'دعائم فولاذية قابلة للتعديل',
-        'ألواح التدعيم المعدنية',
-        'أنظمة التدعيم الهيدروليكية',
-        'قوالب الخرسانة المسلحة',
-        'معدات الحماية الجانبية'
-      ] : [
-        'Adjustable steel struts',
-        'Metal shoring panels',
-        'Hydraulic shoring systems',
-        'Reinforced concrete forms',
-        'Side protection equipment'
-      ]
+      title: t('معدات التدعيم', 'Shoring Equipment'),
+      image: excavatorImg,
+      desc: t(
+        'مجموعة شاملة من معدات التدعيم لضمان سلامة أعمال الحفر وحماية المنشآت المجاورة.',
+        'A comprehensive set of shoring materials to ensure excavation safety and protect adjacent structures.'
+      ),
+      items: [
+        t('خوازيق فولاذية (Steel Sheet Piles)', 'Steel sheet piles'),
+        t('دعائم فولاذية قابلة للتعديل', 'Adjustable steel struts'),
+        t('ألواح خشبية ومعدنية للتدعيم الجانبي', 'Timber and metal sheeting for lateral support'),
+        t('أنظمة تدعيم هيدروليكية للمواقع الضيقة', 'Hydraulic shoring systems for confined sites'),
+        t('معدات التركيب والإزالة', 'Installation and extraction equipment'),
+      ],
     },
-    {
-      id: 'excavation',
-      icon: Settings,
-      title: isArabic ? 'معدات الحفر' : 'Excavation Equipment',
-      description: isArabic
-        ? 'مجموعة متكاملة من معدات الحفر المتطورة لجميع أنواع التربة'
-        : 'Complete range of advanced excavation equipment for all soil types',
-      image: shoringImage,
-      equipment: isArabic ? [
-        'حفارات هيدروليكية متنوعة الأحجام',
-        'معدات الحفر في التربة الصخرية',
-        'أجهزة الحفر الدقيق',
-        'معدات نقل ورفع المواد',
-        'أدوات القياس والمسح'
-      ] : [
-        'Various sizes hydraulic excavators',
-        'Rock excavation equipment',
-        'Precision drilling equipment',
-        'Material handling and lifting equipment',
-        'Measurement and surveying tools'
-      ]
-    }
   ];
 
   return (
-    <div className={`${isArabic ? 'font-cairo' : 'font-roboto'} min-h-screen`}>
+    <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       <SEO page={seo.equipment} language={language} />
-      {/* Hero Section */}
-      <section className="section-padding bg-muted">
+
+      <PageHeader
+        language={language}
+        eyebrow={t('معداتنا', 'Our Equipment')}
+        title={t('أسطول ألماني الصنع', 'A German-engineered fleet')}
+        subtitle={t(
+          'نعتمد على معدات من أفضل الشركات المصنعة حول العالم — يقودها فريق من المهندسين والفنيين ذوي الخبرة الطويلة في أعمال التأسيسات تحت الأرض.',
+          "We operate equipment from the world's leading manufacturers, deployed by engineers and technicians with deep experience in substructure works."
+        )}
+        image={pumpFleetImg}
+        imageAlt={t('أسطول مضخات تدعيمكو', 'Tadeemco pump fleet')}
+      />
+
+      {/* Brand highlight — HÜDIG */}
+      <section className="section-padding-sm bg-primary text-white">
         <div className="container-width">
-          <div className="text-center">
-            <h1 className={`text-5xl font-bold text-foreground mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic ? 'معداتنا المتطورة' : 'Our Advanced Equipment'}
-            </h1>
-            <p className={`text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic
-                ? 'نمتلك أحدث المعدات والتقنيات المتطورة لضمان تنفيذ المشاريع بأعلى معايير الجودة والكفاءة'
-                : 'We possess the latest equipment and advanced technologies to ensure project execution with the highest standards of quality and efficiency'}
+          <div className={`flex flex-col md:flex-row items-center gap-6 ${isArabic ? 'md:flex-row-reverse' : ''}`}>
+            <div className="bg-accent px-6 py-4 flex-shrink-0">
+              <p className="text-xs uppercase tracking-widest font-bold opacity-90 mb-1">
+                {t('مصنوع في ألمانيا', 'Made in Germany')}
+              </p>
+              <p className="text-2xl font-black">HÜDIG · Celle</p>
+            </div>
+            <p className={`text-white/85 text-base md:text-lg leading-relaxed max-w-3xl ${isArabic ? 'text-right' : 'text-left'}`}>
+              {t(
+                'نعتمد على مضخات HÜDIG-CELLE الألمانية — الرائدة عالمياً في تقنيات سحب المياه الجوفية منذ عام ١٩٥٠. هذه المعدات تُستخدم في أكبر مشاريع البنية التحتية حول العالم.',
+                'We operate HÜDIG-CELLE German pumps — a world leader in groundwater dewatering technology since 1950. This equipment is deployed on the largest infrastructure projects worldwide.'
+              )}
             </p>
           </div>
         </div>
       </section>
 
-      {/* Equipment Categories */}
-      <section className="section-padding">
-        <div className="container-width">
-          <div className="space-y-16">
-            {equipmentCategories.map((category, index) => (
-              <div key={category.id} className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
-                <div className={index % 2 === 1 ? 'lg:col-start-2' : ''}>
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="text-primary">
-                      <category.icon className="h-12 w-12" />
-                    </div>
-                    <h2 className="text-3xl font-bold text-foreground">
-                      {category.title}
-                    </h2>
-                  </div>
-                  
-                  <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                    {category.description}
-                  </p>
-
-                  <div className="space-y-4 mb-8">
-                    <h3 className="text-xl font-semibold text-foreground">
-                      {isArabic ? 'المعدات المتوفرة:' : 'Available Equipment:'}
-                    </h3>
-                    <ul className="space-y-3">
-                      {category.equipment.map((item, itemIndex) => (
-                        <li key={itemIndex} className="flex items-center gap-3">
-                          <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
-                          <span className="text-muted-foreground">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <Link to="/contact">
-                    <Button className="btn-hero">
-                      {isArabic ? 'استفسر عن المعدات' : 'Inquire About Equipment'}
-                      <ArrowIcon className="ml-2 h-5 w-5" />
-                    </Button>
-                  </Link>
-                </div>
-
-                <div className={index % 2 === 1 ? 'lg:col-start-1' : ''}>
-                  <Card className="overflow-hidden shadow-construction">
-                    <div 
-                      className="h-96 bg-cover bg-center relative"
-                      style={{ backgroundImage: `url(${category.image})` }}
-                    >
-                      <div className="absolute inset-0 bg-black/20"></div>
-                      <div className="absolute bottom-6 left-6 right-6">
-                        <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg">
-                          <h3 className="font-semibold text-foreground">
-                            {isArabic ? 'معدات عالية الجودة' : 'High Quality Equipment'}
-                          </h3>
-                          <p className="text-sm text-muted-foreground">
-                            {isArabic ? 'معايير دولية' : 'International Standards'}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                </div>
+      {/* Categories */}
+      {categories.map((cat, idx) => (
+        <section key={cat.id} id={cat.id} className={`section-padding scroll-mt-24 ${idx % 2 === 0 ? 'bg-background' : 'bg-muted'}`}>
+          <div className="container-width">
+            <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
+              idx % 2 === (isArabic ? 1 : 0) ? '' : 'lg:[&>*:first-child]:order-2'
+            }`}>
+              <img
+                src={cat.image}
+                alt={cat.title}
+                className="w-full h-auto shadow-lg aspect-[4/3] object-cover"
+                loading="lazy"
+              />
+              <div className={isArabic ? 'text-right' : 'text-left'}>
+                <h2 className="text-3xl md:text-4xl font-black text-foreground mb-5 text-balance">
+                  {cat.title}
+                </h2>
+                <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6 text-pretty">
+                  {cat.desc}
+                </p>
+                <ul className="space-y-2.5">
+                  {cat.items.map((item, i) => (
+                    <li key={i} className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="flex-shrink-0 w-5 h-5 bg-accent text-white flex items-center justify-center mt-0.5">
+                        <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                      </span>
+                      <span className="text-foreground">{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ))}
 
-      {/* Equipment Features */}
+      {/* CTA */}
       <section className="section-padding bg-muted">
-        <div className="container-width">
-          <div className="text-center mb-16">
-            <h2 className={`text-4xl font-bold text-foreground mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic ? 'مزايا معداتنا' : 'Our Equipment Advantages'}
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="service-card text-center">
-              <div className="text-primary mb-4">
-                <Zap className="h-12 w-12 mx-auto" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {isArabic ? 'كفاءة عالية' : 'High Efficiency'}
-              </h3>
-              <p className="text-muted-foreground">
-                {isArabic
-                  ? 'معدات عالية الكفاءة لضمان الأداء الأمثل'
-                  : 'High-efficiency equipment ensuring optimal performance'}
-              </p>
-            </Card>
-            
-            <Card className="service-card text-center">
-              <div className="text-primary mb-4">
-                <Shield className="h-12 w-12 mx-auto" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {isArabic ? 'أمان متقدم' : 'Advanced Safety'}
-              </h3>
-              <p className="text-muted-foreground">
-                {isArabic
-                  ? 'أنظمة أمان متطورة لحماية العمال والمشروع'
-                  : 'Advanced safety systems protecting workers and project'}
-              </p>
-            </Card>
-            
-            <Card className="service-card text-center">
-              <div className="text-primary mb-4">
-                <Settings className="h-12 w-12 mx-auto" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {isArabic ? 'صيانة دورية' : 'Regular Maintenance'}
-              </h3>
-              <p className="text-muted-foreground">
-                {isArabic
-                  ? 'برنامج صيانة دورية لضمان الأداء المستمر'
-                  : 'Regular maintenance program ensuring continuous performance'}
-              </p>
-            </Card>
-            
-            <Card className="service-card text-center">
-              <div className="text-primary mb-4">
-                <Droplets className="h-12 w-12 mx-auto" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {isArabic ? 'تقنيات حديثة' : 'Modern Technology'}
-              </h3>
-              <p className="text-muted-foreground">
-                {isArabic
-                  ? 'أحدث التقنيات في مجال نزح المياه والتدعيم'
-                  : 'Latest technologies in dewatering and shoring'}
-              </p>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="section-padding construction-gradient text-white">
         <div className="container-width text-center">
-          <h2 className={`text-4xl font-bold mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-            {isArabic ? 'هل تحتاج لمعدات متخصصة؟' : 'Need Specialized Equipment?'}
+          <h2 className="text-3xl md:text-5xl font-black text-foreground mb-5 text-balance">
+            {t('المعدات الصحيحة لمشروعك', 'The right equipment for your project')}
           </h2>
-          <p className={`text-xl mb-8 opacity-90 max-w-3xl mx-auto ${isArabic ? 'text-right' : 'text-left'}`}>
-            {isArabic
-              ? 'معداتنا المتطورة متاحة لمشاريعكم مع فريق تشغيل متخصص'
-              : 'Our advanced equipment is available for your projects with specialized operation team'}
+          <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
+            {t(
+              'شاركنا تفاصيل مشروعك ونوع التربة وعمق الحفر، وسنوصي بالمعدات الأنسب.',
+              'Share your project details, soil type, and excavation depth — we\'ll recommend the right equipment package.'
+            )}
           </p>
-          <div className={`flex flex-col sm:flex-row gap-4 ${isArabic ? 'justify-end' : 'justify-center'}`}>
-            <Link to="/contact">
-              <Button className="btn-outline-white">
-                {isArabic ? 'اطلب عرض سعر' : 'Request Quote'}
-                <ArrowIcon className="ml-2 h-5 w-5" />
-              </Button>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link to="/contact" className="btn-primary-solid">
+              {t('تحدث مع مهندس', 'Talk to an Engineer')}
+              <Arrow className="h-5 w-5" />
+            </Link>
+            <Link to="/services" className="btn-secondary-solid">
+              {t('استعرض الخدمات', 'View Services')}
             </Link>
           </div>
         </div>

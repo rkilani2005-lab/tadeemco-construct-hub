@@ -1,7 +1,12 @@
-import { Card } from '@/components/ui/card';
-import { Users, Award, Building, Target } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ArrowLeft, Award, Shield, Cog, HardHat } from 'lucide-react';
 import { SEO } from '@/components/SEO';
+import { PageHeader } from '@/components/PageHeader';
 import { seo } from '@/lib/seo-data';
+import { company, mainContractors } from '@/lib/company-data';
+import coastalImg from '@/assets/real/hero/hero-coastal-site.jpg';
+import drillingImg from '@/assets/real/hero/hero-drilling-sunrise.jpg';
+import pumpFleetImg from '@/assets/real/equipment/pump-fleet.jpg';
 
 interface AboutProps {
   language: 'ar' | 'en';
@@ -9,195 +14,193 @@ interface AboutProps {
 
 export const About = ({ language }: AboutProps) => {
   const isArabic = language === 'ar';
+  const Arrow = isArabic ? ArrowLeft : ArrowRight;
+  const t = (ar: string, en: string) => (isArabic ? ar : en);
+
+  const values = [
+    {
+      icon: Award,
+      title: t('التخصص', 'Specialization'),
+      desc: t(
+        'لا نقدم كل شيء. نركز على أعمال التأسيسات تحت الأرض ونتقنها بشكل كامل.',
+        "We don't do everything. We focus on substructure works and master them end-to-end."
+      ),
+    },
+    {
+      icon: Shield,
+      title: t('السلامة', 'Safety'),
+      desc: t(
+        'التزام صارم بأعلى معايير السلامة في كل موقع، حماية للعمال وللمباني المجاورة.',
+        'Strict adherence to the highest safety standards at every site, protecting workers and adjacent structures.'
+      ),
+    },
+    {
+      icon: Cog,
+      title: t('المعدات المتخصصة', 'Specialized Equipment'),
+      desc: t(
+        'أسطول من المعدات الألمانية المتقدمة ومضخات HÜDIG-CELLE، مدعومة بصيانة مستمرة.',
+        'A fleet of advanced German equipment and HÜDIG-CELLE pumps, backed by continuous maintenance.'
+      ),
+    },
+    {
+      icon: HardHat,
+      title: t('فريق هندسي', 'Engineering Team'),
+      desc: t(
+        'مهندسون وفنيون ذوو خبرة طويلة في التربة الكويتية ومتطلبات المواقع المحلية.',
+        'Engineers and technicians with deep experience in Kuwaiti soil conditions and local site requirements.'
+      ),
+    },
+  ];
 
   return (
-    <div className={`${isArabic ? 'font-cairo' : 'font-roboto'} min-h-screen`}>
+    <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       <SEO page={seo.about} language={language} />
-      {/* Hero Section */}
-      <section className="section-padding bg-muted">
+
+      <PageHeader
+        language={language}
+        eyebrow={t('من نحن', 'About Us')}
+        title={t('متخصصون في أعمال التأسيسات تحت الأرض', 'Substructure specialists')}
+        subtitle={t(
+          'شركة كويتية متخصصة في المرحلة الأولى والأكثر أهمية من أي مشروع إنشائي — من الحفر والتدعيم إلى سحب المياه الجوفية والعزل المائي.',
+          "A Kuwaiti specialist in the earliest and most critical stage of any construction project — from excavation and shoring to groundwater dewatering and waterproofing."
+        )}
+        image={coastalImg}
+        imageAlt={t('موقع عمل تدعيمكو', 'Tadeemco work site')}
+      />
+
+      {/* Story */}
+      <section className="section-padding bg-background">
         <div className="container-width">
-          <div className="text-center">
-            <h1 className={`text-5xl font-bold text-foreground mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic ? 'من نحن' : 'About Tadeemco'}
-            </h1>
-            <p className={`text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic
-                ? 'شركة تدعيمكو هي شركة كويتية متخصصة في أعمال نزح المياه الجوفية والتدعيم والحفر، تأسست لتقديم حلول تقنية متطورة في مجال البناء والتشييد'
-                : 'Tadeemco is a Kuwaiti specialized contractor in groundwater dewatering, shoring, and excavation works, established to provide advanced technical solutions in construction and infrastructure'}
-            </p>
+          <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center ${isArabic ? 'lg:[&>*:first-child]:order-2' : ''}`}>
+            <div className={isArabic ? 'text-right' : 'text-left'}>
+              <p className="eyebrow mb-4">{t('قصتنا', 'Our Story')}</p>
+              <h2 className="text-3xl md:text-4xl font-black text-foreground mb-6 text-balance">
+                {t('خبرة عميقة في المراحل الأولى للبناء', 'Deep expertise in the earliest stages of construction')}
+              </h2>
+              <div className="space-y-4 text-muted-foreground text-base md:text-lg leading-relaxed text-pretty">
+                <p>
+                  {t(
+                    'شركة تدعيمكو هي شركة كويتية متخصصة في أعمال الحفر والتدعيم وسحب المياه الجوفية والعزل المائي. نعمل مع كبرى شركات المقاولات والمكاتب الاستشارية في دولة الكويت على تنفيذ أعقد مراحل البناء.',
+                    'Tadeemco is a Kuwaiti company specialized in excavation, shoring, groundwater dewatering, and waterproofing. We partner with leading main contractors and consulting offices across the State of Kuwait on the most demanding stages of construction.'
+                  )}
+                </p>
+                <p>
+                  {t(
+                    'نحن لا نقدم كل شيء. نقدم بالتحديد ما نجيده — المرحلة الأولى، التي يعتمد عليها كل ما يأتي بعدها. التأسيس الصحيح لا يمكن إصلاحه لاحقاً، لذلك نضع معايير عالية منذ اليوم الأول.',
+                    "We don't offer everything. We offer exactly what we're best at — the earliest stage, upon which everything else depends. Foundations done right cannot be fixed later, so we hold ourselves to high standards from day one."
+                  )}
+                </p>
+              </div>
+              <div className="mt-8">
+                <Link to="/services" className="btn-ghost-primary">
+                  {t('استعرض خدماتنا', 'Explore our services')}
+                  <Arrow className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+            <div className="relative">
+              <img
+                src={drillingImg}
+                alt={t('موقع حفر تدعيمكو', 'Tadeemco drilling site')}
+                className="w-full h-auto shadow-lg"
+              />
+              <div className={`absolute -bottom-4 ${isArabic ? '-left-4' : '-right-4'} bg-accent text-accent-foreground p-4 max-w-[220px] hidden md:block`}>
+                <p className="text-xs uppercase tracking-wider font-bold opacity-90">
+                  {t('نعمل في', 'Active across')}
+                </p>
+                <p className="text-lg font-bold mt-1">
+                  {t('جميع محافظات الكويت', 'All Kuwait governorates')}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <section className="section-padding">
-        <div className="container-width">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <Card className="service-card">
-              <div className="text-primary mb-6">
-                <Target className="h-16 w-16" />
-              </div>
-              <h2 className="text-3xl font-bold mb-4">
-                {isArabic ? 'رؤيتنا' : 'Our Vision'}
-              </h2>
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                {isArabic
-                  ? 'أن نكون الشركة الرائدة في الكويت ومنطقة الخليج في مجال نزح المياه الجوفية والتدعيم وأعمال الحفر، من خلال تقديم حلول تقنية مبتكرة ومتطورة'
-                  : 'To be the leading company in Kuwait and the Gulf region in groundwater dewatering, shoring, and excavation works, through providing innovative and advanced technical solutions'}
-              </p>
-            </Card>
-
-            <Card className="service-card">
-              <div className="text-primary mb-6">
-                <Award className="h-16 w-16" />
-              </div>
-              <h2 className="text-3xl font-bold mb-4">
-                {isArabic ? 'مهمتنا' : 'Our Mission'}
-              </h2>
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                {isArabic
-                  ? 'تقديم خدمات متخصصة عالية الجودة في مجال نزح المياه والتدعيم والحفر، مع الالتزام بأعلى معايير الأمان والجودة والكفاءة'
-                  : 'Providing high-quality specialized services in dewatering, shoring, and excavation, while maintaining the highest standards of safety, quality, and efficiency'}
-              </p>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Company Values */}
+      {/* Values */}
       <section className="section-padding bg-muted">
         <div className="container-width">
-          <div className="text-center mb-16">
-            <h2 className={`text-4xl font-bold text-foreground mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {isArabic ? 'قيمنا الأساسية' : 'Our Core Values'}
+          <div className={`max-w-3xl mb-14 ${isArabic ? 'text-right ms-auto' : 'text-left'}`}>
+            <p className="eyebrow mb-4">{t('لماذا تدعيمكو', 'Why Tadeemco')}</p>
+            <h2 className="text-3xl md:text-4xl font-black text-foreground mb-4 text-balance">
+              {t('أربعة أشياء تميزنا', 'Four things that set us apart')}
             </h2>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="service-card text-center">
-              <div className="text-primary mb-4">
-                <Building className="h-12 w-12 mx-auto" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {values.map((v) => (
+              <div key={v.title} className="card-service">
+                <div className="inline-flex items-center justify-center w-14 h-14 bg-accent/10 text-accent mb-5">
+                  <v.icon className="w-7 h-7" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-3">{v.title}</h3>
+                <p className="text-muted-foreground leading-relaxed text-pretty">{v.desc}</p>
               </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {isArabic ? 'الجودة' : 'Quality'}
-              </h3>
-              <p className="text-muted-foreground">
-                {isArabic
-                  ? 'نلتزم بأعلى معايير الجودة في جميع أعمالنا'
-                  : 'We maintain the highest quality standards in all our work'}
-              </p>
-            </Card>
-
-            <Card className="service-card text-center">
-              <div className="text-primary mb-4">
-                <Users className="h-12 w-12 mx-auto" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {isArabic ? 'الفريق المتخصص' : 'Expert Team'}
-              </h3>
-              <p className="text-muted-foreground">
-                {isArabic
-                  ? 'فريق من المهندسين والفنيين ذوي الخبرة العالية'
-                  : 'Team of highly experienced engineers and technicians'}
-              </p>
-            </Card>
-
-            <Card className="service-card text-center">
-              <div className="text-primary mb-4">
-                <Award className="h-12 w-12 mx-auto" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {isArabic ? 'الابتكار' : 'Innovation'}
-              </h3>
-              <p className="text-muted-foreground">
-                {isArabic
-                  ? 'نستخدم أحدث التقنيات والحلول المبتكرة'
-                  : 'We utilize latest technologies and innovative solutions'}
-              </p>
-            </Card>
-
-            <Card className="service-card text-center">
-              <div className="text-primary mb-4">
-                <Target className="h-12 w-12 mx-auto" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                {isArabic ? 'الالتزام' : 'Commitment'}
-              </h3>
-              <p className="text-muted-foreground">
-                {isArabic
-                  ? 'نلتزم بالمواعيد المحددة وتسليم المشاريع في الوقت المطلوب'
-                  : 'We commit to deadlines and deliver projects on time'}
-              </p>
-            </Card>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Company Expertise */}
-      <section className="section-padding">
+      {/* Trusted by */}
+      <section className="section-padding-sm bg-background border-y border-border">
         <div className="container-width">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className={`text-4xl font-bold text-foreground mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-                {isArabic ? 'خبرتنا التقنية' : 'Our Technical Expertise'}
-              </h2>
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">
-                    {isArabic ? 'التحكم في المياه الجوفية' : 'Groundwater Control'}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {isArabic
-                      ? 'خبرة واسعة في أنظمة نزح المياه الجوفية المتطورة'
-                      : 'Extensive experience in advanced groundwater dewatering systems'}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">
-                    {isArabic ? 'أنظمة التدعيم' : 'Shoring Systems'}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {isArabic
-                      ? 'تصميم وتنفيذ أنظمة تدعيم متطورة لضمان الأمان'
-                      : 'Design and implementation of advanced shoring systems for safety'}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">
-                    {isArabic ? 'أعمال الحفر المتخصصة' : 'Specialized Excavation'}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {isArabic
-                      ? 'تنفيذ أعمال حفر للأساسات في ظروف تربة متنوعة'
-                      : 'Foundation excavation works in various soil conditions'}
-                  </p>
-                </div>
-              </div>
-            </div>
+          <p className={`eyebrow mb-6 ${isArabic ? 'flex-row-reverse' : ''}`}>
+            {t('نعمل مع', 'We Work With')}
+          </p>
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+            {mainContractors.map((c, i) => (
+              <span key={i} className="text-base md:text-lg font-bold text-muted-foreground hover:text-primary transition-colors">
+                {isArabic ? c.ar : c.en}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <div className="bg-muted p-8 rounded-xl">
-              <h3 className={`text-2xl font-bold mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-                {isArabic ? 'معايير الجودة' : 'Quality Standards'}
-              </h3>
-              <ul className="space-y-4">
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>{isArabic ? 'معايير السلامة الدولية' : 'International Safety Standards'}</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>{isArabic ? 'فريق مهندسين مؤهل' : 'Qualified Engineering Team'}</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>{isArabic ? 'معدات حديثة ومتطورة' : 'Modern Advanced Equipment'}</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
-                  <span>{isArabic ? 'ضمان الجودة والأداء' : 'Quality and Performance Guarantee'}</span>
-                </li>
-              </ul>
+      {/* Equipment tease */}
+      <section className="section-padding bg-background">
+        <div className="container-width">
+          <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${isArabic ? 'lg:[&>*:last-child]:order-first' : ''}`}>
+            <img src={pumpFleetImg} alt={t('أسطول معدات تدعيمكو', 'Tadeemco equipment fleet')} className="w-full h-auto shadow-lg" />
+            <div className={isArabic ? 'text-right' : 'text-left'}>
+              <p className="eyebrow mb-4">{t('معداتنا', 'Our Equipment')}</p>
+              <h2 className="text-3xl md:text-4xl font-black text-foreground mb-4 text-balance">
+                {t('أسطول ألماني الصنع', 'A German-engineered fleet')}
+              </h2>
+              <p className="text-muted-foreground text-lg leading-relaxed mb-6 text-pretty">
+                {t(
+                  'نعتمد على مضخات HÜDIG-CELLE الألمانية، أنظمة الآبار النقطية، مضخات غاطسة بمختلف الأحجام، ومعدات تدعيم فولاذية وخشبية.',
+                  'We operate HÜDIG-CELLE German pumps, wellpoint systems, submersible pumps in a full range of sizes, and steel and timber shoring materials.'
+                )}
+              </p>
+              <Link to="/equipment" className="btn-secondary-solid">
+                {t('استعرض المعدات', 'View Equipment')}
+                <Arrow className="h-5 w-5" />
+              </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="section-padding bg-muted">
+        <div className="container-width text-center">
+          <h2 className="text-3xl md:text-5xl font-black text-foreground mb-5 text-balance">
+            {t('ابدأ مشروعك القادم معنا', 'Start your next project with us')}
+          </h2>
+          <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
+            {t(
+              'تحدث مع فريقنا الهندسي للحصول على استشارة مجانية وعرض سعر دقيق.',
+              'Talk to our engineering team for a free consultation and accurate quote.'
+            )}
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link to="/contact" className="btn-primary-solid">
+              {t('اطلب عرض سعر', 'Request a Quote')}
+              <Arrow className="h-5 w-5" />
+            </Link>
+            <Link to="/projects" className="btn-secondary-solid">
+              {t('أعمالنا السابقة', 'Our Previous Work')}
+            </Link>
           </div>
         </div>
       </section>
