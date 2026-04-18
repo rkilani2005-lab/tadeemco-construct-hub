@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { MapPin, Phone, Mail, Instagram, MessageCircle } from 'lucide-react';
+import { MapPin, Phone, Mail, Instagram, MessageCircle, Send } from 'lucide-react';
 import { SEO } from '@/components/SEO';
-import { PageHeader } from '@/components/PageHeader';
 import { seo } from '@/lib/seo-data';
 import { company, serviceIndex } from '@/lib/company-data';
+import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import coastalImg from '@/assets/real/hero/hero-coastal-site.jpg';
 
 interface ContactProps {
   language: 'ar' | 'en';
@@ -20,47 +19,29 @@ export const Contact = ({ language }: ContactProps) => {
     name: '',
     email: '',
     phone: '',
-    service: '' as '' | keyof typeof serviceIndex,
+    service: '',
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      // Dynamic import: the Supabase client touches localStorage at module load,
-      // which breaks Node SSG. Loading it lazily here ensures it only runs in the browser.
-      const { supabase } = await import('@/integrations/supabase/client');
       const { error } = await supabase.functions.invoke('send-contact-email', {
-        body: {
-          ...formData,
-          service: formData.service
-            ? (isArabic ? serviceIndex[formData.service].ar : serviceIndex[formData.service].en)
-            : '',
-        },
+        body: formData,
       });
       if (error) throw error;
       toast({
-        title: t('تم إرسال الرسالة بنجاح', 'Message sent successfully'),
-        description: t(
-          'شكراً لتواصلكم. سنعاود الاتصال بكم قريباً.',
-          'Thank you. We will get back to you shortly.'
-        ),
+        title: t('تم إرسال الرسالة بنجاح', 'Message sent'),
+        description: t('شكراً لتواصلكم. سنرد عليكم قريباً.', "Thanks for reaching out. We'll get back to you shortly."),
       });
       setFormData({ name: '', email: '', phone: '', service: '', message: '' });
     } catch (err) {
-      console.error('contact form error', err);
+      console.error('Contact form error:', err);
       toast({
-        title: t('خطأ في الإرسال', 'Error sending message'),
-        description: t(
-          'حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.',
-          'An error occurred. Please try again or call us directly.'
-        ),
+        title: t('خطأ في الإرسال', 'Send failed'),
+        description: t('حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.', 'An error occurred. Please try again or call us directly.'),
         variant: 'destructive',
       });
     } finally {
@@ -68,244 +49,221 @@ export const Contact = ({ language }: ContactProps) => {
     }
   };
 
-  const waNumber = company.whatsapp.replace(/[^0-9]/g, '');
-  const waMessage = encodeURIComponent(
-    isArabic
-      ? 'السلام عليكم، أرغب بالاستفسار عن خدمات شركة تدعيمكو'
-      : 'Hello, I would like to inquire about Tadeemco services'
-  );
-  const waHref = `https://wa.me/${waNumber}?text=${waMessage}`;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  // Google Maps embed for the Darwaza Building in Kuwait City
-  const mapsSrc =
-    'https://www.google.com/maps?q=Kuwait+City+Darwaza+Building&output=embed';
+  const waNumber = company.whatsapp.replace(/[^0-9]/g, '');
+  const waHref = `https://wa.me/${waNumber}?text=${encodeURIComponent(
+    t('السلام عليكم، أرغب بالاستفسار عن خدمات شركة تدعيمكو', 'Hello, I would like to inquire about Tadeemco services')
+  )}`;
 
   return (
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       <SEO page={seo.contact} language={language} />
 
-      <PageHeader
-        language={language}
-        eyebrow={t('تواصل معنا', 'Contact Us')}
-        title={t('نحن هنا لمساعدتكم', 'We\'re here to help')}
-        subtitle={t(
-          'فريقنا الهندسي جاهز للرد على استفساراتكم وتقديم استشارة مجانية وعرض سعر دقيق لمشروعكم.',
-          'Our engineering team is ready to answer your questions and provide a free consultation and accurate quote for your project.'
-        )}
-        image={coastalImg}
-        imageAlt={t('اتصل بتدعيمكو', 'Contact Tadeemco')}
-      />
-
-      {/* Contact methods */}
-      <section className="section-padding bg-background">
-        <div className="container-width">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Phones */}
-            <div className="card-industrial p-6 border-t-[3px] border-accent">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-accent/10 text-accent mb-4">
-                <Phone className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-3">
-                {t('اتصل بنا', 'Call Us')}
-              </h3>
-              <div className="space-y-1.5" dir="ltr">
-                {company.phones.map((p) => (
-                  <a
-                    key={p}
-                    href={`tel:+965${p.replace(/\s/g, '')}`}
-                    className="block text-foreground/80 hover:text-accent transition-colors tabular-nums font-semibold"
-                  >
-                    +965 {p}
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* WhatsApp */}
-            <a
-              href={waHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="card-industrial p-6 border-t-[3px] border-accent block hover:bg-secondary/20"
-            >
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-[#25D366]/10 text-[#25D366] mb-4">
-                <MessageCircle className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-2">WhatsApp</h3>
-              <p className="text-muted-foreground text-sm">
-                {t(
-                  'تواصل سريع عبر واتساب — نرد خلال ساعات العمل.',
-                  'Quick chat via WhatsApp — we respond during business hours.'
-                )}
-              </p>
-              <p className="text-accent font-bold mt-3 text-sm">
-                {t('راسلنا الآن', 'Message us now')} →
-              </p>
-            </a>
-
-            {/* Email */}
-            <a
-              href={`mailto:${company.email}`}
-              className="card-industrial p-6 border-t-[3px] border-accent block hover:bg-secondary/20"
-            >
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-accent/10 text-accent mb-4">
-                <Mail className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-2">{t('البريد الإلكتروني', 'Email')}</h3>
-              <p className="text-foreground/80 font-semibold break-all">{company.email}</p>
-            </a>
-
-            {/* Instagram */}
-            <a
-              href={company.instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="card-industrial p-6 border-t-[3px] border-accent block hover:bg-secondary/20"
-            >
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-accent/10 text-accent mb-4">
-                <Instagram className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-2">Instagram</h3>
-              <p className="text-foreground/80 font-semibold">{company.instagram}</p>
-              <p className="text-muted-foreground text-sm mt-2">
-                {t('شاهد أعمالنا الحديثة', 'See our latest work')}
-              </p>
-            </a>
-          </div>
+      {/* HERO */}
+      <section className="bg-primary text-white py-16 md:py-20" style={{ backgroundColor: 'hsl(var(--primary))' }}>
+        <div className={`container-width ${isArabic ? 'text-right' : 'text-left'}`}>
+          <p className="eyebrow mb-4 text-accent">{t('تواصل معنا', 'Contact Us')}</p>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-5 text-balance max-w-4xl">
+            {t('استشارة مجانية وعرض سعر دقيق', 'Free consultation and accurate quote')}
+          </h1>
+          <p className="text-white/80 text-base md:text-lg max-w-3xl leading-relaxed">
+            {t(
+              'فريقنا الهندسي جاهز للاستماع إلى تفاصيل مشروعكم وتقديم عرض سعر مدروس مبنياً على ظروف موقعكم الفعلية.',
+              "Our engineering team is ready to hear the details of your project and prepare a carefully-sized quote based on your actual site conditions."
+            )}
+          </p>
         </div>
       </section>
 
-      {/* Form + Map */}
-      <section className="section-padding bg-muted">
+      {/* MAIN: Form + Info */}
+      <section className="section-padding bg-background">
         <div className="container-width">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            {/* Form */}
-            <div className={`bg-background p-8 md:p-10 shadow-lg ${isArabic ? 'text-right' : 'text-left'}`}>
-              <p className="eyebrow mb-4">{t('اطلب عرض سعر', 'Request a Quote')}</p>
-              <h2 className="text-3xl md:text-4xl font-black text-foreground mb-6 text-balance">
-                {t('حدثنا عن مشروعك', 'Tell us about your project')}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16">
+
+            {/* FORM — takes 3/5 */}
+            <div className={`lg:col-span-3 ${isArabic ? 'text-right' : 'text-left'}`}>
+              <p className="eyebrow mb-4">{t('أرسل استفساراً', 'Send an inquiry')}</p>
+              <h2 className="text-3xl md:text-4xl font-black text-foreground mb-8 text-balance">
+                {t('تفاصيل مشروعك', 'Tell us about your project')}
               </h2>
+
               <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-bold text-foreground mb-2">
+                      {t('الاسم الكامل', 'Full Name')} <span className="text-accent">*</span>
+                    </label>
+                    <input
+                      id="name" name="name" type="text" required
+                      value={formData.name} onChange={handleChange}
+                      className="w-full px-4 py-3 border border-border bg-white focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors"
+                      dir={isArabic ? 'rtl' : 'ltr'}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-bold text-foreground mb-2">
+                      {t('رقم الهاتف', 'Phone')} <span className="text-accent">*</span>
+                    </label>
+                    <input
+                      id="phone" name="phone" type="tel" required
+                      value={formData.phone} onChange={handleChange}
+                      className="w-full px-4 py-3 border border-border bg-white focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors tabular-nums"
+                      dir="ltr"
+                    />
+                  </div>
+                </div>
                 <div>
-                  <label className="block text-sm font-bold text-foreground mb-2">
-                    {t('الاسم', 'Name')} <span className="text-accent">*</span>
+                  <label htmlFor="email" className="block text-sm font-bold text-foreground mb-2">
+                    {t('البريد الإلكتروني', 'Email')}
                   </label>
                   <input
-                    type="text"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-border bg-background focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+                    id="email" name="email" type="email"
+                    value={formData.email} onChange={handleChange}
+                    className="w-full px-4 py-3 border border-border bg-white focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors"
+                    dir="ltr"
                   />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-bold text-foreground mb-2">
-                      {t('البريد الإلكتروني', 'Email')} <span className="text-accent">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      dir="ltr"
-                      className="w-full px-4 py-3 border border-border bg-background focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-foreground mb-2">
-                      {t('رقم الهاتف', 'Phone')}
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      dir="ltr"
-                      className="w-full px-4 py-3 border border-border bg-background focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
-                    />
-                  </div>
-                </div>
                 <div>
-                  <label className="block text-sm font-bold text-foreground mb-2">
+                  <label htmlFor="service" className="block text-sm font-bold text-foreground mb-2">
                     {t('الخدمة المطلوبة', 'Service Needed')}
                   </label>
                   <select
-                    name="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-border bg-background focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent"
+                    id="service" name="service"
+                    value={formData.service} onChange={handleChange}
+                    className="w-full px-4 py-3 border border-border bg-white focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors"
+                    dir={isArabic ? 'rtl' : 'ltr'}
                   >
-                    <option value="">{t('اختر خدمة (اختياري)', 'Select a service (optional)')}</option>
+                    <option value="">{t('اختر خدمة...', 'Select a service...')}</option>
                     {Object.entries(serviceIndex).map(([key, val]) => (
-                      <option key={key} value={key}>
-                        {isArabic ? val.ar : val.en}
-                      </option>
+                      <option key={key} value={key}>{isArabic ? val.ar : val.en}</option>
                     ))}
+                    <option value="multiple">{t('أكثر من خدمة', 'Multiple services')}</option>
+                    <option value="other">{t('استفسار عام', 'General inquiry')}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-foreground mb-2">
+                  <label htmlFor="message" className="block text-sm font-bold text-foreground mb-2">
                     {t('تفاصيل المشروع', 'Project Details')} <span className="text-accent">*</span>
                   </label>
                   <textarea
-                    name="message"
-                    required
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder={t(
-                      'موقع المشروع، عمق الحفر المتوقع، توقيت البدء، أي تفاصيل أخرى...',
-                      'Project location, expected excavation depth, start timeline, any other details...'
-                    )}
-                    className="w-full px-4 py-3 border border-border bg-background focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent resize-y"
+                    id="message" name="message" required rows={5}
+                    value={formData.message} onChange={handleChange}
+                    placeholder={t('الموقع، نوع المشروع، الجدول الزمني المتوقع، أي تفاصيل إضافية...', 'Location, project type, expected timeline, any additional details...')}
+                    className="w-full px-4 py-3 border border-border bg-white focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors resize-y"
+                    dir={isArabic ? 'rtl' : 'ltr'}
                   />
                 </div>
                 <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn-primary-solid w-full disabled:opacity-60 disabled:cursor-not-allowed"
+                  type="submit" disabled={isSubmitting}
+                  className="btn-primary-solid disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting
                     ? t('جاري الإرسال...', 'Sending...')
-                    : t('أرسل الرسالة', 'Send Message')}
+                    : t('إرسال الاستفسار', 'Send Inquiry')}
+                  <Send className="h-5 w-5" />
                 </button>
               </form>
             </div>
 
-            {/* Address + Map */}
-            <div>
-              <div className={`bg-background p-8 md:p-10 shadow-lg mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-                <p className="eyebrow mb-4">{t('موقعنا', 'Our Office')}</p>
-                <h2 className="text-2xl md:text-3xl font-black text-foreground mb-5 text-balance">
-                  {t('زورونا في مدينة الكويت', 'Visit us in Kuwait City')}
+            {/* INFO — takes 2/5 */}
+            <div className="lg:col-span-2 space-y-6">
+              <div>
+                <p className="eyebrow mb-4">{t('أو تواصل مباشرةً', 'Or reach us directly')}</p>
+                <h2 className="text-2xl md:text-3xl font-black text-foreground mb-6 text-balance">
+                  {t('طرق أسرع للتواصل', 'Faster ways to connect')}
                 </h2>
-                <div className={`flex items-start gap-3 mb-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                  <MapPin className="w-5 h-5 mt-1 flex-shrink-0 text-accent" />
-                  <p className="text-foreground leading-relaxed">
-                    {isArabic ? company.address.ar : company.address.en}
-                  </p>
-                </div>
-                <p className="text-muted-foreground text-sm leading-relaxed mt-4">
-                  {t(
-                    'ساعات العمل: الأحد إلى الخميس — ٨:٠٠ صباحاً حتى ٥:٠٠ مساءً',
-                    'Business hours: Sunday–Thursday, 8:00 AM – 5:00 PM'
-                  )}
-                </p>
               </div>
-              <div className="bg-background shadow-lg overflow-hidden aspect-[4/3]">
-                <iframe
-                  src={mapsSrc}
-                  title="Tadeemco office location"
-                  className="w-full h-full border-0"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  allowFullScreen
-                />
+
+              {/* Quick actions */}
+              <div className="grid grid-cols-2 gap-3">
+                <a
+                  href={waHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center gap-2 p-5 bg-[#25D366] text-white hover:opacity-90 transition-opacity"
+                >
+                  <MessageCircle className="h-7 w-7" />
+                  <span className="text-sm font-bold uppercase tracking-wide">WhatsApp</span>
+                </a>
+                <a
+                  href={`tel:${company.whatsapp}`}
+                  className="flex flex-col items-center justify-center gap-2 p-5 bg-accent text-white hover:opacity-90 transition-opacity"
+                >
+                  <Phone className="h-7 w-7" />
+                  <span className="text-sm font-bold uppercase tracking-wide">{t('اتصل الآن', 'Call Now')}</span>
+                </a>
+              </div>
+
+              {/* Contact rows */}
+              <div className="bg-muted p-6 space-y-5">
+                <div className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <MapPin className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                  <div className={isArabic ? 'text-right' : 'text-left'}>
+                    <p className="text-xs uppercase tracking-widest font-bold text-muted-foreground mb-1">
+                      {t('المكتب', 'Office')}
+                    </p>
+                    <p className="text-foreground leading-relaxed">
+                      {isArabic ? company.address.ar : company.address.en}
+                    </p>
+                  </div>
+                </div>
+
+                <div className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <Phone className="h-5 w-5 text-accent shrink-0 mt-0.5" />
+                  <div className={isArabic ? 'text-right' : 'text-left'}>
+                    <p className="text-xs uppercase tracking-widest font-bold text-muted-foreground mb-2">
+                      {t('أرقام الهاتف', 'Phone Numbers')}
+                    </p>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-1" dir="ltr">
+                      {company.phones.map((p) => (
+                        <a key={p} href={`tel:+965${p.replace(/\s/g, '')}`}
+                           className="text-foreground hover:text-accent transition-colors tabular-nums font-semibold">
+                          {p}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <Mail className="h-5 w-5 text-accent shrink-0" />
+                  <a href={`mailto:${company.email}`}
+                     className="text-foreground hover:text-accent transition-colors font-semibold">
+                    {company.email}
+                  </a>
+                </div>
+
+                <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <Instagram className="h-5 w-5 text-accent shrink-0" />
+                  <a href={company.instagramUrl} target="_blank" rel="noopener noreferrer"
+                     className="text-foreground hover:text-accent transition-colors font-semibold">
+                    {company.instagram}
+                  </a>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MAP */}
+      <section className="bg-muted pb-16">
+        <div className="container-width">
+          <div className="aspect-[21/9] w-full overflow-hidden border border-border">
+            <iframe
+              title={t('موقع مكتب تدعيمكو', 'Tadeemco office location')}
+              src="https://www.google.com/maps?q=Kuwait+City+Darwaza+Building&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
       </section>

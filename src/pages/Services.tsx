@@ -1,27 +1,16 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Phone } from 'lucide-react';
 import { SEO } from '@/components/SEO';
-import { PageHeader } from '@/components/PageHeader';
 import { seo } from '@/lib/seo-data';
+import { company } from '@/lib/company-data';
 import { IconShoring, IconDewatering, IconWaterproofing, IconExcavation } from '@/components/ServiceIcons';
-import dewateringPumpsImg from '@/assets/real/equipment/dewatering-pumps.jpg';
-import excavatorImg from '@/assets/real/equipment/excavator.jpg';
+import dewateringImg from '@/assets/real/equipment/dewatering-pumps.jpg';
 import pumpFleetImg from '@/assets/real/equipment/pump-fleet.jpg';
-import siteOverviewImg from '@/assets/real/equipment/site-overview.jpg';
+import excavatorImg from '@/assets/real/equipment/excavator.jpg';
+import siteImg from '@/assets/real/equipment/site-overview.jpg';
 
 interface ServicesProps {
   language: 'ar' | 'en';
-}
-
-interface ServiceDetail {
-  id: string;
-  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  title: string;
-  tag: string;
-  intro: string;
-  when: string;
-  howItems: string[];
-  image: string;
 }
 
 export const Services = ({ language }: ServicesProps) => {
@@ -29,94 +18,78 @@ export const Services = ({ language }: ServicesProps) => {
   const Arrow = isArabic ? ArrowLeft : ArrowRight;
   const t = (ar: string, en: string) => (isArabic ? ar : en);
 
-  const services: ServiceDetail[] = [
+  const services = [
     {
       id: 'shoring',
       Icon: IconShoring,
-      title: t('التدعيم', 'Shoring'),
-      tag: t('تدعيم هندسي للحفريات', 'Engineered excavation support'),
+      image: siteImg,
+      title: t('أعمال التدعيم', 'Shoring Works'),
+      subtitle: t('حماية جوانب الحفر ومنع انهيار التربة', 'Excavation side protection and soil stabilization'),
       intro: t(
-        'التدعيم هو العملية الهندسية التي تحمي جوانب الحفر من الانهيار وتضمن سلامة العمال والمباني المجاورة. يُعد من أهم المراحل التي تسبق أعمال الأساسات والأدوار السفلية.',
-        'Shoring is the engineered process that protects excavation sides from collapse and ensures the safety of workers and adjacent structures. It is one of the most critical stages before foundation and basement works.'
+        'التدعيم هو عملية حماية جوانب الحفر العميق من الانهيار باستخدام أنظمة هندسية متخصصة. يُعتبر من أهم مراحل المشروع لضمان سلامة العمال والمنشآت المجاورة.',
+        'Shoring is the process of protecting the sides of deep excavations from collapse using engineered support systems. It is one of the most critical project phases for ensuring worker safety and protecting adjacent structures.'
       ),
-      when: t(
-        'عندما يكون عمق الحفر أكبر من ١.٥ متر، أو عند وجود مبانٍ ومنشآت قريبة من الموقع، أو في التربة غير المستقرة.',
-        'When excavation depth exceeds 1.5 meters, when there are nearby buildings or structures, or in unstable soil conditions.'
+      whenNeeded: t(
+        'يُستخدم عند الحفر بعمق يزيد عن ١.٥ متر، أو عند الحفر قرب مبانٍ قائمة، أو في التربة غير المستقرة.',
+        'Required for excavations deeper than 1.5m, when excavating near existing structures, or in unstable soils.'
       ),
-      howItems: [
-        t('تركيب الخوازيق الفولاذية (Steel Sheet Piles)', 'Installation of steel sheet piles'),
-        t('الألواح الخشبية والدعائم الأفقية', 'Timber sheeting and horizontal struts'),
-        t('أنظمة التدعيم الهيدروليكية للمواقع الضيقة', 'Hydraulic shoring systems for confined sites'),
-        t('تصميم هندسي مخصص لكل موقع', 'Custom engineering design per site'),
-        t('حماية المباني والمرافق المجاورة', 'Protection of adjacent buildings and utilities'),
-      ],
-      image: siteOverviewImg,
+      methods: isArabic
+        ? ['تدعيم الجدران الاستنادية', 'الدعامات الفولاذية القابلة للتعديل', 'ألواح التدعيم المعدنية', 'تدعيم الحفريات العميقة', 'حماية المباني المجاورة']
+        : ['Retaining wall support', 'Adjustable steel struts', 'Metal shoring panels', 'Deep excavation shoring', 'Adjacent-structure protection'],
     },
     {
       id: 'dewatering',
       Icon: IconDewatering,
+      image: dewateringImg,
       title: t('سحب المياه الجوفية', 'Groundwater Dewatering'),
-      tag: t('بيئة عمل جافة وآمنة', 'Safe, dry working conditions'),
+      subtitle: t('بيئة عمل جافة لتنفيذ أعمال الأساسات', 'Dry working conditions for foundation works'),
       intro: t(
-        'سحب المياه الجوفية هو خفض منسوب المياه أسفل سطح الأرض قبل أعمال الحفر العميق، لضمان استقرار الموقع وتسهيل تنفيذ الأساسات والأدوار السفلية بشكل جاف وآمن.',
-        "Groundwater dewatering is the lowering of the water table below ground level before deep excavation, to stabilize the site and enable dry, safe execution of foundations and basement works."
+        'خفض منسوب المياه الجوفية قبل أعمال الحفر والأساسات لضمان استقرار الموقع وتمكين تنفيذ الأعمال بأمان وكفاءة. تربة الكويت ومنسوب المياه الجوفية المرتفع يجعلان من هذه الخدمة ضرورة في معظم المشاريع.',
+        'Lowering the groundwater table before excavation and foundation works to stabilize the site and enable safe, efficient construction. Kuwait\'s soil conditions and high water table make this service essential for most projects.'
       ),
-      when: t(
-        'في المشاريع التي يتجاوز فيها عمق الحفر منسوب المياه الجوفية — شائع جداً في جميع مناطق الكويت الساحلية وكذلك الداخلية.',
-        "On projects where excavation depth exceeds the groundwater table — very common across all of Kuwait's coastal and inland areas."
+      whenNeeded: t(
+        'ضروري في أي مشروع يتضمن حفر أساسات أو أدوار سفلية أسفل منسوب المياه الجوفية الطبيعي.',
+        'Essential for any project with foundations or basements below the natural groundwater level.'
       ),
-      howItems: [
-        t('أنظمة الآبار النقطية (Wellpoint Systems)', 'Wellpoint dewatering systems'),
-        t('مضخات طرد مركزي عالية السعة', 'High-capacity centrifugal pumps'),
-        t('مضخات غاطسة متعددة الأحجام', 'Submersible pumps in multiple sizes'),
-        t('مضخات تفريغ HÜDIG-CELLE الألمانية', 'HÜDIG-CELLE German vacuum pumps'),
-        t('مراقبة مستمرة لمنسوب المياه وتصريف وفق المعايير البيئية', 'Continuous water-level monitoring and environmentally compliant discharge'),
-      ],
-      image: pumpFleetImg,
+      methods: isArabic
+        ? ['أنظمة الآبار النقطية (Wellpoint)', 'مضخات طرد مركزي عالية الكفاءة', 'مضخات غاطسة متنوعة الأحجام', 'مضخات تفريغ HÜDIG الألمانية', 'مراقبة مستوى المياه ٢٤/٧', 'تصريف المياه وفقاً للمعايير البيئية']
+        : ['Wellpoint dewatering systems', 'High-capacity centrifugal pumps', 'Submersible pumps in all sizes', 'HÜDIG Germany vacuum pumps', '24/7 water-level monitoring', 'Environmentally-compliant discharge'],
     },
     {
       id: 'waterproofing',
       Icon: IconWaterproofing,
+      image: pumpFleetImg,
       title: t('العازل المائي', 'Waterproofing'),
-      tag: t('حماية طويلة الأمد للمنشآت', 'Long-term structural protection'),
+      subtitle: t('حماية طويلة الأمد للأساسات والجدران تحت الأرضية', 'Long-term protection for foundations and below-grade walls'),
       intro: t(
-        'أنظمة العزل المائي تحمي الأساسات والجدران تحت الأرضية من الرطوبة والمياه الجوفية خلال العمر التشغيلي الكامل للمبنى — وهي عملية لا يمكن إصلاحها بعد الانتهاء من البناء.',
-        'Waterproofing systems protect foundations and below-grade walls from moisture and groundwater throughout the building\'s operational life — a process that cannot be retrofitted after construction.'
+        'تطبيق أنظمة عزل مائي متطورة على الأساسات والجدران تحت الأرضية لحمايتها من الرطوبة والمياه الجوفية طوال العمر التشغيلي للمنشأة. العزل الصحيح يوفر تكاليف صيانة كبيرة ويحافظ على سلامة الخرسانة.',
+        'Application of advanced waterproofing systems to foundations and below-grade walls to protect them from moisture and groundwater throughout the structure\'s service life. Proper waterproofing prevents costly long-term maintenance and preserves concrete integrity.'
       ),
-      when: t(
-        'بعد أعمال الحفر والتدعيم وقبل صب الخرسانة للأساسات والأدوار السفلية. العزل الخاطئ في هذه المرحلة يؤدي إلى أضرار لا يمكن إصلاحها بسهولة.',
-        'After excavation and shoring, before casting the foundation concrete and basement structure. Incorrect insulation at this stage causes damage that cannot be easily repaired.'
+      whenNeeded: t(
+        'لازم لجميع الأساسات والأدوار السفلية في الكويت نظراً لارتفاع منسوب المياه الجوفية وملوحتها.',
+        'Required for all foundations and basements in Kuwait due to high groundwater levels and salinity.'
       ),
-      howItems: [
-        t('أغشية البيتومين المعدلة بالبوليمر', 'Polymer-modified bituminous membranes'),
-        t('طبقات العزل السائل (Liquid-Applied)', 'Liquid-applied waterproofing coatings'),
-        t('مواد حماية ميكانيكية إضافية', 'Additional mechanical protection layers'),
-        t('عزل الفواصل وأماكن العبور (Joint and Penetration Sealing)', 'Joint and penetration sealing'),
-        t('فحص الجودة قبل وبعد الصب', 'Quality inspection pre- and post-pour'),
-      ],
-      image: excavatorImg,
+      methods: isArabic
+        ? ['أغشية عزل بيتومينية', 'أنظمة العزل الإيبوكسي', 'طبقات حماية الخرسانة', 'عزل الفواصل الإنشائية', 'أنظمة الحماية الكاثودية']
+        : ['Bituminous membrane systems', 'Epoxy waterproofing', 'Concrete protective coatings', 'Construction joint sealing', 'Cathodic protection systems'],
     },
     {
       id: 'excavation',
       Icon: IconExcavation,
-      title: t('أعمال الحفر', 'Excavation'),
-      tag: t('حفر متخصص لجميع أنواع التربة', 'Specialized excavation for all soil conditions'),
+      image: excavatorImg,
+      title: t('أعمال الحفر', 'Excavation Works'),
+      subtitle: t('حفر متخصص لجميع أنواع التربة والمشاريع', 'Specialized excavation for all soil types and project scales'),
       intro: t(
-        'أعمال الحفر تشمل إزالة التربة وإعداد الموقع لبدء أعمال الأساسات. في الكويت، تتطلب التربة الرملية والطبقات الصخرية معدات وخبرة متخصصة.',
-        'Excavation covers soil removal and site preparation for foundation works to begin. In Kuwait, the sandy soils and rock layers require specialized equipment and expertise.'
+        'أعمال حفر شاملة للأساسات العميقة، الخنادق، والقنوات باستخدام معدات حديثة وفريق ذو خبرة طويلة في التربة الكويتية. نتعامل مع جميع أنواع التربة من الرملية إلى الصخرية.',
+        'Comprehensive excavation works for deep foundations, trenches, and channels using modern equipment and a team with deep experience in Kuwaiti ground conditions. We handle all soil types from sandy to rocky.'
       ),
-      when: t(
-        'في بداية أي مشروع إنشائي بعد تحديد مستوى الأساسات، وقبل بدء أعمال التدعيم وسحب المياه والعزل.',
-        'At the start of every construction project after determining foundation levels, and before shoring, dewatering, and waterproofing works begin.'
+      whenNeeded: t(
+        'جميع أنواع المشاريع السكنية، التجارية، والصناعية — من الفلل الخاصة إلى الأبراج والمجمعات.',
+        'All project types — residential, commercial, and industrial — from private villas to towers and large complexes.'
       ),
-      howItems: [
-        t('حفارات هيدروليكية لمختلف الأحجام', 'Hydraulic excavators in various sizes'),
-        t('لوادر وحفارات خلفية (Backhoes)', 'Loaders and backhoe excavators'),
-        t('حفر الخنادق للمرافق تحت الأرضية', 'Trenching for underground utilities'),
-        t('إزالة التربة والردم والدمك', 'Soil removal, backfilling, and compaction'),
-        t('تنسيق كامل مع أعمال التدعيم وسحب المياه', 'Full coordination with shoring and dewatering works'),
-      ],
-      image: dewateringPumpsImg,
+      methods: isArabic
+        ? ['حفر الأساسات العميقة', 'حفر الخنادق والقنوات', 'إزالة التربة والردم', 'أعمال الحفر في التربة الصعبة', 'التنسيق مع أعمال التدعيم والنزح']
+        : ['Deep foundation excavation', 'Trenching and channel works', 'Soil removal and backfilling', 'Difficult-soil excavation', 'Coordination with shoring and dewatering'],
     },
   ];
 
@@ -124,95 +97,105 @@ export const Services = ({ language }: ServicesProps) => {
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       <SEO page={seo.services} language={language} />
 
-      <PageHeader
-        language={language}
-        eyebrow={t('خدماتنا', 'Our Services')}
-        title={t('أربع خدمات. إتقان كامل.', 'Four services. Mastered.')}
-        subtitle={t(
-          'لا نقدم كل شيء. نقدم بالتحديد ما نجيده: المرحلة الأولى والأكثر أهمية في أي مشروع إنشائي.',
-          "We don't do everything. We do exactly what we're best at: the earliest, most critical stage of any construction project."
-        )}
-        image={siteOverviewImg}
-        imageAlt={t('موقع خدمات تدعيمكو', 'Tadeemco services site')}
-      />
+      {/* HERO */}
+      <section className="bg-primary text-white py-16 md:py-20" style={{ backgroundColor: 'hsl(var(--primary))' }}>
+        <div className={`container-width ${isArabic ? 'text-right' : 'text-left'}`}>
+          <p className="eyebrow mb-4 text-accent">{t('خدماتنا', 'Our Services')}</p>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-5 text-balance max-w-4xl">
+            {t('أربع خدمات متخصصة نجيدها', 'Four specialized services, mastered end-to-end')}
+          </h1>
+          <p className="text-white/80 text-base md:text-lg max-w-3xl leading-relaxed">
+            {t(
+              'لا نقدم كل شيء. نقدم بالتحديد ما نجيده: المراحل الأولى والأكثر أهمية في أي مشروع إنشائي. فريقنا الهندسي ومعداتنا المتخصصة مصممة حصرياً لهذه المراحل.',
+              "We don't do everything. We do exactly what we're best at: the earliest, most critical stages of any construction project. Our engineering team and specialized equipment are built specifically for these phases."
+            )}
+          </p>
+        </div>
+      </section>
 
       {/* Quick nav */}
-      <section className="section-padding-sm bg-muted border-b border-border">
-        <div className="container-width">
-          <div className="flex flex-wrap gap-3 justify-center">
+      <section className="bg-muted border-y border-border">
+        <div className="container-width py-4">
+          <div className={`flex flex-wrap gap-2 md:gap-4 ${isArabic ? 'justify-end' : 'justify-start'}`}>
             {services.map((s) => (
               <a
                 key={s.id}
                 href={`#${s.id}`}
-                className="group inline-flex items-center gap-3 bg-white px-5 py-3 border border-border hover:border-accent hover:shadow-md transition-all"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-border hover:border-accent hover:text-accent transition-colors text-sm font-semibold"
               >
-                <span className="w-8 h-8 text-accent flex-shrink-0">
-                  <s.Icon className="w-full h-full" />
-                </span>
-                <span className="font-bold text-foreground">{s.title}</span>
+                <s.Icon className="w-4 h-4" />
+                {s.title}
               </a>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Per-service deep sections */}
-      {services.map((s, idx) => {
-        const isImageLeft = idx % 2 === 0;
+      {/* SERVICE SECTIONS — alternating image/text */}
+      {services.map((s, i) => {
+        const imageFirst = i % 2 === 0;
         return (
           <section
             key={s.id}
             id={s.id}
-            className={`section-padding scroll-mt-24 ${idx % 2 === 0 ? 'bg-background' : 'bg-muted'}`}
+            className={`section-padding scroll-mt-24 ${i % 2 === 0 ? 'bg-background' : 'bg-muted'}`}
           >
             <div className="container-width">
-              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start ${
-                isImageLeft && !isArabic ? '' :
-                !isImageLeft && !isArabic ? 'lg:[&>*:first-child]:order-2' :
-                isImageLeft && isArabic ? 'lg:[&>*:first-child]:order-2' : ''
-              }`}>
-                <div>
-                  <img
-                    src={s.image}
-                    alt={s.title}
-                    className="w-full h-auto shadow-lg aspect-[4/3] object-cover"
-                    loading="lazy"
-                  />
-                </div>
+              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center ${isArabic ? (imageFirst ? '' : 'lg:[&>*:first-child]:order-2') : (imageFirst ? '' : 'lg:[&>*:first-child]:order-2')}`}>
                 <div className={isArabic ? 'text-right' : 'text-left'}>
-                  <div className={`flex items-center gap-4 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                    <div className="inline-flex items-center justify-center w-14 h-14 bg-accent/10 text-accent flex-shrink-0">
-                      <s.Icon className="w-8 h-8" />
-                    </div>
-                    <p className="eyebrow !mb-0">{s.tag}</p>
+                  <div className="inline-flex items-center justify-center w-14 h-14 bg-accent text-white mb-5">
+                    <s.Icon className="w-8 h-8" />
                   </div>
-                  <h2 className="text-3xl md:text-4xl font-black text-foreground mb-5 text-balance">
+                  <p className="text-accent text-sm font-bold uppercase tracking-wide mb-2">
+                    {s.subtitle}
+                  </p>
+                  <h2 className="text-3xl md:text-4xl font-black text-foreground mb-6 text-balance">
                     {s.title}
                   </h2>
-                  <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6 text-pretty">
+                  <p className="text-muted-foreground text-lg leading-relaxed mb-6 text-pretty">
                     {s.intro}
                   </p>
-
-                  <div className="bg-secondary/40 border-s-4 border-accent p-5 mb-6">
-                    <p className="text-sm uppercase tracking-widest font-bold text-accent mb-2">
-                      {t('متى نحتاجها', 'When you need it')}
+                  <div className={`bg-secondary/50 border-${isArabic ? 'r' : 'l'}-4 border-accent p-5 mb-8`}>
+                    <p className="text-sm font-bold text-primary mb-1 uppercase tracking-wide">
+                      {t('متى تحتاج هذه الخدمة؟', 'When you need this service')}
                     </p>
-                    <p className="text-foreground leading-relaxed text-pretty">{s.when}</p>
+                    <p className="text-foreground">{s.whenNeeded}</p>
                   </div>
-
-                  <p className="text-sm uppercase tracking-widest font-bold text-accent mb-3">
-                    {t('كيف ننفذها', 'How we deliver')}
-                  </p>
-                  <ul className={`space-y-2.5 ${isArabic ? 'text-right' : 'text-left'}`}>
-                    {s.howItems.map((item, i) => (
-                      <li key={i} className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <h3 className="text-lg font-bold text-foreground mb-4">
+                    {t('معداتنا وأساليبنا', 'Our Equipment & Methods')}
+                  </h3>
+                  <ul className="space-y-2.5 mb-8">
+                    {s.methods.map((m, idx) => (
+                      <li key={idx} className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
                         <span className="flex-shrink-0 w-5 h-5 bg-accent text-white flex items-center justify-center mt-0.5">
                           <Check className="w-3.5 h-3.5" strokeWidth={3} />
                         </span>
-                        <span className="text-foreground text-pretty">{item}</span>
+                        <span className="text-foreground">{m}</span>
                       </li>
                     ))}
                   </ul>
+                  <div className={`flex flex-wrap gap-3 ${isArabic ? 'justify-end' : ''}`}>
+                    <Link to="/contact" className="btn-primary-solid">
+                      {t('اطلب عرض سعر', 'Request a Quote')}
+                      <Arrow className="h-5 w-5" />
+                    </Link>
+                    <a href={`tel:${company.whatsapp}`} className="btn-secondary-solid">
+                      <Phone className="h-5 w-5" />
+                      {t('اتصل بنا', 'Call Us')}
+                    </a>
+                  </div>
+                </div>
+                <div className="relative">
+                  <img
+                    src={s.image}
+                    alt={s.title}
+                    className="w-full h-auto aspect-[4/3] object-cover shadow-lg"
+                    loading="lazy"
+                  />
+                  <div className={`absolute -bottom-4 ${isArabic ? '-left-4' : '-right-4'} bg-accent text-white p-4 hidden md:block`}>
+                    <p className="text-xs uppercase tracking-wide font-bold">{t('خبرة', 'Expertise')}</p>
+                    <p className="text-lg font-bold mt-0.5">{s.title}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -220,25 +203,25 @@ export const Services = ({ language }: ServicesProps) => {
         );
       })}
 
-      {/* CTA */}
-      <section className="section-padding bg-primary text-white">
+      {/* Final CTA */}
+      <section className="bg-primary text-white section-padding-sm" style={{ backgroundColor: 'hsl(var(--primary))' }}>
         <div className="container-width text-center">
-          <h2 className="text-3xl md:text-5xl font-black mb-5 text-balance">
-            {t('لديك مشروع قادم؟', 'Have an upcoming project?')}
+          <h2 className="text-3xl md:text-4xl font-black mb-5 text-balance">
+            {t('نحتاج خدمتين أو أكثر في مشروعك؟', 'Need two or more of these services on your project?')}
           </h2>
           <p className="text-white/85 text-lg mb-8 max-w-2xl mx-auto">
             {t(
-              'شاركنا تفاصيل مشروعك وسنقدم لك خطة عمل وعرض سعر مفصل.',
-              'Share your project details and we\'ll come back with a scope and detailed quote.'
+              'نسّق جميع المراحل معنا — من الحفر إلى التدعيم إلى النزح إلى العزل — تحت فريق هندسي واحد. أوفر للوقت، أقل للتعقيد.',
+              'Coordinate all stages with us — excavation through shoring through dewatering through waterproofing — under one engineering team. Faster, less complexity.'
             )}
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link to="/contact" className="btn-primary-solid">
-              {t('اطلب عرض سعر', 'Request a Quote')}
+              {t('اطلب عرض سعر شامل', 'Request a Full Quote')}
               <Arrow className="h-5 w-5" />
             </Link>
             <Link to="/projects" className="btn-outline-light">
-              {t('أعمالنا السابقة', 'Our Previous Work')}
+              {t('شاهد مشاريعنا', 'See Our Projects')}
             </Link>
           </div>
         </div>

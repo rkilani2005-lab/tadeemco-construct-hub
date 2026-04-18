@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Phone } from 'lucide-react';
 import { SEO } from '@/components/SEO';
-import { PageHeader } from '@/components/PageHeader';
 import { seo } from '@/lib/seo-data';
+import { company } from '@/lib/company-data';
 import pumpFleetImg from '@/assets/real/equipment/pump-fleet.jpg';
 import dewateringPumpsImg from '@/assets/real/equipment/dewatering-pumps.jpg';
 import excavatorImg from '@/assets/real/equipment/excavator.jpg';
-import siteOverviewImg from '@/assets/real/equipment/site-overview.jpg';
+import siteImg from '@/assets/real/equipment/site-overview.jpg';
 
 interface EquipmentProps {
   language: 'ar' | 'en';
@@ -19,68 +19,56 @@ export const Equipment = ({ language }: EquipmentProps) => {
 
   const categories = [
     {
-      id: 'pumps',
-      title: t('المضخات المتخصصة', 'Specialized Pumps'),
-      image: dewateringPumpsImg,
-      desc: t(
-        'مجموعة كاملة من المضخات عالية الكفاءة لجميع احتياجات سحب المياه الجوفية — من المشاريع الصغيرة إلى مواقع الحفر العميقة.',
-        'A complete range of high-capacity pumps for every dewatering need — from small projects to deep-excavation sites.'
-      ),
-      items: [
-        t('مضخات طرد مركزي عالية السعة', 'High-capacity centrifugal pumps'),
-        t('مضخات غاطسة بأقطار ٤، ٦، ٨ بوصات', 'Submersible pumps in 4", 6", 8" diameters'),
-        t('مضخات الضغط العالي', 'High-pressure pumps'),
-        t('مضخات تفريغ (Vacuum Pumps)', 'Vacuum pumps'),
-        t('مضخات احتياطية للاستمرار ٢٤/٧', 'Backup pumps for 24/7 operation'),
-      ],
-    },
-    {
-      id: 'hudig',
-      title: t('مضخات HÜDIG-CELLE الألمانية', 'HÜDIG-CELLE German Pumps'),
+      id: 'vacuum',
       image: pumpFleetImg,
+      title: t('مضخات التفريغ HÜDIG-CELLE', 'HÜDIG-CELLE Vacuum Pumps'),
+      tag: t('صنع ألماني · قلب أسطولنا', 'German-made · The heart of our fleet'),
       desc: t(
-        'أسطول من مضخات الشركة الألمانية HÜDIG — المصنع الرائد عالمياً في تقنيات سحب المياه الجوفية منذ أكثر من ٧٠ عاماً. تُعد المعيار الذهبي في المشاريع الكبرى.',
-        'A fleet from HÜDIG of Germany — the world-leading manufacturer of groundwater dewatering technology for over 70 years. The gold standard for major projects.'
+        'مضخات تفريغ صناعية من شركة HÜDIG-CELLE الألمانية، من أعرق الشركات المتخصصة في معدات نزح المياه الجوفية عالمياً. تُستخدم مع أنظمة الآبار النقطية لخفض منسوب المياه بكفاءة عالية.',
+        "Industrial vacuum pumps from HÜDIG-CELLE Germany — one of the world's most established manufacturers specialized in dewatering equipment. Deployed with wellpoint systems for high-efficiency water-table lowering."
       ),
-      items: [
-        t('وحدات تفريغ بسعات متنوعة', 'Vacuum units in various capacities'),
-        t('أنظمة الآبار النقطية المتكاملة', 'Complete wellpoint system packages'),
-        t('أنابيب شفط وتوزيع محفورة حقلياً', 'Field-drilled suction and distribution piping'),
-        t('صيانة دورية وقطع غيار أصلية', 'Regular maintenance and original spare parts'),
-        t('نقل وتركيب سريع بين المواقع', 'Fast transport and installation between sites'),
-      ],
+      specs: isArabic
+        ? ['قدرة شفط عالية', 'عمل مستمر ٢٤/٧', 'محركات ديزل موثوقة', 'محمولة على عجلات للتنقل السريع', 'صيانة منتظمة داخلياً']
+        : ['High suction capacity', 'Continuous 24/7 operation', 'Reliable diesel engines', 'Wheel-mounted for rapid mobilization', 'Maintained in-house on a regular schedule'],
     },
     {
-      id: 'wellpoint',
-      title: t('أنظمة الآبار النقطية', 'Wellpoint Systems'),
-      image: siteOverviewImg,
+      id: 'centrifugal',
+      image: dewateringPumpsImg,
+      title: t('مضخات الطرد المركزي', 'Centrifugal Pumps'),
+      tag: t('للتدفقات العالية', 'For high-flow applications'),
       desc: t(
-        'أنظمة متكاملة لخفض منسوب المياه الجوفية حول محيط الحفر. الحل الأمثل للمواقع التي تتطلب بيئة عمل جافة تماماً.',
-        'Complete systems for lowering groundwater around the excavation perimeter. The optimal solution for sites requiring a fully dry working environment.'
+        'مضخات طرد مركزي عالية الكفاءة للتعامل مع التدفقات الكبيرة من المياه الجوفية والسطحية، في أعمال الحفر العميق والمواقع القريبة من البحر.',
+        'High-efficiency centrifugal pumps for handling large flows of groundwater and surface water, used on deep excavations and coastal sites.'
       ),
-      items: [
-        t('آبار نقطية بأقطار متنوعة', 'Wellpoints in multiple diameters'),
-        t('أنابيب رأسية وأفقية للتوزيع', 'Riser and header distribution piping'),
-        t('أجهزة مراقبة مستوى المياه (Piezometers)', 'Water-level monitoring piezometers'),
-        t('معدات الحفر والتركيب المتخصصة', 'Specialized drilling and installation equipment'),
-        t('نقاط تفريغ وفق المعايير البيئية', 'Environmentally compliant discharge points'),
-      ],
+      specs: isArabic
+        ? ['تدفق يصل إلى مئات الأمتار المكعبة/الساعة', 'متوفرة بقدرات متعددة', 'تعمل في ظروف مناخية قاسية', 'قابلة للتكوين في سلاسل متعددة']
+        : ['Flow rates up to hundreds of cubic meters per hour', 'Multiple capacity options', 'Operates in harsh weather conditions', 'Configurable in multi-pump arrays'],
+    },
+    {
+      id: 'submersible',
+      image: siteImg,
+      title: t('المضخات الغاطسة', 'Submersible Pumps'),
+      tag: t('حلول نزح دقيقة', 'Precision dewatering solutions'),
+      desc: t(
+        'مضخات غاطسة بأحجام وقدرات متنوعة للمواقف التي تحتاج إلى نزح نقطي أو معالجة مياه محدودة المساحة — كالحفريات الضيقة والأدوار السفلية.',
+        'Submersible pumps in a range of sizes and capacities for situations that call for point-source dewatering or confined-space water handling — narrow excavations, basement cavities, etc.'
+      ),
+      specs: isArabic
+        ? ['أحجام متعددة من الصغيرة إلى الكبيرة', 'تشغيل كهربائي صامت', 'مقاومة للملوحة (المياه الجوفية الكويتية)', 'سهلة التركيب والاسترجاع']
+        : ['Multiple sizes from small to large', 'Silent electric operation', 'Salt-water resistant (Kuwaiti groundwater)', 'Easy installation and retrieval'],
     },
     {
       id: 'shoring',
-      title: t('معدات التدعيم', 'Shoring Equipment'),
       image: excavatorImg,
+      title: t('معدات التدعيم', 'Shoring Equipment'),
+      tag: t('فولاذ صناعي ثقيل', 'Heavy industrial steel'),
       desc: t(
-        'مجموعة شاملة من معدات التدعيم لضمان سلامة أعمال الحفر وحماية المنشآت المجاورة.',
-        'A comprehensive set of shoring materials to ensure excavation safety and protect adjacent structures.'
+        'أنظمة تدعيم فولاذية ومواد تسنيد لحماية جوانب الحفريات العميقة ومنع انهيار التربة، مع دعامات قابلة للتعديل وألواح تدعيم تناسب مختلف أنواع التربة.',
+        'Steel shoring systems and shielding materials to protect deep excavation sides and prevent soil collapse. Adjustable struts and shoring panels suited to various soil conditions.'
       ),
-      items: [
-        t('خوازيق فولاذية (Steel Sheet Piles)', 'Steel sheet piles'),
-        t('دعائم فولاذية قابلة للتعديل', 'Adjustable steel struts'),
-        t('ألواح خشبية ومعدنية للتدعيم الجانبي', 'Timber and metal sheeting for lateral support'),
-        t('أنظمة تدعيم هيدروليكية للمواقع الضيقة', 'Hydraulic shoring systems for confined sites'),
-        t('معدات التركيب والإزالة', 'Installation and extraction equipment'),
-      ],
+      specs: isArabic
+        ? ['دعامات فولاذية قابلة للتعديل', 'ألواح تدعيم معدنية', 'دعامات هيدروليكية للحفريات العميقة', 'قوالب خرسانة مسلحة', 'معدات حماية جانبية للمباني المجاورة']
+        : ['Adjustable steel struts', 'Metal shoring panels', 'Hydraulic struts for deep excavations', 'Reinforced concrete formwork', 'Lateral-protection equipment for adjacent structures'],
     },
   ];
 
@@ -88,94 +76,103 @@ export const Equipment = ({ language }: EquipmentProps) => {
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
       <SEO page={seo.equipment} language={language} />
 
-      <PageHeader
-        language={language}
-        eyebrow={t('معداتنا', 'Our Equipment')}
-        title={t('أسطول ألماني الصنع', 'A German-engineered fleet')}
-        subtitle={t(
-          'نعتمد على معدات من أفضل الشركات المصنعة حول العالم — يقودها فريق من المهندسين والفنيين ذوي الخبرة الطويلة في أعمال التأسيسات تحت الأرض.',
-          "We operate equipment from the world's leading manufacturers, deployed by engineers and technicians with deep experience in substructure works."
-        )}
-        image={pumpFleetImg}
-        imageAlt={t('أسطول مضخات تدعيمكو', 'Tadeemco pump fleet')}
-      />
+      {/* HERO */}
+      <section className="bg-primary text-white py-16 md:py-20" style={{ backgroundColor: 'hsl(var(--primary))' }}>
+        <div className={`container-width ${isArabic ? 'text-right' : 'text-left'}`}>
+          <p className="eyebrow mb-4 text-accent">{t('معداتنا', 'Our Equipment')}</p>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-5 text-balance max-w-4xl">
+            {t('أسطول متخصص، ليس مستأجراً', 'A specialist fleet, not a rental shop')}
+          </h1>
+          <p className="text-white/80 text-base md:text-lg max-w-3xl leading-relaxed">
+            {t(
+              'نملك معداتنا ونصونها داخلياً. هذا يعني جاهزية فورية لأي مشروع، تحكماً كاملاً بجدول التشغيل، وعمراً تشغيلياً أطول لأننا نعرف كل قطعة بالتفصيل.',
+              'We own our equipment and maintain it in-house. That means instant availability for any project, full control over the operational schedule, and longer service life because we know every piece in detail.'
+            )}
+          </p>
+        </div>
+      </section>
 
-      {/* Brand highlight — HÜDIG */}
-      <section className="section-padding-sm bg-primary text-white">
-        <div className="container-width">
-          <div className={`flex flex-col md:flex-row items-center gap-6 ${isArabic ? 'md:flex-row-reverse' : ''}`}>
-            <div className="bg-accent px-6 py-4 flex-shrink-0">
-              <p className="text-xs uppercase tracking-widest font-bold opacity-90 mb-1">
-                {t('مصنوع في ألمانيا', 'Made in Germany')}
-              </p>
-              <p className="text-2xl font-black">HÜDIG · Celle</p>
-            </div>
-            <p className={`text-white/85 text-base md:text-lg leading-relaxed max-w-3xl ${isArabic ? 'text-right' : 'text-left'}`}>
+      {/* FEATURED: HÜDIG-CELLE callout */}
+      <section className="bg-accent text-white section-padding-sm">
+        <div className={`container-width flex flex-col md:flex-row items-center gap-8 ${isArabic ? 'md:flex-row-reverse text-right' : ''}`}>
+          <div className="md:flex-1">
+            <p className="text-white/90 text-xs uppercase tracking-widest font-bold mb-2">
+              {t('الشركة المصنعة الرئيسية', 'Lead Manufacturer')}
+            </p>
+            <p className="font-black text-3xl md:text-4xl mb-3">HÜDIG · CELLE, GERMANY</p>
+            <p className="text-white/90 text-lg leading-relaxed max-w-2xl">
               {t(
-                'نعتمد على مضخات HÜDIG-CELLE الألمانية — الرائدة عالمياً في تقنيات سحب المياه الجوفية منذ عام ١٩٥٠. هذه المعدات تُستخدم في أكبر مشاريع البنية التحتية حول العالم.',
-                'We operate HÜDIG-CELLE German pumps — a world leader in groundwater dewatering technology since 1950. This equipment is deployed on the largest infrastructure projects worldwide.'
+                'أسطولنا يعتمد بشكل رئيسي على مضخات HÜDIG-CELLE — من أكثر الشركات الألمانية المتخصصة خبرةً في معدات نزح المياه الجوفية في العالم.',
+                'Our fleet is primarily HÜDIG-CELLE — one of the most experienced specialist German manufacturers of dewatering equipment in the world.'
               )}
             </p>
           </div>
         </div>
       </section>
 
-      {/* Categories */}
-      {categories.map((cat, idx) => (
-        <section key={cat.id} id={cat.id} className={`section-padding scroll-mt-24 ${idx % 2 === 0 ? 'bg-background' : 'bg-muted'}`}>
-          <div className="container-width">
-            <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-              idx % 2 === (isArabic ? 1 : 0) ? '' : 'lg:[&>*:first-child]:order-2'
-            }`}>
-              <img
-                src={cat.image}
-                alt={cat.title}
-                className="w-full h-auto shadow-lg aspect-[4/3] object-cover"
-                loading="lazy"
-              />
-              <div className={isArabic ? 'text-right' : 'text-left'}>
-                <h2 className="text-3xl md:text-4xl font-black text-foreground mb-5 text-balance">
-                  {cat.title}
-                </h2>
-                <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6 text-pretty">
-                  {cat.desc}
-                </p>
-                <ul className="space-y-2.5">
-                  {cat.items.map((item, i) => (
-                    <li key={i} className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                      <span className="flex-shrink-0 w-5 h-5 bg-accent text-white flex items-center justify-center mt-0.5">
-                        <Check className="w-3.5 h-3.5" strokeWidth={3} />
-                      </span>
-                      <span className="text-foreground">{item}</span>
-                    </li>
-                  ))}
-                </ul>
+      {/* CATEGORIES */}
+      {categories.map((c, i) => {
+        const alt = i % 2 === 0;
+        return (
+          <section
+            key={c.id}
+            className={`section-padding ${i % 2 === 0 ? 'bg-background' : 'bg-muted'}`}
+          >
+            <div className="container-width">
+              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center ${isArabic ? (alt ? '' : 'lg:[&>*:first-child]:order-2') : (alt ? '' : 'lg:[&>*:first-child]:order-2')}`}>
+                <div className={isArabic ? 'text-right' : 'text-left'}>
+                  <p className="text-accent text-sm font-bold uppercase tracking-wide mb-2">{c.tag}</p>
+                  <h2 className="text-3xl md:text-4xl font-black text-foreground mb-5 text-balance">{c.title}</h2>
+                  <p className="text-muted-foreground text-lg leading-relaxed mb-7 text-pretty">{c.desc}</p>
+                  <h3 className="text-lg font-bold text-foreground mb-4">
+                    {t('المواصفات الرئيسية', 'Key Specifications')}
+                  </h3>
+                  <ul className="space-y-2.5">
+                    {c.specs.map((spec, idx) => (
+                      <li key={idx} className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                        <span className="flex-shrink-0 w-5 h-5 bg-accent text-white flex items-center justify-center mt-0.5">
+                          <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                        </span>
+                        <span className="text-foreground">{spec}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <img
+                    src={c.image}
+                    alt={c.title}
+                    className="w-full h-auto aspect-[4/3] object-cover shadow-lg"
+                    loading="lazy"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-      ))}
+          </section>
+        );
+      })}
 
       {/* CTA */}
-      <section className="section-padding bg-muted">
+      <section className="bg-primary text-white section-padding-sm" style={{ backgroundColor: 'hsl(var(--primary))' }}>
         <div className="container-width text-center">
-          <h2 className="text-3xl md:text-5xl font-black text-foreground mb-5 text-balance">
-            {t('المعدات الصحيحة لمشروعك', 'The right equipment for your project')}
+          <h2 className="text-3xl md:text-4xl font-black mb-5 text-balance">
+            {t('تحتاج معدات متخصصة لمشروعك؟', 'Need specialized equipment for your project?')}
           </h2>
-          <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-white/85 text-lg mb-8 max-w-2xl mx-auto">
             {t(
-              'شاركنا تفاصيل مشروعك ونوع التربة وعمق الحفر، وسنوصي بالمعدات الأنسب.',
-              'Share your project details, soil type, and excavation depth — we\'ll recommend the right equipment package.'
+              'أسطولنا جاهز وفريقنا الهندسي مستعد لتحديد المعدات المناسبة لظروف موقعك.',
+              "Our fleet is ready and our engineering team is on hand to spec the right equipment for your site conditions."
             )}
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link to="/contact" className="btn-primary-solid">
-              {t('تحدث مع مهندس', 'Talk to an Engineer')}
+              {t('اطلب عرض سعر', 'Request a Quote')}
               <Arrow className="h-5 w-5" />
             </Link>
-            <Link to="/services" className="btn-secondary-solid">
-              {t('استعرض الخدمات', 'View Services')}
-            </Link>
+            <a href={`tel:${company.whatsapp}`} className="btn-outline-light">
+              <Phone className="h-5 w-5" />
+              {t('اتصل بنا', 'Call Us')}
+            </a>
           </div>
         </div>
       </section>
