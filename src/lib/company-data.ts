@@ -40,7 +40,7 @@ export const company = {
     ar: 'متخصصون في أعمال التأسيسات تحت الأرض للمقاولين الرئيسيين في دولة الكويت',
     en: 'Substructure specialists for main contractors across the State of Kuwait',
   },
-  phones: ['9000 1662', '9222 3657', '9966 7785', '9088 8809'],
+  phones: ['9000 1662', '9966 7785', '9088 8809'],
   email: 'info@tadeemco.com',
   instagram: '@tadeemco',
   instagramUrl: 'https://instagram.com/tadeemco',
