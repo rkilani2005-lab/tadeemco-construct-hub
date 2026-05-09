@@ -3,7 +3,6 @@ import { MapPin, Phone, Mail, Instagram, MessageCircle, Send } from 'lucide-reac
 import { SEO } from '@/components/SEO';
 import { seo } from '@/lib/seo-data';
 import { company, serviceIndex } from '@/lib/company-data';
-import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 interface ContactProps {
@@ -28,6 +27,7 @@ export const Contact = ({ language }: ContactProps) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
+      const { supabase } = await import('@/integrations/supabase/client');
       const { error } = await supabase.functions.invoke('send-contact-email', {
         body: formData,
       });
