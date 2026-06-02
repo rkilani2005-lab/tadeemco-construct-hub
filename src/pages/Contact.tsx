@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { MapPin, Phone, Mail, Instagram, MessageCircle, Send } from 'lucide-react';
 import { SEO } from '@/components/SEO';
 import { seo } from '@/lib/seo-data';
-import { company, serviceIndex } from '@/lib/company-data';
+import { company } from '@/lib/company-data';
+import { useCms, useText } from '@/lib/cms-context';
 import { useToast } from '@/hooks/use-toast';
 
 interface ContactProps {
@@ -13,6 +14,18 @@ export const Contact = ({ language }: ContactProps) => {
   const isArabic = language === 'ar';
   const t = (ar: string, en: string) => (isArabic ? ar : en);
   const { toast } = useToast();
+  const { settings, services } = useCms();
+  const text = useText();
+  const tx = (key: string, ar: string, en: string) => text(key, language, t(ar, en));
+
+  const phones = settings.phones.length ? settings.phones : company.phones;
+  const email = settings.email || company.email;
+  const instagram = settings.instagram || company.instagram;
+  const instagramUrl = settings.instagramUrl || company.instagramUrl;
+  const whatsapp = settings.whatsapp || company.whatsapp;
+  const address = isArabic
+    ? settings.address.ar || company.address.ar
+    : settings.address.en || company.address.en;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -55,7 +68,7 @@ export const Contact = ({ language }: ContactProps) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const waNumber = company.whatsapp.replace(/[^0-9]/g, '');
+  const waNumber = whatsapp.replace(/[^0-9]/g, '');
   const waHref = `https://wa.me/${waNumber}?text=${encodeURIComponent(
     t('السلام عليكم، أرغب بالاستفسار عن خدمات شركة تدعيمكو', 'Hello, I would like to inquire about Tadeemco services')
   )}`;
@@ -67,12 +80,13 @@ export const Contact = ({ language }: ContactProps) => {
       {/* HERO */}
       <section className="bg-primary text-white py-16 md:py-20" style={{ backgroundColor: 'hsl(var(--primary))' }}>
         <div className={`container-width ${isArabic ? 'text-right' : 'text-left'}`}>
-          <p className="eyebrow mb-4 text-accent">{t('تواصل معنا', 'Contact Us')}</p>
+          <p className="eyebrow mb-4 text-accent">{tx('contact.hero.eyebrow', 'تواصل معنا', 'Contact Us')}</p>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-5 text-balance max-w-4xl">
-            {t('استشارة مجانية وعرض سعر دقيق', 'Free consultation and accurate quote')}
+            {tx('contact.hero.title', 'استشارة مجانية وعرض سعر دقيق', 'Free consultation and accurate quote')}
           </h1>
           <p className="text-white/80 text-base md:text-lg max-w-3xl leading-relaxed">
-            {t(
+            {tx(
+              'contact.hero.subtitle',
               'فريقنا الهندسي جاهز للاستماع إلى تفاصيل مشروعكم وتقديم عرض سعر مدروس مبنياً على ظروف موقعكم الفعلية.',
               "Our engineering team is ready to hear the details of your project and prepare a carefully-sized quote based on your actual site conditions."
             )}
@@ -87,9 +101,9 @@ export const Contact = ({ language }: ContactProps) => {
 
             {/* FORM — takes 3/5 */}
             <div className={`lg:col-span-3 ${isArabic ? 'text-right' : 'text-left'}`}>
-              <p className="eyebrow mb-4">{t('أرسل استفساراً', 'Send an inquiry')}</p>
+              <p className="eyebrow mb-4">{tx('contact.form.eyebrow', 'أرسل استفساراً', 'Send an inquiry')}</p>
               <h2 className="text-3xl md:text-4xl font-black text-foreground mb-8 text-balance">
-                {t('تفاصيل مشروعك', 'Tell us about your project')}
+                {tx('contact.form.heading', 'تفاصيل مشروعك', 'Tell us about your project')}
               </h2>
 
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -139,8 +153,8 @@ export const Contact = ({ language }: ContactProps) => {
                     dir={isArabic ? 'rtl' : 'ltr'}
                   >
                     <option value="">{t('اختر خدمة...', 'Select a service...')}</option>
-                    {Object.entries(serviceIndex).map(([key, val]) => (
-                      <option key={key} value={key}>{isArabic ? val.ar : val.en}</option>
+                    {services.map((s) => (
+                      <option key={s.slug} value={s.slug}>{isArabic ? s.title_ar : s.title_en}</option>
                     ))}
                     <option value="multiple">{t('أكثر من خدمة', 'Multiple services')}</option>
                     <option value="other">{t('استفسار عام', 'General inquiry')}</option>
@@ -173,9 +187,9 @@ export const Contact = ({ language }: ContactProps) => {
             {/* INFO — takes 2/5 */}
             <div className="lg:col-span-2 space-y-6">
               <div>
-                <p className="eyebrow mb-4">{t('أو تواصل مباشرةً', 'Or reach us directly')}</p>
+                <p className="eyebrow mb-4">{tx('contact.info.eyebrow', 'أو تواصل مباشرةً', 'Or reach us directly')}</p>
                 <h2 className="text-2xl md:text-3xl font-black text-foreground mb-6 text-balance">
-                  {t('طرق أسرع للتواصل', 'Faster ways to connect')}
+                  {tx('contact.info.heading', 'طرق أسرع للتواصل', 'Faster ways to connect')}
                 </h2>
               </div>
 
@@ -191,7 +205,7 @@ export const Contact = ({ language }: ContactProps) => {
                   <span className="text-sm font-bold uppercase tracking-wide">WhatsApp</span>
                 </a>
                 <a
-                  href={`tel:${company.whatsapp}`}
+                  href={`tel:${whatsapp}`}
                   className="flex flex-col items-center justify-center gap-2 p-5 bg-accent text-white hover:opacity-90 transition-opacity"
                 >
                   <Phone className="h-7 w-7" />
@@ -208,7 +222,7 @@ export const Contact = ({ language }: ContactProps) => {
                       {t('المكتب', 'Office')}
                     </p>
                     <p className="text-foreground leading-relaxed">
-                      {isArabic ? company.address.ar : company.address.en}
+                      {address}
                     </p>
                   </div>
                 </div>
@@ -220,7 +234,7 @@ export const Contact = ({ language }: ContactProps) => {
                       {t('أرقام الهاتف', 'Phone Numbers')}
                     </p>
                     <div className="grid grid-cols-2 gap-x-4 gap-y-1" dir="ltr">
-                      {company.phones.map((p) => (
+                      {phones.map((p) => (
                         <a key={p} href={`tel:+965${p.replace(/\s/g, '')}`}
                            className="text-foreground hover:text-accent transition-colors tabular-nums font-semibold">
                           {p}
@@ -232,17 +246,17 @@ export const Contact = ({ language }: ContactProps) => {
 
                 <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
                   <Mail className="h-5 w-5 text-accent shrink-0" />
-                  <a href={`mailto:${company.email}`}
+                  <a href={`mailto:${email}`}
                      className="text-foreground hover:text-accent transition-colors font-semibold">
-                    {company.email}
+                    {email}
                   </a>
                 </div>
 
                 <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
                   <Instagram className="h-5 w-5 text-accent shrink-0" />
-                  <a href={company.instagramUrl} target="_blank" rel="noopener noreferrer"
+                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer"
                      className="text-foreground hover:text-accent transition-colors font-semibold">
-                    {company.instagram}
+                    {instagram}
                   </a>
                 </div>
               </div>

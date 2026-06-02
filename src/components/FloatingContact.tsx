@@ -1,4 +1,5 @@
 import { company } from '@/lib/company-data';
+import { useCms } from '@/lib/cms-context';
 
 interface FloatingContactProps {
   language: 'ar' | 'en';
@@ -6,14 +7,16 @@ interface FloatingContactProps {
 
 export const FloatingContact = ({ language }: FloatingContactProps) => {
   const isArabic = language === 'ar';
-  const waNumber = company.whatsapp.replace(/[^0-9]/g, '');
+  const { settings } = useCms();
+  const whatsapp = settings.whatsapp || company.whatsapp;
+  const waNumber = whatsapp.replace(/[^0-9]/g, '');
   const waMessage = encodeURIComponent(
     isArabic
       ? 'السلام عليكم، أرغب بالاستفسار عن خدمات شركة تدعيمكو'
       : 'Hello, I would like to inquire about Tadeemco services'
   );
   const waHref = `https://wa.me/${waNumber}?text=${waMessage}`;
-  const telHref = `tel:${company.whatsapp}`;
+  const telHref = `tel:${whatsapp}`;
 
   // Position: bottom-right for LTR, bottom-left for RTL feels off;
   // keep bottom-right always — it's the Gulf convention regardless of direction.

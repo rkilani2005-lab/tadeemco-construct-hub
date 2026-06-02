@@ -4,6 +4,7 @@ import { LanguageToggle } from './LanguageToggle';
 import { Menu, X, Phone } from 'lucide-react';
 import tadeemcoLogo from '@/assets/tadeemco-logo-new.jpg';
 import { company } from '@/lib/company-data';
+import { useCms } from '@/lib/cms-context';
 
 interface NavigationProps {
   language: 'ar' | 'en';
@@ -15,6 +16,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const isArabic = language === 'ar';
+  const { menu, settings } = useCms();
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 10);
@@ -27,21 +29,12 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
     setIsMenuOpen(false);
   }, [location.pathname]);
 
-  const navItems = isArabic
-    ? [
-        { href: '/about', label: 'من نحن' },
-        { href: '/services', label: 'خدماتنا' },
-        { href: '/projects', label: 'مشاريعنا' },
-        { href: '/equipment', label: 'المعدات' },
-        { href: '/contact', label: 'تواصل معنا' },
-      ]
-    : [
-        { href: '/about', label: 'About' },
-        { href: '/services', label: 'Services' },
-        { href: '/projects', label: 'Projects' },
-        { href: '/equipment', label: 'Equipment' },
-        { href: '/contact', label: 'Contact' },
-      ];
+  const navItems = menu
+    .filter((m) => m.is_visible)
+    .map((m) => ({ href: m.path, label: isArabic ? m.label_ar : m.label_en }));
+
+  const primaryPhone = settings.phones[0] ?? company.phones[0];
+  const contactEmail = settings.email || company.email;
 
   return (
     <>
@@ -50,12 +43,12 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
         <div className="container-width py-2">
           <div className={`flex items-center justify-between gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
             <div className="flex items-center gap-5">
-              <a href={`tel:+965${company.phones[0].replace(/\s/g, '')}`} className="flex items-center gap-1.5 hover:text-accent transition-colors" dir="ltr">
+              <a href={`tel:+965${primaryPhone.replace(/\s/g, '')}`} className="flex items-center gap-1.5 hover:text-accent transition-colors" dir="ltr">
                 <Phone className="h-3.5 w-3.5" />
-                <span className="font-semibold tabular-nums">{company.phones[0]}</span>
+                <span className="font-semibold tabular-nums">{primaryPhone}</span>
               </a>
-              <a href={`mailto:${company.email}`} className="hover:text-accent transition-colors">
-                {company.email}
+              <a href={`mailto:${contactEmail}`} className="hover:text-accent transition-colors">
+                {contactEmail}
               </a>
             </div>
             <div className="text-xs uppercase tracking-widest opacity-75">

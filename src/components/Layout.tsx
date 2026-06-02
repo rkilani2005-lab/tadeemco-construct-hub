@@ -8,6 +8,7 @@ import { Footer } from './Footer';
 import { ScrollToTop } from './ScrollToTop';
 import { FloatingContact } from './FloatingContact';
 import { LanguageProvider, useLanguage } from '@/lib/language-context';
+import { CmsProvider } from '@/lib/cms-context';
 
 // Keep the QueryClient outside the component so it's a singleton.
 const queryClient = new QueryClient();
@@ -43,7 +44,9 @@ export const Layout = () => {
         <Sonner />
         <ScrollToTop />
         <LanguageProvider>
-          <Shell />
+          <CmsProvider>
+            <Shell />
+          </CmsProvider>
         </LanguageProvider>
       </TooltipProvider>
     </QueryClientProvider>

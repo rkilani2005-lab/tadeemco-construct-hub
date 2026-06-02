@@ -8,6 +8,17 @@ import { Projects } from './pages/Projects';
 import { Equipment } from './pages/Equipment';
 import { Contact } from './pages/Contact';
 import NotFound from './pages/NotFound';
+import { AdminRoot, AdminShell } from './components/admin/AdminShell';
+import { AdminLogin } from './pages/admin/AdminLogin';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { SettingsEditor } from './pages/admin/SettingsEditor';
+import { ContentEditor } from './pages/admin/ContentEditor';
+import { MenuEditor } from './pages/admin/MenuEditor';
+import { ServicesEditor } from './pages/admin/ServicesEditor';
+import { ProjectsEditor } from './pages/admin/ProjectsEditor';
+import { EquipmentEditor } from './pages/admin/EquipmentEditor';
+import { ContractorsEditor } from './pages/admin/ContractorsEditor';
+import { SeoEditor } from './pages/admin/SeoEditor';
 
 // Small wrappers that pull language from context and pass it to pages as a prop.
 // Keeps page signatures unchanged so Lovable's code generation can keep the
@@ -31,6 +42,29 @@ export const routes: RouteObject[] = [
       { path: 'equipment', element: <EquipmentRoute /> },
       { path: 'contact', element: <ContactRoute /> },
       { path: '*', element: <NotFound /> },
+    ],
+  },
+  {
+    // Admin CMS — client-only subtree, excluded from SSG prerender (see main.tsx).
+    // Lives outside the public Layout so it has its own auth shell and no public chrome.
+    path: '/admin',
+    element: <AdminRoot />,
+    children: [
+      { path: 'login', element: <AdminLogin /> },
+      {
+        element: <AdminShell />,
+        children: [
+          { index: true, element: <AdminDashboard /> },
+          { path: 'settings', element: <SettingsEditor /> },
+          { path: 'content', element: <ContentEditor /> },
+          { path: 'menu', element: <MenuEditor /> },
+          { path: 'services', element: <ServicesEditor /> },
+          { path: 'projects', element: <ProjectsEditor /> },
+          { path: 'equipment', element: <EquipmentEditor /> },
+          { path: 'contractors', element: <ContractorsEditor /> },
+          { path: 'seo', element: <SeoEditor /> },
+        ],
+      },
     ],
   },
 ];

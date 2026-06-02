@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { seo, type PageSEO } from '@/lib/seo-data';
+import { useCms } from '@/lib/cms-context';
 
 interface SEOProps {
   page: PageSEO;
@@ -18,11 +19,18 @@ interface SEOProps {
  */
 export const SEO = ({ page, language, jsonLd }: SEOProps) => {
   const isArabic = language === 'ar';
+  const { seo: cmsSeo } = useCms();
   const canonical = `${seo.siteUrl}${page.path}`;
-  const ogImage = `${seo.siteUrl}${seo.defaultOgImage}`;
-  const title = isArabic ? page.title.ar : page.title.en;
-  const description = isArabic ? page.description.ar : page.description.en;
-  const keywords = isArabic ? page.keywords.ar : page.keywords.en;
+
+  // Live CMS overrides for this route (falls back to the static page meta).
+  const override = cmsSeo[page.path];
+  const lang = isArabic ? 'ar' : 'en';
+  const title = (override?.title[lang]) || (isArabic ? page.title.ar : page.title.en);
+  const description = (override?.description[lang]) || (isArabic ? page.description.ar : page.description.en);
+  const keywords = (override?.keywords[lang]) || (isArabic ? page.keywords.ar : page.keywords.en);
+  const ogImage = override?.ogImage
+    ? (override.ogImage.startsWith('http') ? override.ogImage : `${seo.siteUrl}${override.ogImage}`)
+    : `${seo.siteUrl}${seo.defaultOgImage}`;
 
   return (
     <Helmet>
