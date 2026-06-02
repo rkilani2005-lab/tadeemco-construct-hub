@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, MapPin } from 'lucide-react';
 import { SEO } from '@/components/SEO';
 import { seo } from '@/lib/seo-data';
-import { projects, serviceIndex, type ServiceKey } from '@/lib/company-data';
+import { serviceIndex, type ServiceKey } from '@/lib/company-data';
+import { useCms, getProjectImage } from '@/lib/cms-context';
 
 interface ProjectsProps {
   language: 'ar' | 'en';
@@ -18,21 +19,38 @@ export const Projects = ({ language }: ProjectsProps) => {
   const [serviceFilter, setServiceFilter] = useState<ServiceFilter>('all');
   const [areaFilter, setAreaFilter] = useState<string>('all');
 
+  // CMS-backed project list (falls back to static via the provider).
+  const { projects: cmsProjects } = useCms();
+  const projectList = useMemo(
+    () => cmsProjects.filter((p) => p.is_visible !== false).map((p) => ({
+      id: p.slug,
+      area: { ar: p.area_ar, en: p.area_en },
+      contractor: { ar: p.contractor_ar, en: p.contractor_en },
+      consultant: (p.consultant_ar || p.consultant_en) ? { ar: p.consultant_ar, en: p.consultant_en } : undefined,
+      type: { ar: p.type_ar, en: p.type_en },
+      services: p.services,
+      image: getProjectImage(p.slug, p.image_url),
+    })),
+    [cmsProjects],
+  );
+  const serviceLabel = (svc: string) =>
+    (serviceIndex as Record<string, { ar: string; en: string }>)[svc]?.[isArabic ? 'ar' : 'en'] ?? svc;
+
   // Build the unique set of areas from the real project list
   const areas = useMemo(() => {
     const set = new Set<string>();
-    projects.forEach((p) => set.add(isArabic ? p.area.ar : p.area.en));
+    projectList.forEach((p) => set.add(isArabic ? p.area.ar : p.area.en));
     return Array.from(set).sort();
-  }, [isArabic]);
+  }, [isArabic, projectList]);
 
   const filtered = useMemo(() => {
-    return projects.filter((p) => {
+    return projectList.filter((p) => {
       const area = isArabic ? p.area.ar : p.area.en;
       const matchesArea = areaFilter === 'all' || area === areaFilter;
       const matchesService = serviceFilter === 'all' || p.services.includes(serviceFilter);
       return matchesArea && matchesService;
     });
-  }, [serviceFilter, areaFilter, isArabic]);
+  }, [serviceFilter, areaFilter, isArabic, projectList]);
 
   const serviceFilters: { key: ServiceFilter; label: string }[] = [
     { key: 'all', label: t('جميع الخدمات', 'All Services') },
@@ -137,7 +155,7 @@ export const Projects = ({ language }: ProjectsProps) => {
           ) : (
             <>
               <p className={`text-sm text-muted-foreground mb-6 ${isArabic ? 'text-right' : 'text-left'}`}>
-                {t(`عرض ${filtered.length} من ${projects.length} مشروع`, `Showing ${filtered.length} of ${projects.length} projects`)}
+                {t(`عرض ${filtered.length} من ${projectList.length} مشروع`, `Showing ${filtered.length} of ${projectList.length} projects`)}
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filtered.map((p) => (
@@ -173,7 +191,7 @@ export const Projects = ({ language }: ProjectsProps) => {
                       <div className={`flex flex-wrap gap-1.5 ${isArabic ? 'justify-end' : ''}`}>
                         {p.services.map((svc) => (
                           <span key={svc} className="text-xs bg-secondary text-secondary-foreground px-2 py-1 font-semibold">
-                            {serviceIndex[svc][isArabic ? 'ar' : 'en']}
+                            {serviceLabel(svc)}
                           </span>
                         ))}
                       </div>

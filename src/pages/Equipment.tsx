@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, Check, Phone } from 'lucide-react';
 import { SEO } from '@/components/SEO';
 import { seo } from '@/lib/seo-data';
 import { company } from '@/lib/company-data';
+import { useCms } from '@/lib/cms-context';
 import pumpFleetImg from '@/assets/real/equipment/pump-fleet.jpg';
 import dewateringPumpsImg from '@/assets/real/equipment/dewatering-pumps.jpg';
 import excavatorImg from '@/assets/real/equipment/excavator.jpg';
@@ -17,7 +18,7 @@ export const Equipment = ({ language }: EquipmentProps) => {
   const Arrow = isArabic ? ArrowLeft : ArrowRight;
   const t = (ar: string, en: string) => (isArabic ? ar : en);
 
-  const categories = [
+  const baseCategories = [
     {
       id: 'vacuum',
       image: pumpFleetImg,
@@ -71,6 +72,21 @@ export const Equipment = ({ language }: EquipmentProps) => {
         : ['Adjustable steel struts', 'Metal shoring panels', 'Hydraulic struts for deep excavations', 'Reinforced concrete formwork', 'Lateral-protection equipment for adjacent structures'],
     },
   ];
+
+  // Overlay editable CMS fields (title, description, image) onto the rich static
+  // categories by position. Specs and tag stay as fallback (not modeled in CMS).
+  const { equipment: cmsEquipment } = useCms();
+  const visibleEquipment = cmsEquipment.filter((e) => e.is_visible !== false);
+  const categories = baseCategories.map((c, i) => {
+    const o = visibleEquipment[i];
+    if (!o) return c;
+    return {
+      ...c,
+      title: (isArabic ? o.name_ar : o.name_en) || c.title,
+      desc: (isArabic ? o.description_ar : o.description_en) || c.desc,
+      image: o.image_url || c.image,
+    };
+  });
 
   return (
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>

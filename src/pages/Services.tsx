@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, Check, Phone } from 'lucide-react';
 import { SEO } from '@/components/SEO';
 import { seo } from '@/lib/seo-data';
 import { company } from '@/lib/company-data';
+import { useCms } from '@/lib/cms-context';
 import { IconShoring, IconDewatering, IconWaterproofing, IconExcavation } from '@/components/ServiceIcons';
 import dewateringImg from '@/assets/real/equipment/dewatering-pumps.jpg';
 import pumpFleetImg from '@/assets/real/equipment/pump-fleet.jpg';
@@ -18,7 +19,7 @@ export const Services = ({ language }: ServicesProps) => {
   const Arrow = isArabic ? ArrowLeft : ArrowRight;
   const t = (ar: string, en: string) => (isArabic ? ar : en);
 
-  const services = [
+  const baseServices = [
     {
       id: 'shoring',
       Icon: IconShoring,
@@ -92,6 +93,22 @@ export const Services = ({ language }: ServicesProps) => {
         : ['Deep foundation excavation', 'Trenching and channel works', 'Soil removal and backfilling', 'Difficult-soil excavation', 'Coordination with shoring and dewatering'],
     },
   ];
+
+  // Overlay editable CMS fields (title, tag, description, image) onto the rich
+  // static service definitions, matched by slug. Detailed copy stays as fallback.
+  const { services: cmsServices } = useCms();
+  const cmsBySlug = Object.fromEntries(cmsServices.map((s) => [s.slug, s]));
+  const services = baseServices.map((s) => {
+    const o = cmsBySlug[s.id];
+    if (!o) return s;
+    return {
+      ...s,
+      title: (isArabic ? o.title_ar : o.title_en) || s.title,
+      subtitle: (isArabic ? o.tag_ar : o.tag_en) || s.subtitle,
+      intro: (isArabic ? o.description_ar : o.description_en) || s.intro,
+      image: o.image_url || s.image,
+    };
+  });
 
   return (
     <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
