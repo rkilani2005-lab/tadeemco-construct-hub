@@ -14,7 +14,7 @@ interface Row {
 }
 
 const IconPreview = ({ name }: { name: string }) => {
-  const C = (Icons as Record<string, React.ComponentType<{ className?: string }>>)[name];
+  const C = (Icons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[name];
   return C ? <C className="h-4 w-4 text-primary" /> : <span className="text-xs text-muted-foreground">?</span>;
 };
 
