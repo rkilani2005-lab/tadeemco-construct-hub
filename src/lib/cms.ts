@@ -2,7 +2,12 @@
 // CmsProvider (cms-context.tsx) seeds itself from the static fallback in
 // company-data/seo-data so the SSG build and first paint always have real
 // content for SEO, then overlays the live DB values on the client.
-import { supabase } from '@/integrations/supabase/client';
+
+const getSupabase = async () => {
+  if (typeof window === 'undefined') return null;
+  const { supabase } = await import('@/integrations/supabase/client');
+  return supabase;
+};
 
 export type Lang = 'ar' | 'en';
 
@@ -99,34 +104,50 @@ export const pick = (lang: Lang, v?: { ar?: string | null; en?: string | null } 
 
 // ── Fetchers ────────────────────────────────────────────────────────────────
 export async function fetchSettings() {
+  const supabase = await getSupabase();
+  if (!supabase) return null;
   const { data } = await supabase.from('site_settings').select('*').eq('id', true).maybeSingle();
   return data;
 }
 export async function fetchMenu() {
+  const supabase = await getSupabase();
+  if (!supabase) return [];
   const { data } = await supabase.from('menu_items').select('*').eq('is_visible', true).order('sort_order');
   return data ?? [];
 }
 export async function fetchServices() {
+  const supabase = await getSupabase();
+  if (!supabase) return [];
   const { data } = await supabase.from('services').select('*').eq('is_visible', true).order('sort_order');
   return data ?? [];
 }
 export async function fetchProjects() {
+  const supabase = await getSupabase();
+  if (!supabase) return [];
   const { data } = await supabase.from('projects').select('*').eq('is_visible', true).order('sort_order');
   return data ?? [];
 }
 export async function fetchEquipment() {
+  const supabase = await getSupabase();
+  if (!supabase) return [];
   const { data } = await supabase.from('equipment').select('*').eq('is_visible', true).order('sort_order');
   return data ?? [];
 }
 export async function fetchContractors() {
+  const supabase = await getSupabase();
+  if (!supabase) return [];
   const { data } = await supabase.from('contractors').select('*').eq('is_visible', true).order('sort_order');
   return data ?? [];
 }
 export async function fetchSeo() {
+  const supabase = await getSupabase();
+  if (!supabase) return [];
   const { data } = await supabase.from('seo_meta').select('*');
   return data ?? [];
 }
 export async function fetchContent() {
+  const supabase = await getSupabase();
+  if (!supabase) return [];
   const { data } = await supabase.from('site_content').select('*').order('sort_order');
   return data ?? [];
 }
