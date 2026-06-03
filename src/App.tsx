@@ -1,3 +1,4 @@
+import { Suspense, lazy } from 'react';
 import type { RouteObject } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { useLanguage } from './lib/language-context';
@@ -8,17 +9,23 @@ import { Projects } from './pages/Projects';
 import { Equipment } from './pages/Equipment';
 import { Contact } from './pages/Contact';
 import NotFound from './pages/NotFound';
-import { AdminRoot, AdminShell } from './components/admin/AdminShell';
-import { AdminLogin } from './pages/admin/AdminLogin';
-import { AdminDashboard } from './pages/admin/AdminDashboard';
-import { SettingsEditor } from './pages/admin/SettingsEditor';
-import { ContentEditor } from './pages/admin/ContentEditor';
-import { MenuEditor } from './pages/admin/MenuEditor';
-import { ServicesEditor } from './pages/admin/ServicesEditor';
-import { ProjectsEditor } from './pages/admin/ProjectsEditor';
-import { EquipmentEditor } from './pages/admin/EquipmentEditor';
-import { ContractorsEditor } from './pages/admin/ContractorsEditor';
-import { SeoEditor } from './pages/admin/SeoEditor';
+
+const AdminRoot = lazy(() => import('./components/admin/AdminShell').then((m) => ({ default: m.AdminRoot })));
+const AdminShell = lazy(() => import('./components/admin/AdminShell').then((m) => ({ default: m.AdminShell })));
+const AdminLogin = lazy(() => import('./pages/admin/AdminLogin').then((m) => ({ default: m.AdminLogin })));
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard').then((m) => ({ default: m.AdminDashboard })));
+const SettingsEditor = lazy(() => import('./pages/admin/SettingsEditor').then((m) => ({ default: m.SettingsEditor })));
+const ContentEditor = lazy(() => import('./pages/admin/ContentEditor').then((m) => ({ default: m.ContentEditor })));
+const MenuEditor = lazy(() => import('./pages/admin/MenuEditor').then((m) => ({ default: m.MenuEditor })));
+const ServicesEditor = lazy(() => import('./pages/admin/ServicesEditor').then((m) => ({ default: m.ServicesEditor })));
+const ProjectsEditor = lazy(() => import('./pages/admin/ProjectsEditor').then((m) => ({ default: m.ProjectsEditor })));
+const EquipmentEditor = lazy(() => import('./pages/admin/EquipmentEditor').then((m) => ({ default: m.EquipmentEditor })));
+const ContractorsEditor = lazy(() => import('./pages/admin/ContractorsEditor').then((m) => ({ default: m.ContractorsEditor })));
+const SeoEditor = lazy(() => import('./pages/admin/SeoEditor').then((m) => ({ default: m.SeoEditor })));
+
+const adminElement = (element: JSX.Element) => (
+  <Suspense fallback={null}>{element}</Suspense>
+);
 
 // Small wrappers that pull language from context and pass it to pages as a prop.
 // Keeps page signatures unchanged so Lovable's code generation can keep the
@@ -48,21 +55,21 @@ export const routes: RouteObject[] = [
     // Admin CMS — client-only subtree, excluded from SSG prerender (see main.tsx).
     // Lives outside the public Layout so it has its own auth shell and no public chrome.
     path: '/admin',
-    element: <AdminRoot />,
+    element: adminElement(<AdminRoot />),
     children: [
-      { path: 'login', element: <AdminLogin /> },
+      { path: 'login', element: adminElement(<AdminLogin />) },
       {
-        element: <AdminShell />,
+        element: adminElement(<AdminShell />),
         children: [
-          { index: true, element: <AdminDashboard /> },
-          { path: 'settings', element: <SettingsEditor /> },
-          { path: 'content', element: <ContentEditor /> },
-          { path: 'menu', element: <MenuEditor /> },
-          { path: 'services', element: <ServicesEditor /> },
-          { path: 'projects', element: <ProjectsEditor /> },
-          { path: 'equipment', element: <EquipmentEditor /> },
-          { path: 'contractors', element: <ContractorsEditor /> },
-          { path: 'seo', element: <SeoEditor /> },
+          { index: true, element: adminElement(<AdminDashboard />) },
+          { path: 'settings', element: adminElement(<SettingsEditor />) },
+          { path: 'content', element: adminElement(<ContentEditor />) },
+          { path: 'menu', element: adminElement(<MenuEditor />) },
+          { path: 'services', element: adminElement(<ServicesEditor />) },
+          { path: 'projects', element: adminElement(<ProjectsEditor />) },
+          { path: 'equipment', element: adminElement(<EquipmentEditor />) },
+          { path: 'contractors', element: adminElement(<ContractorsEditor />) },
+          { path: 'seo', element: adminElement(<SeoEditor />) },
         ],
       },
     ],
