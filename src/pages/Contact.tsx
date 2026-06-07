@@ -74,7 +74,7 @@ export const Contact = ({ language }: ContactProps) => {
   )}`;
 
   return (
-    <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
+    <div dir={isArabic ? 'rtl' : 'ltr'} className={isArabic ? 'font-cairo' : 'font-roboto'}>
       <SEO page={seo.contact} language={language} />
 
       {/* HERO */}
