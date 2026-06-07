@@ -89,7 +89,7 @@ export const Equipment = ({ language }: EquipmentProps) => {
   });
 
   return (
-    <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
+    <div dir={isArabic ? 'rtl' : 'ltr'} className={isArabic ? 'font-cairo' : 'font-roboto'}>
       <SEO page={seo.equipment} language={language} />
 
       {/* HERO */}
