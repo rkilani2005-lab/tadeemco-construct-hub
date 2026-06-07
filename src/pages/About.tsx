@@ -58,7 +58,7 @@ export const About = ({ language }: AboutProps) => {
   ];
 
   return (
-    <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
+    <div dir={isArabic ? 'rtl' : 'ltr'} className={isArabic ? 'font-cairo' : 'font-roboto'}>
       <SEO page={seo.about} language={language} />
 
       {/* HERO */}
