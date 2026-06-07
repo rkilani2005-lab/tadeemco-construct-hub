@@ -111,7 +111,7 @@ export const Services = ({ language }: ServicesProps) => {
   });
 
   return (
-    <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
+    <div dir={isArabic ? 'rtl' : 'ltr'} className={isArabic ? 'font-cairo' : 'font-roboto'}>
       <SEO page={seo.services} language={language} />
 
       {/* HERO */}

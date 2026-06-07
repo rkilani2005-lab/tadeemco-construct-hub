@@ -61,7 +61,7 @@ export const Projects = ({ language }: ProjectsProps) => {
   ];
 
   return (
-    <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
+    <div dir={isArabic ? 'rtl' : 'ltr'} className={isArabic ? 'font-cairo' : 'font-roboto'}>
       <SEO page={seo.projects} language={language} />
 
       {/* HERO */}

@@ -116,7 +116,7 @@ export const Home = ({ language }: HomeProps) => {
   const heroIsDefault = heroTitle.trim() === heroTitleDefault.trim();
 
   return (
-    <div className={isArabic ? 'font-cairo' : 'font-roboto'}>
+    <div dir={isArabic ? 'rtl' : 'ltr'} className={isArabic ? 'font-cairo' : 'font-roboto'}>
       <SEO page={seo.home} language={language} />
       {/* ═══════════ HERO ═══════════ */}
       <section className="relative min-h-[48vh] md:min-h-[55vh] lg:min-h-[58vh] flex items-center overflow-hidden">
