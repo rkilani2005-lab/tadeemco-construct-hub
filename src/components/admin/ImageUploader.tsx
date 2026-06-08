@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -29,9 +30,19 @@ export const ImageUploader = ({ value, onChange, folder = 'general', label = 'Im
       });
       if (upErr) throw upErr;
       const { data } = supabase.storage.from('site-images').getPublicUrl(path);
+      if (!data?.publicUrl) throw new Error('Upload succeeded but no public URL was returned.');
       onChange(data.publicUrl);
+      toast.success('Image uploaded');
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Upload failed');
+      const raw = e instanceof Error ? e.message : 'Upload failed';
+      // Make the most common deployment failure actionable.
+      const msg = /bucket.*not.*found|not found/i.test(raw)
+        ? "Storage bucket 'site-images' is missing. Apply the latest Supabase migration (or create a public 'site-images' bucket) and try again."
+        : /row-level security|policy|unauthorized|403/i.test(raw)
+          ? 'Upload blocked by permissions. Make sure you are signed in as an admin user.'
+          : raw;
+      setError(msg);
+      toast.error(msg);
     } finally {
       setBusy(false);
     }
