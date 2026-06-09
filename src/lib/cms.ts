@@ -72,6 +72,10 @@ export interface EquipmentItem {
   name_en: string;
   description_ar: string;
   description_en: string;
+  tag_ar: string;
+  tag_en: string;
+  specs_ar: string[];
+  specs_en: string[];
   image_url: string;
   is_visible: boolean;
   sort_order: number;
