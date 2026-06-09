@@ -114,6 +114,8 @@ export const Home = ({ language }: HomeProps) => {
   const heroTitleDefault = t('لأعمال الحفر والتدعيم وسحب المياه الجوفية', 'Drilling, Shoring & Groundwater Dewatering');
   const heroTitle = text('home.hero.title', language, heroTitleDefault);
   const heroIsDefault = heroTitle.trim() === heroTitleDefault.trim();
+  // Hero background image: editable via CMS (home.hero.image), bundled fallback.
+  const heroImageUrl = text('home.hero.image', language, '') || heroImg;
 
   return (
     <div dir={isArabic ? 'rtl' : 'ltr'} className={isArabic ? 'font-cairo' : 'font-roboto'}>
@@ -123,7 +125,7 @@ export const Home = ({ language }: HomeProps) => {
         {/* Full-bleed hero image, no color tint */}
         <div className="absolute inset-0 z-0">
           <img
-            src={heroImg}
+            src={heroImageUrl}
             alt={t('موقع حفر تابع لشركة تدعيمكو', 'Tadeemco drilling site')}
             className="w-full h-full object-cover object-center"
             loading="eager"

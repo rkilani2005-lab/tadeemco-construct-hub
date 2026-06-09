@@ -63,7 +63,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
         <div className="container-width">
           <div className={`flex items-center justify-between py-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
             <Link to="/" className="flex items-center gap-3 shrink-0" aria-label={company.name.en}>
-              <img src={tadeemcoLogo} alt={isArabic ? company.name.ar : company.name.en} className="h-14 w-auto" />
+              <img src={settings.logoUrl || tadeemcoLogo} alt={isArabic ? company.name.ar : company.name.en} className="h-14 w-auto" />
             </Link>
 
             {/* Desktop nav */}
