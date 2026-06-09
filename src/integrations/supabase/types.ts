@@ -55,6 +55,10 @@ export type Database = {
           name_en: string
           slug: string
           sort_order: number
+          specs_ar: string[]
+          specs_en: string[]
+          tag_ar: string | null
+          tag_en: string | null
           updated_at: string
         }
         Insert: {
@@ -67,6 +71,10 @@ export type Database = {
           name_en?: string
           slug: string
           sort_order?: number
+          specs_ar?: string[]
+          specs_en?: string[]
+          tag_ar?: string | null
+          tag_en?: string | null
           updated_at?: string
         }
         Update: {
@@ -79,6 +87,10 @@ export type Database = {
           name_en?: string
           slug?: string
           sort_order?: number
+          specs_ar?: string[]
+          specs_en?: string[]
+          tag_ar?: string | null
+          tag_en?: string | null
           updated_at?: string
         }
         Relationships: []
