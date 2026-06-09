@@ -80,10 +80,14 @@ export const Equipment = ({ language }: EquipmentProps) => {
   const categories = baseCategories.map((c, i) => {
     const o = visibleEquipment[i];
     if (!o) return c;
+    const cmsSpecs = isArabic ? o.specs_ar : o.specs_en;
+    const cmsTag = isArabic ? o.tag_ar : o.tag_en;
     return {
       ...c,
       title: (isArabic ? o.name_ar : o.name_en) || c.title,
       desc: (isArabic ? o.description_ar : o.description_en) || c.desc,
+      tag: cmsTag || c.tag,
+      specs: (cmsSpecs && cmsSpecs.length) ? cmsSpecs : c.specs,
       image: o.image_url || c.image,
     };
   });
