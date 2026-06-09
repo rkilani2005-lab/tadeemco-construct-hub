@@ -193,7 +193,7 @@ export const Home = ({ language }: HomeProps) => {
       {/* ═══════════ CONTACT STRIP ═══════════ */}
       <section className="bg-primary text-white">
         <div className="container-width py-6 md:py-8">
-          <div className={`flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-8 ${isArabic ? 'md:flex-row-reverse' : ''}`}>
+          <div className={`flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-8`}>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
               {phones.map((phone) => (
                 <a
@@ -260,7 +260,7 @@ export const Home = ({ language }: HomeProps) => {
       {/* ═══════════ FEATURED PROJECTS ═══════════ */}
       <section className="section-padding bg-muted">
         <div className="container-width">
-          <div className={`flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 ${isArabic ? 'md:flex-row-reverse' : ''}`}>
+          <div className={`flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12`}>
             <div className={`max-w-2xl ${isArabic ? 'text-right' : 'text-left'}`}>
               <p className="eyebrow mb-4">{tx('home.projects.eyebrow', 'مشاريع منجزة', 'Completed Projects')}</p>
               <h2 className="text-4xl md:text-5xl font-black text-foreground text-balance">
@@ -344,7 +344,7 @@ export const Home = ({ language }: HomeProps) => {
               </p>
               <ul className="space-y-3 mb-10">
                 {equipmentBullets.map((item, i) => (
-                  <li key={i} className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <li key={i} className={`flex items-start gap-3`}>
                     <span className="flex-shrink-0 w-6 h-6 bg-accent text-white flex items-center justify-center mt-0.5">
                       <Check className="w-4 h-4" strokeWidth={3} />
                     </span>

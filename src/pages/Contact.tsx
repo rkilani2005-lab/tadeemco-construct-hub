@@ -215,7 +215,7 @@ export const Contact = ({ language }: ContactProps) => {
 
               {/* Contact rows */}
               <div className="bg-muted p-6 space-y-5">
-                <div className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex items-start gap-3`}>
                   <MapPin className="h-5 w-5 text-accent shrink-0 mt-0.5" />
                   <div className={isArabic ? 'text-right' : 'text-left'}>
                     <p className="text-xs uppercase tracking-widest font-bold text-muted-foreground mb-1">
@@ -227,7 +227,7 @@ export const Contact = ({ language }: ContactProps) => {
                   </div>
                 </div>
 
-                <div className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex items-start gap-3`}>
                   <Phone className="h-5 w-5 text-accent shrink-0 mt-0.5" />
                   <div className={isArabic ? 'text-right' : 'text-left'}>
                     <p className="text-xs uppercase tracking-widest font-bold text-muted-foreground mb-2">
@@ -244,7 +244,7 @@ export const Contact = ({ language }: ContactProps) => {
                   </div>
                 </div>
 
-                <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex items-center gap-3`}>
                   <Mail className="h-5 w-5 text-accent shrink-0" />
                   <a href={`mailto:${email}`}
                      className="text-foreground hover:text-accent transition-colors font-semibold">
@@ -252,7 +252,7 @@ export const Contact = ({ language }: ContactProps) => {
                   </a>
                 </div>
 
-                <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex items-center gap-3`}>
                   <Instagram className="h-5 w-5 text-accent shrink-0" />
                   <a href={instagramUrl} target="_blank" rel="noopener noreferrer"
                      className="text-foreground hover:text-accent transition-colors font-semibold">
