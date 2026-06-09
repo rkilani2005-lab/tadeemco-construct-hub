@@ -43,7 +43,7 @@ export const ProjectsEditor = () => {
   const toggleSvc = (id: string, svc: string) => setRows((rs) => rs.map((r) =>
     r.id === id ? { ...r, services: r.services.includes(svc) ? r.services.filter((s) => s !== svc) : [...r.services, svc] } : r));
   const addRow = () => setRows((rs) => [...rs, clean({
-    id: crypto.randomUUID(), slug: `project-${rs.length + 1}`, services: [], is_visible: true, sort_order: rs.length + 1,
+    id: crypto.randomUUID(), slug: `project-${crypto.randomUUID().slice(0, 8)}`, services: [], is_visible: true, sort_order: rs.length + 1,
   })]);
   const move = (i: number, dir: -1 | 1) => setRows((rs) => {
     const n = [...rs]; const j = i + dir; if (j < 0 || j >= n.length) return rs;
@@ -52,9 +52,23 @@ export const ProjectsEditor = () => {
   const remove = (id: string) => { setRows((rs) => rs.filter((r) => r.id !== id)); setRemoved((d) => [...d, id]); };
 
   const save = async () => {
+    // Guard: slugs must be present and unique (DB enforces a unique constraint).
+    const slugs = rows.map((r) => r.slug.trim());
+    if (slugs.some((s) => s === '')) {
+      toast.error('Every project needs a slug. Fill in the empty one before saving.');
+      return;
+    }
+    const dupes = slugs.filter((s, i) => slugs.indexOf(s) !== i);
+    if (dupes.length) {
+      toast.error(`Duplicate slug: "${dupes[0]}". Each project must have a unique slug.`);
+      return;
+    }
+
     setSaving(true);
     if (removed.length) await supabase.from('projects').delete().in('id', removed);
-    const { error } = await supabase.from('projects').upsert(rows.map((r, i) => ({ ...r, sort_order: i + 1 })));
+    const { error } = await supabase
+      .from('projects')
+      .upsert(rows.map((r, i) => ({ ...r, slug: r.slug.trim(), sort_order: i + 1 })), { onConflict: 'id' });
     setSaving(false);
     if (error) { toast.error(error.message); return; }
     toast.success('Projects saved'); setRemoved([]); load();
