@@ -166,7 +166,7 @@ export const About = ({ language }: AboutProps) => {
           </div>
           <div className="flex flex-wrap gap-x-10 gap-y-5">
             {contractors.map((c, i) => (
-              <div key={i} className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <div key={i} className={`flex items-center gap-2`}>
                 <CheckCircle2 className="w-5 h-5 text-accent shrink-0" />
                 <span className="text-lg font-bold text-foreground">
                   {isArabic ? c.name_ar : c.name_en}

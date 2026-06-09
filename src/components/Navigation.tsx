@@ -41,7 +41,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
       {/* Top info strip — hidden on small screens */}
       <div className="hidden md:block bg-primary-dark text-white/90 text-sm" style={{ backgroundColor: 'hsl(var(--primary-dark))' }}>
         <div className="container-width py-2">
-          <div className={`flex items-center justify-between gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex items-center justify-between gap-4`}>
             <div className="flex items-center gap-5">
               <a href={`tel:+965${primaryPhone.replace(/\s/g, '')}`} className="flex items-center gap-1.5 hover:text-accent transition-colors" dir="ltr">
                 <Phone className="h-3.5 w-3.5" />
@@ -61,13 +61,13 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
       {/* Main nav bar */}
       <nav className={`sticky top-0 z-50 bg-white transition-shadow ${isScrolled ? 'shadow-md' : 'shadow-sm'}`}>
         <div className="container-width">
-          <div className={`flex items-center justify-between py-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex items-center justify-between py-3`}>
             <Link to="/" className="flex items-center gap-3 shrink-0" aria-label={company.name.en}>
               <img src={tadeemcoLogo} alt={isArabic ? company.name.ar : company.name.en} className="h-14 w-auto" />
             </Link>
 
             {/* Desktop nav */}
-            <div className={`hidden md:flex items-center gap-1 ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <div className={`hidden md:flex items-center gap-1`}>
               {navItems.map((item) => {
                 const active = location.pathname === item.href;
                 return (
@@ -85,7 +85,7 @@ export const Navigation = ({ language, onLanguageChange }: NavigationProps) => {
               })}
             </div>
 
-            <div className={`hidden md:flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <div className={`hidden md:flex items-center gap-3`}>
               <LanguageToggle currentLang={language} onLanguageChange={onLanguageChange} />
               <Link to="/contact" className="btn-primary-solid !px-5 !py-2.5 !text-sm">
                 {isArabic ? 'عرض سعر' : 'Get Quote'}

@@ -94,14 +94,14 @@ export const Footer = ({ language }: FooterProps) => {
               {t('تواصل معنا', 'Contact')}
             </h4>
             <ul className="space-y-3 text-sm">
-              <li className={`flex items-start gap-2.5 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <li className={`flex items-start gap-2.5`}>
                 <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-accent" />
                 <span className="text-foreground/80 leading-relaxed">
                   {address}
                 </span>
               </li>
               <li>
-                <div className={`flex items-start gap-2.5 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex items-start gap-2.5`}>
                   <Phone className="h-4 w-4 mt-0.5 shrink-0 text-accent" />
                   <div className="grid grid-cols-2 gap-x-4 gap-y-1" dir="ltr">
                     {phones.map((p) => (
@@ -116,13 +116,13 @@ export const Footer = ({ language }: FooterProps) => {
                   </div>
                 </div>
               </li>
-              <li className={`flex items-center gap-2.5 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <li className={`flex items-center gap-2.5`}>
                 <Mail className="h-4 w-4 shrink-0 text-accent" />
                 <a href={`mailto:${contactEmail}`} className="text-foreground/80 hover:text-accent transition-colors">
                   {contactEmail}
                 </a>
               </li>
-              <li className={`flex items-center gap-2.5 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <li className={`flex items-center gap-2.5`}>
                 <Instagram className="h-4 w-4 shrink-0 text-accent" />
                 <a
                   href={instagramUrl}
@@ -138,7 +138,7 @@ export const Footer = ({ language }: FooterProps) => {
         </div>
 
         <div className="border-t border-border mt-12 pt-8">
-          <div className={`flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs text-muted-foreground ${isArabic ? 'md:flex-row-reverse' : ''}`}>
+          <div className={`flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs text-muted-foreground`}>
             <p>© {new Date().getFullYear()} {brandName}. {t('جميع الحقوق محفوظة.', 'All rights reserved.')}</p>
             <p className="uppercase tracking-widest">{t('دولة الكويت', 'State of Kuwait')}</p>
           </div>

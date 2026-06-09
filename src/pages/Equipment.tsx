@@ -110,7 +110,7 @@ export const Equipment = ({ language }: EquipmentProps) => {
 
       {/* FEATURED: HÜDIG-CELLE callout */}
       <section className="bg-accent text-white section-padding-sm">
-        <div className={`container-width flex flex-col md:flex-row items-center gap-8 ${isArabic ? 'md:flex-row-reverse text-right' : ''}`}>
+        <div className={`container-width flex flex-col md:flex-row items-center gap-8 ${isArabic ? 'text-right' : ''}`}>
           <div className="md:flex-1">
             <p className="text-white/90 text-xs uppercase tracking-widest font-bold mb-2">
               {t('الشركة المصنعة الرئيسية', 'Lead Manufacturer')}
@@ -145,7 +145,7 @@ export const Equipment = ({ language }: EquipmentProps) => {
                   </h3>
                   <ul className="space-y-2.5">
                     {c.specs.map((spec, idx) => (
-                      <li key={idx} className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <li key={idx} className="flex items-start gap-3">
                         <span className="flex-shrink-0 w-5 h-5 bg-accent text-white flex items-center justify-center mt-0.5">
                           <Check className="w-3.5 h-3.5" strokeWidth={3} />
                         </span>

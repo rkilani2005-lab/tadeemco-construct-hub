@@ -183,7 +183,7 @@ export const Services = ({ language }: ServicesProps) => {
                   </h3>
                   <ul className="space-y-2.5 mb-8">
                     {s.methods.map((m, idx) => (
-                      <li key={idx} className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <li key={idx} className={`flex items-start gap-3`}>
                         <span className="flex-shrink-0 w-5 h-5 bg-accent text-white flex items-center justify-center mt-0.5">
                           <Check className="w-3.5 h-3.5" strokeWidth={3} />
                         </span>
