@@ -16,6 +16,24 @@ interface ContactFormData {
   message: string;
 }
 
+// Escape user-supplied values before interpolating them into HTML email bodies
+// to prevent HTML/CSS injection into outbound emails.
+const escapeHtml = (s: string): string =>
+  String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const jsonResponse = (body: unknown, status: number) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { "Content-Type": "application/json", ...corsHeaders },
+  });
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -23,9 +41,34 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { name, email, phone, message }: ContactFormData = await req.json();
+    const body = (await req.json()) as Partial<ContactFormData>;
+
+    // ---- Server-side input validation ----
+    const name = typeof body.name === "string" ? body.name.trim() : "";
+    const email = typeof body.email === "string" ? body.email.trim() : "";
+    const phone = typeof body.phone === "string" ? body.phone.trim() : "";
+    const message = typeof body.message === "string" ? body.message.trim() : "";
+
+    if (!name || name.length > 100) {
+      return jsonResponse({ success: false, error: "Invalid name" }, 400);
+    }
+    if (!email || email.length > 255 || !emailRegex.test(email)) {
+      return jsonResponse({ success: false, error: "Invalid email address" }, 400);
+    }
+    if (phone.length > 50) {
+      return jsonResponse({ success: false, error: "Invalid phone" }, 400);
+    }
+    if (!message || message.length > 2000) {
+      return jsonResponse({ success: false, error: "Invalid message" }, 400);
+    }
 
     console.log("Received contact form submission:", { name, email, phone });
+
+    // Pre-escape values for safe HTML interpolation.
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safePhone = phone ? escapeHtml(phone) : "Not provided";
+    const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
 
     // Send email to company
     const companyEmailResponse = await resend.emails.send({
@@ -40,15 +83,15 @@ const handler = async (req: Request): Promise<Response> => {
           
           <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
             <h3 style="color: #333; margin-top: 0;">Contact Information:</h3>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+            <p><strong>Name:</strong> ${safeName}</p>
+            <p><strong>Email:</strong> ${safeEmail}</p>
+            <p><strong>Phone:</strong> ${safePhone}</p>
           </div>
           
           <div style="margin: 20px 0;">
             <h3 style="color: #333;">Message:</h3>
             <div style="background-color: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
-              ${message.replace(/\n/g, '<br>')}
+              ${safeMessage}
             </div>
           </div>
           
@@ -73,11 +116,11 @@ const handler = async (req: Request): Promise<Response> => {
           </div>
           
           <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
-            <p>Dear ${name},</p>
+            <p>Dear ${safeName},</p>
             <p>We have received your message and will get back to you as soon as possible. Our team typically responds within 24 hours during business days.</p>
             
             <div style="direction: rtl; margin-top: 20px;">
-              <p>عزيزي ${name}،</p>
+              <p>عزيزي ${safeName}،</p>
               <p>لقد استلمنا رسالتكم وسنقوم بالرد عليكم في أقرب وقت ممكن. يقوم فريقنا عادة بالرد خلال 24 ساعة في أيام العمل.</p>
             </div>
           </div>
@@ -98,40 +141,26 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("Emails sent successfully:", { 
-      companyEmail: companyEmailResponse.data?.id, 
-      confirmationEmail: confirmationEmailResponse.data?.id 
+    console.log("Emails sent successfully:", {
+      companyEmail: companyEmailResponse.data?.id,
+      confirmationEmail: confirmationEmailResponse.data?.id,
     });
 
-    return new Response(
-      JSON.stringify({ 
-        success: true, 
+    return jsonResponse(
+      {
+        success: true,
         message: "Emails sent successfully",
         companyEmailId: companyEmailResponse.data?.id,
-        confirmationEmailId: confirmationEmailResponse.data?.id
-      }), 
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          ...corsHeaders,
-        },
-      }
+        confirmationEmailId: confirmationEmailResponse.data?.id,
+      },
+      200,
     );
   } catch (error: any) {
+    // Log full diagnostics server-side only; return a generic message to callers.
     console.error("Error in send-contact-email function:", error);
-    return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: error.message || "Failed to send email" 
-      }),
-      {
-        status: 500,
-        headers: { 
-          "Content-Type": "application/json", 
-          ...corsHeaders 
-        },
-      }
+    return jsonResponse(
+      { success: false, error: "Failed to send message. Please try again." },
+      500,
     );
   }
 };
