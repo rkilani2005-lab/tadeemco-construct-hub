@@ -114,8 +114,10 @@ export const Home = ({ language }: HomeProps) => {
   const heroTitleDefault = t('لأعمال الحفر والتدعيم وسحب المياه الجوفية', 'Drilling, Shoring & Groundwater Dewatering');
   const heroTitle = text('home.hero.title', language, heroTitleDefault);
   const heroIsDefault = heroTitle.trim() === heroTitleDefault.trim();
-  // Hero background image: editable via CMS (home.hero.image), bundled fallback.
-  const heroImageUrl = text('home.hero.image', language, '') || heroImg;
+  // Hero background: editable via CMS. 'home.hero.media' (image OR video) takes
+  // precedence, then legacy 'home.hero.image', then the bundled fallback.
+  const heroMedia = text('home.hero.media', language, '') || text('home.hero.image', language, '') || heroImg;
+  const heroIsVideo = /\.(mp4|webm|ogg|mov|m4v)(\?|$)/i.test(heroMedia);
 
   return (
     <div dir={isArabic ? 'rtl' : 'ltr'} className={isArabic ? 'font-cairo' : 'font-roboto'}>
@@ -124,13 +126,25 @@ export const Home = ({ language }: HomeProps) => {
       <section className="relative min-h-[48vh] md:min-h-[55vh] lg:min-h-[58vh] flex items-center overflow-hidden">
         {/* Full-bleed hero image, no color tint */}
         <div className="absolute inset-0 z-0">
-          <img
-            src={heroImageUrl}
-            alt={t('موقع حفر تابع لشركة تدعيمكو', 'Tadeemco drilling site')}
-            className="w-full h-full object-cover object-center"
-            loading="eager"
-            {...({ fetchpriority: 'high' } as any)}
-          />
+          {heroIsVideo ? (
+            <video
+              src={heroMedia}
+              className="w-full h-full object-cover object-center"
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster={text('home.hero.image', language, '') || undefined}
+            />
+          ) : (
+            <img
+              src={heroMedia}
+              alt={t('موقع حفر تابع لشركة تدعيمكو', 'Tadeemco drilling site')}
+              className="w-full h-full object-cover object-center"
+              loading="eager"
+              {...({ fetchpriority: 'high' } as any)}
+            />
+          )}
           {/* Subtle dark-only scrim for text legibility — no blue tint.
               Darker on the text side, fading to transparent on the opposite side. */}
           <div

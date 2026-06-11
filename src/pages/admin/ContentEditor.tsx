@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Save } from 'lucide-react';
 import { ImageUploader } from '@/components/admin/ImageUploader';
+import { MediaUploader } from '@/components/admin/MediaUploader';
 
 interface Row {
   id: string; key: string; page: string; label: string;
@@ -69,6 +70,12 @@ export const ContentEditor = () => {
                 {r.field_type === 'image' ? (
                   <ImageUploader label="" value={r.value_en} folder="content"
                     onChange={(url) => { set(r.id, 'value_en', url); set(r.id, 'value_ar', url); }} />
+                ) : r.field_type === 'media' ? (
+                  <MediaUploader label="" value={r.value_en} folder="content"
+                    onChange={(url) => { set(r.id, 'value_en', url); set(r.id, 'value_ar', url); }} />
+                ) : r.field_type === 'url' ? (
+                  <Input dir="ltr" value={r.value_en} placeholder="https://…"
+                    onChange={(e) => { set(r.id, 'value_en', e.target.value); set(r.id, 'value_ar', e.target.value); }} />
                 ) : (
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                     <div className="space-y-1">

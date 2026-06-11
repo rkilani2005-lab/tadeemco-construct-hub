@@ -17,6 +17,19 @@ export const Contact = ({ language }: ContactProps) => {
   const { settings, services } = useCms();
   const text = useText();
   const tx = (key: string, ar: string, en: string) => text(key, language, t(ar, en));
+  // Accept either a proper embed URL or a plain Google Maps link/place query.
+  const rawMapUrl = text('contact.map.url', language, '');
+  const mapSrc = (() => {
+    if (!rawMapUrl) return 'https://www.google.com/maps?q=Kuwait+City+Darwaza+Building&output=embed';
+    // Already an embeddable URL.
+    if (/output=embed|\/maps\/embed/.test(rawMapUrl)) return rawMapUrl;
+    // A normal maps URL — append embed output so the iframe renders.
+    if (/google\.[^/]+\/maps/.test(rawMapUrl)) {
+      return rawMapUrl + (rawMapUrl.includes('?') ? '&' : '?') + 'output=embed';
+    }
+    // Fallback: treat the value as a place query.
+    return `https://www.google.com/maps?q=${encodeURIComponent(rawMapUrl)}&output=embed`;
+  })();
 
   const phones = settings.phones.length ? settings.phones : company.phones;
   const email = settings.email || company.email;
@@ -271,7 +284,7 @@ export const Contact = ({ language }: ContactProps) => {
           <div className="aspect-[21/9] w-full overflow-hidden border border-border">
             <iframe
               title={t('موقع مكتب تدعيمكو', 'Tadeemco office location')}
-              src="https://www.google.com/maps?q=Kuwait+City+Darwaza+Building&output=embed"
+              src={mapSrc}
               width="100%"
               height="100%"
               style={{ border: 0 }}
