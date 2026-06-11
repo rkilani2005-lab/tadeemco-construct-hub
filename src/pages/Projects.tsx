@@ -90,7 +90,7 @@ export const Projects = ({ language }: ProjectsProps) => {
             <p className={`text-xs uppercase tracking-widest font-bold text-muted-foreground mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
               {tx('projects.filter.service', 'حسب الخدمة', 'By Service')}
             </p>
-            <div className={`flex flex-wrap gap-2 ${isArabic ? 'justify-end' : ''}`}>
+            <div className={"flex flex-wrap gap-2"}>
               {serviceFilters.map((f) => (
                 <button
                   key={f.key}
@@ -110,7 +110,7 @@ export const Projects = ({ language }: ProjectsProps) => {
             <p className={`text-xs uppercase tracking-widest font-bold text-muted-foreground mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
               {tx('projects.filter.area', 'حسب المنطقة', 'By Area')}
             </p>
-            <div className={`flex flex-wrap gap-2 ${isArabic ? 'justify-end' : ''}`}>
+            <div className={"flex flex-wrap gap-2"}>
               <button
                 onClick={() => setAreaFilter('all')}
                 className={`px-4 py-2 text-sm font-semibold transition-colors ${
@@ -191,7 +191,7 @@ export const Projects = ({ language }: ProjectsProps) => {
                           </p>
                         )}
                       </div>
-                      <div className={`flex flex-wrap gap-1.5 ${isArabic ? 'justify-end' : ''}`}>
+                      <div className={"flex flex-wrap gap-1.5"}>
                         {p.services.map((svc) => (
                           <span key={svc} className="text-xs bg-secondary text-secondary-foreground px-2 py-1 font-semibold">
                             {serviceLabel(svc)}
