@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, Check, Phone } from 'lucide-react';
 import { SEO } from '@/components/SEO';
 import { seo } from '@/lib/seo-data';
 import { company } from '@/lib/company-data';
-import { useCms } from '@/lib/cms-context';
+import { useCms, useText } from '@/lib/cms-context';
 import { IconShoring, IconDewatering, IconWaterproofing, IconExcavation } from '@/components/ServiceIcons';
 import dewateringImg from '@/assets/real/equipment/dewatering-pumps.jpg';
 import pumpFleetImg from '@/assets/real/equipment/pump-fleet.jpg';
@@ -18,6 +18,9 @@ export const Services = ({ language }: ServicesProps) => {
   const isArabic = language === 'ar';
   const Arrow = isArabic ? ArrowLeft : ArrowRight;
   const t = (ar: string, en: string) => (isArabic ? ar : en);
+  const text = useText();
+  const tx = (key: string, ar: string, en: string) => text(key, language, t(ar, en));
+  const cx = tx;
 
   const baseServices = [
     {
@@ -117,9 +120,9 @@ export const Services = ({ language }: ServicesProps) => {
       {/* HERO */}
       <section className="bg-primary text-white py-16 md:py-20" style={{ backgroundColor: 'hsl(var(--primary))' }}>
         <div className={`container-width ${isArabic ? 'text-right' : 'text-left'}`}>
-          <p className="eyebrow mb-4 text-accent">{t('خدماتنا', 'Our Services')}</p>
+          <p className="eyebrow mb-4 text-accent">{tx('services.hero.eyebrow', 'خدماتنا', 'Our Services')}</p>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-5 text-balance max-w-4xl">
-            {t('أربع خدمات متخصصة نجيدها', 'Four specialized services, mastered end-to-end')}
+            {tx('services.hero.title', 'أربع خدمات متخصصة نجيدها', 'Four specialized services, mastered end-to-end')}
           </h1>
           <p className="text-white/80 text-base md:text-lg max-w-3xl leading-relaxed">
             {t(
@@ -174,12 +177,12 @@ export const Services = ({ language }: ServicesProps) => {
                   </p>
                   <div className={`bg-secondary/50 border-${isArabic ? 'r' : 'l'}-4 border-accent p-5 mb-8`}>
                     <p className="text-sm font-bold text-primary mb-1 uppercase tracking-wide">
-                      {t('متى تحتاج هذه الخدمة؟', 'When you need this service')}
+                      {tx('services.card.when', 'متى تحتاج هذه الخدمة؟', 'When you need this service')}
                     </p>
                     <p className="text-foreground">{s.whenNeeded}</p>
                   </div>
                   <h3 className="text-lg font-bold text-foreground mb-4">
-                    {t('معداتنا وأساليبنا', 'Our Equipment & Methods')}
+                    {tx('services.card.methods', 'معداتنا وأساليبنا', 'Our Equipment & Methods')}
                   </h3>
                   <ul className="space-y-2.5 mb-8">
                     {s.methods.map((m, idx) => (
@@ -193,12 +196,12 @@ export const Services = ({ language }: ServicesProps) => {
                   </ul>
                   <div className={`flex flex-wrap gap-3 ${isArabic ? 'justify-end' : ''}`}>
                     <Link to="/contact" className="btn-primary-solid">
-                      {t('اطلب عرض سعر', 'Request a Quote')}
+                      {cx('common.cta.quote', 'اطلب عرض سعر', 'Request a Quote')}
                       <Arrow className="h-5 w-5" />
                     </Link>
                     <a href={`tel:${company.whatsapp}`} className="btn-secondary-solid">
                       <Phone className="h-5 w-5" />
-                      {t('اتصل بنا', 'Call Us')}
+                      {cx('common.cta.call', 'اتصل بنا', 'Call Us')}
                     </a>
                   </div>
                 </div>
@@ -210,7 +213,7 @@ export const Services = ({ language }: ServicesProps) => {
                     loading="lazy"
                   />
                   <div className={`absolute -bottom-4 ${isArabic ? '-left-4' : '-right-4'} bg-accent text-white p-4 hidden md:block`}>
-                    <p className="text-xs uppercase tracking-wide font-bold">{t('خبرة', 'Expertise')}</p>
+                    <p className="text-xs uppercase tracking-wide font-bold">{tx('services.card.expertise', 'خبرة', 'Expertise')}</p>
                     <p className="text-lg font-bold mt-0.5">{s.title}</p>
                   </div>
                 </div>
@@ -224,7 +227,7 @@ export const Services = ({ language }: ServicesProps) => {
       <section className="bg-primary text-white section-padding-sm" style={{ backgroundColor: 'hsl(var(--primary))' }}>
         <div className="container-width text-center">
           <h2 className="text-3xl md:text-4xl font-black mb-5 text-balance">
-            {t('نحتاج خدمتين أو أكثر في مشروعك؟', 'Need two or more of these services on your project?')}
+            {tx('services.cta.heading', 'نحتاج خدمتين أو أكثر في مشروعك؟', 'Need two or more of these services on your project?')}
           </h2>
           <p className="text-white/85 text-lg mb-8 max-w-2xl mx-auto">
             {t(
@@ -234,11 +237,11 @@ export const Services = ({ language }: ServicesProps) => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link to="/contact" className="btn-primary-solid">
-              {t('اطلب عرض سعر شامل', 'Request a Full Quote')}
+              {cx('common.cta.quote_full', 'اطلب عرض سعر شامل', 'Request a Full Quote')}
               <Arrow className="h-5 w-5" />
             </Link>
             <Link to="/projects" className="btn-outline-light">
-              {t('شاهد مشاريعنا', 'See Our Projects')}
+              {cx('common.cta.projects', 'شاهد مشاريعنا', 'See Our Projects')}
             </Link>
           </div>
         </div>

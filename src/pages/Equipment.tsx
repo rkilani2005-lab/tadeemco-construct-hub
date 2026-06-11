@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, Check, Phone } from 'lucide-react';
 import { SEO } from '@/components/SEO';
 import { seo } from '@/lib/seo-data';
 import { company } from '@/lib/company-data';
-import { useCms } from '@/lib/cms-context';
+import { useCms, useText } from '@/lib/cms-context';
 import pumpFleetImg from '@/assets/real/equipment/pump-fleet.jpg';
 import dewateringPumpsImg from '@/assets/real/equipment/dewatering-pumps.jpg';
 import excavatorImg from '@/assets/real/equipment/excavator.jpg';
@@ -17,6 +17,9 @@ export const Equipment = ({ language }: EquipmentProps) => {
   const isArabic = language === 'ar';
   const Arrow = isArabic ? ArrowLeft : ArrowRight;
   const t = (ar: string, en: string) => (isArabic ? ar : en);
+  const text = useText();
+  const tx = (key: string, ar: string, en: string) => text(key, language, t(ar, en));
+  const cx = tx;
 
   const baseCategories = [
     {
@@ -99,9 +102,9 @@ export const Equipment = ({ language }: EquipmentProps) => {
       {/* HERO */}
       <section className="bg-primary text-white py-16 md:py-20" style={{ backgroundColor: 'hsl(var(--primary))' }}>
         <div className={`container-width ${isArabic ? 'text-right' : 'text-left'}`}>
-          <p className="eyebrow mb-4 text-accent">{t('معداتنا', 'Our Equipment')}</p>
+          <p className="eyebrow mb-4 text-accent">{tx('equipment.hero.eyebrow', 'معداتنا', 'Our Equipment')}</p>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-5 text-balance max-w-4xl">
-            {t('أسطول متخصص، ليس مستأجراً', 'A specialist fleet, not a rental shop')}
+            {tx('equipment.hero.title', 'أسطول متخصص، ليس مستأجراً', 'A specialist fleet, not a rental shop')}
           </h1>
           <p className="text-white/80 text-base md:text-lg max-w-3xl leading-relaxed">
             {t(
@@ -117,7 +120,7 @@ export const Equipment = ({ language }: EquipmentProps) => {
         <div className={`container-width flex flex-col md:flex-row items-center gap-8 ${isArabic ? 'text-right' : ''}`}>
           <div className="md:flex-1">
             <p className="text-white/90 text-xs uppercase tracking-widest font-bold mb-2">
-              {t('الشركة المصنعة الرئيسية', 'Lead Manufacturer')}
+              {tx('equipment.lead_label', 'الشركة المصنعة الرئيسية', 'Lead Manufacturer')}
             </p>
             <p className="font-black text-3xl md:text-4xl mb-3">HÜDIG · CELLE, GERMANY</p>
             <p className="text-white/90 text-lg leading-relaxed max-w-2xl">
@@ -145,7 +148,7 @@ export const Equipment = ({ language }: EquipmentProps) => {
                   <h2 className="text-3xl md:text-4xl font-black text-foreground mb-5 text-balance">{c.title}</h2>
                   <p className="text-muted-foreground text-lg leading-relaxed mb-7 text-pretty">{c.desc}</p>
                   <h3 className="text-lg font-bold text-foreground mb-4">
-                    {t('المواصفات الرئيسية', 'Key Specifications')}
+                    {tx('equipment.specs_label', 'المواصفات الرئيسية', 'Key Specifications')}
                   </h3>
                   <ul className="space-y-2.5">
                     {c.specs.map((spec, idx) => (
@@ -176,7 +179,7 @@ export const Equipment = ({ language }: EquipmentProps) => {
       <section className="bg-primary text-white section-padding-sm" style={{ backgroundColor: 'hsl(var(--primary))' }}>
         <div className="container-width text-center">
           <h2 className="text-3xl md:text-4xl font-black mb-5 text-balance">
-            {t('تحتاج معدات متخصصة لمشروعك؟', 'Need specialized equipment for your project?')}
+            {tx('equipment.cta.heading', 'تحتاج معدات متخصصة لمشروعك؟', 'Need specialized equipment for your project?')}
           </h2>
           <p className="text-white/85 text-lg mb-8 max-w-2xl mx-auto">
             {t(
@@ -186,12 +189,12 @@ export const Equipment = ({ language }: EquipmentProps) => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link to="/contact" className="btn-primary-solid">
-              {t('اطلب عرض سعر', 'Request a Quote')}
+              {cx('common.cta.quote', 'اطلب عرض سعر', 'Request a Quote')}
               <Arrow className="h-5 w-5" />
             </Link>
             <a href={`tel:${company.whatsapp}`} className="btn-outline-light">
               <Phone className="h-5 w-5" />
-              {t('اتصل بنا', 'Call Us')}
+              {cx('common.cta.call', 'اتصل بنا', 'Call Us')}
             </a>
           </div>
         </div>

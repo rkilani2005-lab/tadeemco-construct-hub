@@ -29,6 +29,7 @@ export const Home = ({ language }: HomeProps) => {
   const { settings, services: cmsServices, projects: cmsProjects, contractors, equipment } = useCms();
   const text = useText();
   const tx = (key: string, ar: string, en: string) => text(key, language, t(ar, en));
+  const cx = tx;
 
   // Static service copy doubles as the SSG/SEO fallback; CMS values overlay it
   // per-field when present so the admin can edit titles/taglines/descriptions.
@@ -182,7 +183,9 @@ export const Home = ({ language }: HomeProps) => {
                   </>
                 )
               ) : (
-                heroTitle
+                heroTitle.split('\n').map((line, i) => (
+                  <span key={i}>{i > 0 && <br />}{line}</span>
+                ))
               )}
             </h1>
             <p className="text-white/85 text-base md:text-lg mb-7 max-w-2xl leading-relaxed text-pretty">
@@ -194,11 +197,11 @@ export const Home = ({ language }: HomeProps) => {
             </p>
             <div className="flex flex-wrap gap-4">
               <Link to="/contact" className="btn-primary-solid">
-                {t('اطلب عرض سعر', 'Request a Quote')}
+                {cx('common.cta.quote', 'اطلب عرض سعر', 'Request a Quote')}
                 <Arrow className="h-5 w-5" />
               </Link>
               <a href={`tel:${whatsapp}`} className="btn-outline-light">
-                {t('اتصل بنا', 'Call Us')}
+                {cx('common.cta.call', 'اتصل بنا', 'Call Us')}
                 <Phone className="h-5 w-5" />
               </a>
             </div>
@@ -264,7 +267,7 @@ export const Home = ({ language }: HomeProps) => {
                 <p className="text-accent text-sm font-semibold mb-4 uppercase tracking-wide">{s.tag}</p>
                 <p className="text-muted-foreground leading-relaxed mb-6 text-pretty">{s.desc}</p>
                 <span className="btn-ghost-primary">
-                  {t('التفاصيل', 'Learn more')}
+                  {tx('home.projects.details', 'التفاصيل', 'Learn more')}
                   <Arrow className="h-4 w-4" />
                 </span>
               </Link>
@@ -284,7 +287,7 @@ export const Home = ({ language }: HomeProps) => {
               </h2>
             </div>
             <Link to="/projects" className="btn-secondary-solid whitespace-nowrap">
-              {t('جميع المشاريع', 'All Projects')}
+              {tx('home.projects.all', 'جميع المشاريع', 'All Projects')}
               <Arrow className="h-5 w-5" />
             </Link>
           </div>
@@ -309,7 +312,7 @@ export const Home = ({ language }: HomeProps) => {
                     {isArabic ? p.type_ar : p.type_en}
                   </h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    {t('المقاول الرئيسي:', 'Main Contractor:')}{' '}
+                    {cx('common.label.main_contractor', 'المقاول الرئيسي:', 'Main Contractor:')}{' '}
                     <span className="text-primary font-semibold">
                       {isArabic ? p.contractor_ar : p.contractor_en}
                     </span>
@@ -369,7 +372,7 @@ export const Home = ({ language }: HomeProps) => {
                 ))}
               </ul>
               <Link to="/equipment" className="btn-secondary-solid">
-                {t('استعرض المعدات', 'View Equipment')}
+                {tx('home.equipment.view', 'استعرض المعدات', 'View Equipment')}
                 <Arrow className="h-5 w-5" />
               </Link>
             </div>
@@ -381,7 +384,7 @@ export const Home = ({ language }: HomeProps) => {
               />
               <div className={`absolute -bottom-6 ${isArabic ? '-left-6' : '-right-6'} bg-accent text-accent-foreground p-6 max-w-xs shadow-accent hidden md:block`}>
                 <p className="text-sm uppercase tracking-wide font-bold opacity-90">
-                  {t('مصنوع في ألمانيا', 'Made in Germany')}
+                  {tx('home.equipment.badge', 'مصنوع في ألمانيا', 'Made in Germany')}
                 </p>
                 <p className="text-lg font-bold mt-1">HÖDIG-CELLE</p>
               </div>
@@ -410,12 +413,12 @@ export const Home = ({ language }: HomeProps) => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center mb-8">
             <Link to="/contact" className="btn-primary-solid">
-              {t('اطلب عرض سعر', 'Request a Quote')}
+              {cx('common.cta.quote', 'اطلب عرض سعر', 'Request a Quote')}
               <Arrow className="h-5 w-5" />
             </Link>
             <a href={`tel:${whatsapp}`} className="btn-outline-light">
               <Phone className="h-5 w-5" />
-              {t('اتصل الآن', 'Call Now')}
+              {cx('common.cta.call_now', 'اتصل الآن', 'Call Now')}
             </a>
           </div>
           <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-3 text-white/80 text-sm">

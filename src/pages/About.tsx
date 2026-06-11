@@ -17,6 +17,7 @@ export const About = ({ language }: AboutProps) => {
   const { contractors } = useCms();
   const text = useText();
   const tx = (key: string, ar: string, en: string) => text(key, language, t(ar, en));
+  const cx = tx;
 
   const approach = [
     {
@@ -192,11 +193,11 @@ export const About = ({ language }: AboutProps) => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link to="/contact" className="btn-primary-solid">
-              {t('اطلب عرض سعر', 'Request a Quote')}
+              {cx('common.cta.quote', 'اطلب عرض سعر', 'Request a Quote')}
               <Arrow className="h-5 w-5" />
             </Link>
             <Link to="/projects" className="btn-outline-light">
-              {t('شاهد مشاريعنا', 'See Our Projects')}
+              {cx('common.cta.projects', 'شاهد مشاريعنا', 'See Our Projects')}
             </Link>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, MapPin } from 'lucide-react';
 import { SEO } from '@/components/SEO';
 import { seo } from '@/lib/seo-data';
 import { serviceIndex, type ServiceKey } from '@/lib/company-data';
-import { useCms, getProjectImage } from '@/lib/cms-context';
+import { useCms, useText, getProjectImage } from '@/lib/cms-context';
 
 interface ProjectsProps {
   language: 'ar' | 'en';
@@ -16,6 +16,9 @@ export const Projects = ({ language }: ProjectsProps) => {
   const isArabic = language === 'ar';
   const Arrow = isArabic ? ArrowLeft : ArrowRight;
   const t = (ar: string, en: string) => (isArabic ? ar : en);
+  const text = useText();
+  const tx = (key: string, ar: string, en: string) => text(key, language, t(ar, en));
+  const cx = (key: string, ar: string, en: string) => text(key, language, t(ar, en));
   const [serviceFilter, setServiceFilter] = useState<ServiceFilter>('all');
   const [areaFilter, setAreaFilter] = useState<string>('all');
 
@@ -53,7 +56,7 @@ export const Projects = ({ language }: ProjectsProps) => {
   }, [serviceFilter, areaFilter, isArabic, projectList]);
 
   const serviceFilters: { key: ServiceFilter; label: string }[] = [
-    { key: 'all', label: t('جميع الخدمات', 'All Services') },
+    { key: 'all', label: tx('projects.filter.all_services', 'جميع الخدمات', 'All Services') },
     { key: 'shoring', label: serviceIndex.shoring[isArabic ? 'ar' : 'en'] },
     { key: 'dewatering', label: serviceIndex.dewatering[isArabic ? 'ar' : 'en'] },
     { key: 'waterproofing', label: serviceIndex.waterproofing[isArabic ? 'ar' : 'en'] },
@@ -67,9 +70,9 @@ export const Projects = ({ language }: ProjectsProps) => {
       {/* HERO */}
       <section className="bg-primary text-white py-16 md:py-20" style={{ backgroundColor: 'hsl(var(--primary))' }}>
         <div className={`container-width ${isArabic ? 'text-right' : 'text-left'}`}>
-          <p className="eyebrow mb-4 text-accent">{t('مشاريعنا', 'Our Projects')}</p>
+          <p className="eyebrow mb-4 text-accent">{tx('projects.hero.eyebrow', 'مشاريعنا', 'Our Projects')}</p>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-5 text-balance max-w-4xl">
-            {t('مشاريع حقيقية. مقاولون رئيسيون حقيقيون.', 'Real projects. Real main contractors.')}
+            {tx('projects.hero.title', 'مشاريع حقيقية. مقاولون رئيسيون حقيقيون.', 'Real projects. Real main contractors.')}
           </h1>
           <p className="text-white/80 text-base md:text-lg max-w-3xl leading-relaxed">
             {t(
@@ -85,9 +88,9 @@ export const Projects = ({ language }: ProjectsProps) => {
         <div className="container-width py-5 space-y-4">
           <div>
             <p className={`text-xs uppercase tracking-widest font-bold text-muted-foreground mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {t('حسب الخدمة', 'By Service')}
+              {tx('projects.filter.service', 'حسب الخدمة', 'By Service')}
             </p>
-            <div className={`flex flex-wrap gap-2 ${isArabic ? 'justify-end' : ''}`}>
+            <div className={"flex flex-wrap gap-2"}>
               {serviceFilters.map((f) => (
                 <button
                   key={f.key}
@@ -105,9 +108,9 @@ export const Projects = ({ language }: ProjectsProps) => {
           </div>
           <div>
             <p className={`text-xs uppercase tracking-widest font-bold text-muted-foreground mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
-              {t('حسب المنطقة', 'By Area')}
+              {tx('projects.filter.area', 'حسب المنطقة', 'By Area')}
             </p>
-            <div className={`flex flex-wrap gap-2 ${isArabic ? 'justify-end' : ''}`}>
+            <div className={"flex flex-wrap gap-2"}>
               <button
                 onClick={() => setAreaFilter('all')}
                 className={`px-4 py-2 text-sm font-semibold transition-colors ${
@@ -116,7 +119,7 @@ export const Projects = ({ language }: ProjectsProps) => {
                     : 'bg-white border border-border hover:border-primary hover:text-primary'
                 }`}
               >
-                {t('جميع المناطق', 'All Areas')}
+                {tx('projects.filter.all_areas', 'جميع المناطق', 'All Areas')}
               </button>
               {areas.map((a) => (
                 <button
@@ -142,13 +145,13 @@ export const Projects = ({ language }: ProjectsProps) => {
           {filtered.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-lg text-muted-foreground mb-4">
-                {t('لا توجد مشاريع مطابقة للفلاتر المختارة.', 'No projects match the selected filters.')}
+                {tx('projects.empty', 'لا توجد مشاريع مطابقة للفلاتر المختارة.', 'No projects match the selected filters.')}
               </p>
               <button
                 onClick={() => { setServiceFilter('all'); setAreaFilter('all'); }}
                 className="btn-ghost-primary"
               >
-                {t('إعادة تعيين الفلاتر', 'Reset filters')}
+                {tx('projects.reset', 'إعادة تعيين الفلاتر', 'Reset filters')}
                 <Arrow className="h-4 w-4" />
               </button>
             </div>
@@ -178,17 +181,17 @@ export const Projects = ({ language }: ProjectsProps) => {
                       </h3>
                       <div className="space-y-1.5 mb-4 text-sm">
                         <p>
-                          <span className="text-muted-foreground">{t('المقاول الرئيسي: ', 'Main Contractor: ')}</span>
+                          <span className="text-muted-foreground">{cx('common.label.main_contractor', 'المقاول الرئيسي:', 'Main Contractor:') + ' '}</span>
                           <span className="text-primary font-semibold">{isArabic ? p.contractor.ar : p.contractor.en}</span>
                         </p>
                         {p.consultant && (
                           <p>
-                            <span className="text-muted-foreground">{t('الاستشاري: ', 'Consultant: ')}</span>
+                            <span className="text-muted-foreground">{cx('common.label.consultant', 'الاستشاري:', 'Consultant:') + ' '}</span>
                             <span className="text-primary font-semibold">{isArabic ? p.consultant.ar : p.consultant.en}</span>
                           </p>
                         )}
                       </div>
-                      <div className={`flex flex-wrap gap-1.5 ${isArabic ? 'justify-end' : ''}`}>
+                      <div className={"flex flex-wrap gap-1.5"}>
                         {p.services.map((svc) => (
                           <span key={svc} className="text-xs bg-secondary text-secondary-foreground px-2 py-1 font-semibold">
                             {serviceLabel(svc)}
@@ -208,7 +211,7 @@ export const Projects = ({ language }: ProjectsProps) => {
       <section className="bg-muted section-padding-sm border-t border-border">
         <div className="container-width text-center">
           <h2 className="text-3xl md:text-4xl font-black text-foreground mb-5 text-balance">
-            {t('مستعدون لمشروعكم القادم؟', 'Ready for Your Next Project?')}
+            {tx('projects.cta.heading', 'مستعدون لمشروعكم القادم؟', 'Ready for Your Next Project?')}
           </h2>
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
             {t(
@@ -218,11 +221,11 @@ export const Projects = ({ language }: ProjectsProps) => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link to="/contact" className="btn-primary-solid">
-              {t('اطلب عرض سعر', 'Request a Quote')}
+              {cx('common.cta.quote', 'اطلب عرض سعر', 'Request a Quote')}
               <Arrow className="h-5 w-5" />
             </Link>
             <Link to="/services" className="btn-secondary-solid">
-              {t('خدماتنا', 'Our Services')}
+              {cx('common.cta.services', 'خدماتنا', 'Our Services')}
             </Link>
           </div>
         </div>
