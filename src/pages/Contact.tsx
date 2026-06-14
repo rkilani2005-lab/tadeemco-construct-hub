@@ -18,8 +18,11 @@ export const Contact = ({ language }: ContactProps) => {
   const text = useText();
   const tx = (key: string, ar: string, en: string) => text(key, language, t(ar, en));
   const cx = tx;
-  // Accept either a proper embed URL or a plain Google Maps link/place query.
-  const rawMapUrl = text('contact.map.url', language, '');
+  // Accept a full <iframe> embed snippet, an embed URL, or a plain Google Maps link/place query.
+  const rawMapValue = text('contact.map.url', language, '').trim();
+  // If a full <iframe ...> snippet was pasted, pull the src attribute out of it.
+  const iframeSrcMatch = rawMapValue.match(/<iframe[^>]*\bsrc=["']([^"']+)["']/i);
+  const rawMapUrl = iframeSrcMatch ? iframeSrcMatch[1] : rawMapValue;
   const mapSrc = (() => {
     if (!rawMapUrl) return 'https://www.google.com/maps?q=Kuwait+City+Darwaza+Building&output=embed';
     // Already an embeddable URL.
