@@ -17,19 +17,24 @@ export const Contact = ({ language }: ContactProps) => {
   const { settings, services } = useCms();
   const text = useText();
   const tx = (key: string, ar: string, en: string) => text(key, language, t(ar, en));
-  const cx = tx;
-  // Accept either a proper embed URL or a plain Google Maps link/place query.
-  const rawMapUrl = text('contact.map.url', language, '');
+  // Accept a plain Google Maps link, an embed URL, OR a full <iframe …> snippet.
+  const rawMapInput = text('contact.map.url', language, '').trim();
   const mapSrc = (() => {
-    if (!rawMapUrl) return 'https://www.google.com/maps?q=Kuwait+City+Darwaza+Building&output=embed';
+    if (!rawMapInput) return 'https://www.google.com/maps?q=Kuwait+City+Darwaza+Building&output=embed';
+    // If the admin pasted an <iframe> embed snippet, pull out its src.
+    let raw = rawMapInput;
+    if (/<iframe/i.test(raw)) {
+      const m = raw.match(/src\s*=\s*["']([^"']+)["']/i);
+      if (m) raw = m[1];
+    }
     // Already an embeddable URL.
-    if (/output=embed|\/maps\/embed/.test(rawMapUrl)) return rawMapUrl;
+    if (/output=embed|\/maps\/embed/.test(raw)) return raw;
     // A normal maps URL — append embed output so the iframe renders.
-    if (/google\.[^/]+\/maps/.test(rawMapUrl)) {
-      return rawMapUrl + (rawMapUrl.includes('?') ? '&' : '?') + 'output=embed';
+    if (/google\.[^/]+\/maps/.test(raw)) {
+      return raw + (raw.includes('?') ? '&' : '?') + 'output=embed';
     }
     // Fallback: treat the value as a place query.
-    return `https://www.google.com/maps?q=${encodeURIComponent(rawMapUrl)}&output=embed`;
+    return `https://www.google.com/maps?q=${encodeURIComponent(raw)}&output=embed`;
   })();
 
   const phones = settings.phones.length ? settings.phones : company.phones;
@@ -124,7 +129,7 @@ export const Contact = ({ language }: ContactProps) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="name" className="block text-sm font-bold text-foreground mb-2">
-                      {tx('contact.form.name', 'الاسم الكامل', 'Full Name')} <span className="text-accent">*</span>
+                      {t('الاسم الكامل', 'Full Name')} <span className="text-accent">*</span>
                     </label>
                     <input
                       id="name" name="name" type="text" required
@@ -135,7 +140,7 @@ export const Contact = ({ language }: ContactProps) => {
                   </div>
                   <div>
                     <label htmlFor="phone" className="block text-sm font-bold text-foreground mb-2">
-                      {tx('contact.form.phone', 'رقم الهاتف', 'Phone')} <span className="text-accent">*</span>
+                      {t('رقم الهاتف', 'Phone')} <span className="text-accent">*</span>
                     </label>
                     <input
                       id="phone" name="phone" type="tel" required
@@ -147,7 +152,7 @@ export const Contact = ({ language }: ContactProps) => {
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-bold text-foreground mb-2">
-                    {tx('contact.form.email', 'البريد الإلكتروني', 'Email')}
+                    {t('البريد الإلكتروني', 'Email')}
                   </label>
                   <input
                     id="email" name="email" type="email"
@@ -158,7 +163,7 @@ export const Contact = ({ language }: ContactProps) => {
                 </div>
                 <div>
                   <label htmlFor="service" className="block text-sm font-bold text-foreground mb-2">
-                    {tx('contact.form.service', 'الخدمة المطلوبة', 'Service Needed')}
+                    {t('الخدمة المطلوبة', 'Service Needed')}
                   </label>
                   <select
                     id="service" name="service"
@@ -166,7 +171,7 @@ export const Contact = ({ language }: ContactProps) => {
                     className="w-full px-4 py-3 border border-border bg-white focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors"
                     dir={isArabic ? 'rtl' : 'ltr'}
                   >
-                    <option value="">{tx('contact.form.service_placeholder', 'اختر خدمة...', 'Select a service...')}</option>
+                    <option value="">{t('اختر خدمة...', 'Select a service...')}</option>
                     {services.map((s) => (
                       <option key={s.slug} value={s.slug}>{isArabic ? s.title_ar : s.title_en}</option>
                     ))}
@@ -176,12 +181,12 @@ export const Contact = ({ language }: ContactProps) => {
                 </div>
                 <div>
                   <label htmlFor="message" className="block text-sm font-bold text-foreground mb-2">
-                    {tx('contact.form.details', 'تفاصيل المشروع', 'Project Details')} <span className="text-accent">*</span>
+                    {t('تفاصيل المشروع', 'Project Details')} <span className="text-accent">*</span>
                   </label>
                   <textarea
                     id="message" name="message" required rows={5}
                     value={formData.message} onChange={handleChange}
-                    placeholder={tx('contact.form.details_placeholder', 'الموقع، نوع المشروع، الجدول الزمني المتوقع، أي تفاصيل إضافية...', 'Location, project type, expected timeline, any additional details...')}
+                    placeholder={t('الموقع، نوع المشروع، الجدول الزمني المتوقع، أي تفاصيل إضافية...', 'Location, project type, expected timeline, any additional details...')}
                     className="w-full px-4 py-3 border border-border bg-white focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors resize-y"
                     dir={isArabic ? 'rtl' : 'ltr'}
                   />
@@ -192,7 +197,7 @@ export const Contact = ({ language }: ContactProps) => {
                 >
                   {isSubmitting
                     ? t('جاري الإرسال...', 'Sending...')
-                    : tx('contact.form.submit', 'إرسال الاستفسار', 'Send Inquiry')}
+                    : t('إرسال الاستفسار', 'Send Inquiry')}
                   <Send className="h-5 w-5" />
                 </button>
               </form>
@@ -223,7 +228,7 @@ export const Contact = ({ language }: ContactProps) => {
                   className="flex flex-col items-center justify-center gap-2 p-5 bg-accent text-white hover:opacity-90 transition-opacity"
                 >
                   <Phone className="h-7 w-7" />
-                  <span className="text-sm font-bold uppercase tracking-wide">{tx('contact.info.call_now', 'اتصل الآن', 'Call Now')}</span>
+                  <span className="text-sm font-bold uppercase tracking-wide">{t('اتصل الآن', 'Call Now')}</span>
                 </a>
               </div>
 
@@ -233,7 +238,7 @@ export const Contact = ({ language }: ContactProps) => {
                   <MapPin className="h-5 w-5 text-accent shrink-0 mt-0.5" />
                   <div className={isArabic ? 'text-right' : 'text-left'}>
                     <p className="text-xs uppercase tracking-widest font-bold text-muted-foreground mb-1">
-                      {tx('contact.info.office', 'المكتب', 'Office')}
+                      {t('المكتب', 'Office')}
                     </p>
                     <p className="text-foreground leading-relaxed">
                       {address}
@@ -245,7 +250,7 @@ export const Contact = ({ language }: ContactProps) => {
                   <Phone className="h-5 w-5 text-accent shrink-0 mt-0.5" />
                   <div className={isArabic ? 'text-right' : 'text-left'}>
                     <p className="text-xs uppercase tracking-widest font-bold text-muted-foreground mb-2">
-                      {tx('contact.info.phones', 'أرقام الهاتف', 'Phone Numbers')}
+                      {t('أرقام الهاتف', 'Phone Numbers')}
                     </p>
                     <div className="grid grid-cols-2 gap-x-4 gap-y-1" dir="ltr">
                       {phones.map((p) => (
