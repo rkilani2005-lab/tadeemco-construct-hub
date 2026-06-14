@@ -9,5 +9,5 @@
 insert into public.site_content (key, page, label, field_type, value_ar, value_en, sort_order)
 values
   ('home.hero.media', 'home', 'Hero — image or video (overrides hero image)', 'media', '', '', 0),
-  ('contact.map.url', 'contact', 'Google Map embed URL', 'url', '', '', 50)
+  ('contact.map.url', 'contact', 'Google Map — paste embed URL or full <iframe> code', 'textarea', '', '', 50)
 on conflict (key) do nothing;

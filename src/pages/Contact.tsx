@@ -17,18 +17,24 @@ export const Contact = ({ language }: ContactProps) => {
   const { settings, services } = useCms();
   const text = useText();
   const tx = (key: string, ar: string, en: string) => text(key, language, t(ar, en));
-  // Accept either a proper embed URL or a plain Google Maps link/place query.
-  const rawMapUrl = text('contact.map.url', language, '');
+  // Accept a plain Google Maps link, an embed URL, OR a full <iframe …> snippet.
+  const rawMapInput = text('contact.map.url', language, '').trim();
   const mapSrc = (() => {
-    if (!rawMapUrl) return 'https://www.google.com/maps?q=Kuwait+City+Darwaza+Building&output=embed';
+    if (!rawMapInput) return 'https://www.google.com/maps?q=Kuwait+City+Darwaza+Building&output=embed';
+    // If the admin pasted an <iframe> embed snippet, pull out its src.
+    let raw = rawMapInput;
+    if (/<iframe/i.test(raw)) {
+      const m = raw.match(/src\s*=\s*["']([^"']+)["']/i);
+      if (m) raw = m[1];
+    }
     // Already an embeddable URL.
-    if (/output=embed|\/maps\/embed/.test(rawMapUrl)) return rawMapUrl;
+    if (/output=embed|\/maps\/embed/.test(raw)) return raw;
     // A normal maps URL — append embed output so the iframe renders.
-    if (/google\.[^/]+\/maps/.test(rawMapUrl)) {
-      return rawMapUrl + (rawMapUrl.includes('?') ? '&' : '?') + 'output=embed';
+    if (/google\.[^/]+\/maps/.test(raw)) {
+      return raw + (raw.includes('?') ? '&' : '?') + 'output=embed';
     }
     // Fallback: treat the value as a place query.
-    return `https://www.google.com/maps?q=${encodeURIComponent(rawMapUrl)}&output=embed`;
+    return `https://www.google.com/maps?q=${encodeURIComponent(raw)}&output=embed`;
   })();
 
   const phones = settings.phones.length ? settings.phones : company.phones;
