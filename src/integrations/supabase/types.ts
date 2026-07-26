@@ -224,6 +224,10 @@ export type Database = {
       services: {
         Row: {
           description_ar: string | null
+          methods_ar: string[]
+          methods_en: string[]
+          when_needed_ar: string | null
+          when_needed_en: string | null
           description_en: string | null
           icon: string | null
           id: string
@@ -239,6 +243,10 @@ export type Database = {
         }
         Insert: {
           description_ar?: string | null
+          methods_ar?: string[]
+          methods_en?: string[]
+          when_needed_ar?: string | null
+          when_needed_en?: string | null
           description_en?: string | null
           icon?: string | null
           id?: string
@@ -254,6 +262,10 @@ export type Database = {
         }
         Update: {
           description_ar?: string | null
+          methods_ar?: string[]
+          methods_en?: string[]
+          when_needed_ar?: string | null
+          when_needed_en?: string | null
           description_en?: string | null
           icon?: string | null
           id?: string

@@ -43,6 +43,7 @@ const fallbackServices: ServiceItem[] = (Object.keys(serviceIndex) as Array<keyo
     title_ar: serviceIndex[slug].ar,
     title_en: serviceIndex[slug].en,
     tag_ar: '', tag_en: '', description_ar: '', description_en: '',
+    when_needed_ar: '', when_needed_en: '', methods_ar: [], methods_en: [],
     icon: slug, image_url: '', is_visible: true, sort_order: i + 1,
   }),
 );

@@ -12,7 +12,10 @@ import { ImageUploader } from '@/components/admin/ImageUploader';
 interface Row {
   id: string; slug: string;
   title_ar: string; title_en: string; tag_ar: string; tag_en: string;
-  description_ar: string; description_en: string; icon: string; image_url: string;
+  description_ar: string; description_en: string;
+  when_needed_ar: string; when_needed_en: string;
+  methods_ar: string[]; methods_en: string[];
+  icon: string; image_url: string;
   is_visible: boolean; sort_order: number;
 }
 const ICONS = ['shoring', 'dewatering', 'waterproofing', 'excavation'];
@@ -21,6 +24,8 @@ const clean = (d: Record<string, unknown>): Row => ({
   title_ar: (d.title_ar as string) ?? '', title_en: (d.title_en as string) ?? '',
   tag_ar: (d.tag_ar as string) ?? '', tag_en: (d.tag_en as string) ?? '',
   description_ar: (d.description_ar as string) ?? '', description_en: (d.description_en as string) ?? '',
+  when_needed_ar: (d.when_needed_ar as string) ?? '', when_needed_en: (d.when_needed_en as string) ?? '',
+  methods_ar: (d.methods_ar as string[]) ?? [], methods_en: (d.methods_en as string[]) ?? [],
   icon: (d.icon as string) ?? '', image_url: (d.image_url as string) ?? '',
   is_visible: (d.is_visible as boolean) ?? true, sort_order: (d.sort_order as number) ?? 0,
 });
@@ -36,8 +41,29 @@ export const ServicesEditor = () => {
   });
   useEffect(() => { load(); }, []);
 
-  const set = (id: string, k: keyof Row, v: string | boolean) =>
+  const set = (id: string, k: keyof Row, v: string | boolean | string[]) =>
     setRows((rs) => rs.map((r) => (r.id === id ? { ...r, [k]: v } : r)));
+  // "Our Equipment & Methods" bullets, stored per-language as string[].
+  const methodsKey = (lang: 'ar' | 'en') => (lang === 'ar' ? 'methods_ar' : 'methods_en') as const;
+  const setMethod = (id: string, lang: 'ar' | 'en', idx: number, v: string) =>
+    setRows((rs) => rs.map((r) => {
+      if (r.id !== id) return r;
+      const key = methodsKey(lang);
+      const next = [...r[key]]; next[idx] = v;
+      return { ...r, [key]: next };
+    }));
+  const addMethod = (id: string, lang: 'ar' | 'en') =>
+    setRows((rs) => rs.map((r) => {
+      if (r.id !== id) return r;
+      const key = methodsKey(lang);
+      return { ...r, [key]: [...r[key], ''] };
+    }));
+  const removeMethod = (id: string, lang: 'ar' | 'en', idx: number) =>
+    setRows((rs) => rs.map((r) => {
+      if (r.id !== id) return r;
+      const key = methodsKey(lang);
+      return { ...r, [key]: r[key].filter((_, i) => i !== idx) };
+    }));
   const addRow = () => setRows((rs) => [...rs, clean({
     id: crypto.randomUUID(), slug: `service-${rs.length + 1}`, is_visible: true, sort_order: rs.length + 1,
   })]);
@@ -50,7 +76,12 @@ export const ServicesEditor = () => {
   const save = async () => {
     setSaving(true);
     if (removed.length) await supabase.from('services').delete().in('id', removed);
-    const { error } = await supabase.from('services').upsert(rows.map((r, i) => ({ ...r, sort_order: i + 1 })));
+    const { error } = await supabase.from('services').upsert(rows.map((r, i) => ({
+      ...r,
+      sort_order: i + 1,
+      methods_ar: r.methods_ar.map((m) => m.trim()).filter(Boolean),
+      methods_en: r.methods_en.map((m) => m.trim()).filter(Boolean),
+    })));
     setSaving(false);
     if (error) { toast.error(error.message); return; }
     toast.success('Services saved'); setRemoved([]); load();
@@ -87,6 +118,38 @@ export const ServicesEditor = () => {
               onAr={(v) => set(r.id, 'tag_ar', v)} onEn={(v) => set(r.id, 'tag_en', v)} />
             <BilingualField label="Description" ar={r.description_ar} en={r.description_en}
               onAr={(v) => set(r.id, 'description_ar', v)} onEn={(v) => set(r.id, 'description_en', v)} multiline />
+            <BilingualField label='"When you need this service" box' ar={r.when_needed_ar} en={r.when_needed_en}
+              onAr={(v) => set(r.id, 'when_needed_ar', v)} onEn={(v) => set(r.id, 'when_needed_en', v)} multiline />
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {(['ar', 'en'] as const).map((lang) => {
+                const list = lang === 'ar' ? r.methods_ar : r.methods_en;
+                return (
+                  <div key={lang} className="space-y-2">
+                    <Label>{lang === 'ar' ? 'معداتنا وأساليبنا (نقاط)' : 'Our Equipment & Methods (bullets)'}</Label>
+                    <div className="space-y-2">
+                      {list.map((m, idx) => (
+                        <div key={idx} className="flex items-center gap-2">
+                          <Input
+                            dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                            className={lang === 'ar' ? 'font-cairo' : ''}
+                            value={m}
+                            onChange={(e) => setMethod(r.id, lang, idx, e.target.value)}
+                            placeholder={lang === 'ar' ? 'نقطة' : 'Bullet'}
+                          />
+                          <Button type="button" variant="ghost" size="icon" onClick={() => removeMethod(r.id, lang, idx)}>
+                            <Trash2 className="h-4 w-4 text-destructive" />
+                          </Button>
+                        </div>
+                      ))}
+                      <Button type="button" variant="outline" size="sm" onClick={() => addMethod(r.id, lang)}>
+                        <Plus className="h-4 w-4" /> {lang === 'ar' ? 'إضافة نقطة' : 'Add bullet'}
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="space-y-1.5">
                 <Label>Slug</Label>

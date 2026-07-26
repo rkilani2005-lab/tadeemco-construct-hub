@@ -97,19 +97,32 @@ export const Services = ({ language }: ServicesProps) => {
     },
   ];
 
-  // Overlay editable CMS fields (title, tag, description, image) onto the rich
-  // static service definitions, matched by slug. Detailed copy stays as fallback.
+  // The CMS `services` table drives which sections render and in what order, so
+  // a service added in the admin shows up here too. Every field falls back to
+  // the static definition above (matched by slug) whenever the CMS value is
+  // blank — that keeps the page intact during SSG and for un-edited rows.
   const { services: cmsServices } = useCms();
-  const cmsBySlug = Object.fromEntries(cmsServices.map((s) => [s.slug, s]));
-  const services = baseServices.map((s) => {
-    const o = cmsBySlug[s.id];
-    if (!o) return s;
+  const baseBySlug = Object.fromEntries(baseServices.map((s) => [s.id, s]));
+  const iconBySlug: Record<string, typeof IconShoring> = {
+    shoring: IconShoring,
+    dewatering: IconDewatering,
+    waterproofing: IconWaterproofing,
+    excavation: IconExcavation,
+  };
+  const imagePool = [siteImg, dewateringImg, pumpFleetImg, excavatorImg];
+
+  const services = cmsServices.map((o, i) => {
+    const b = baseBySlug[o.slug];
+    const cmsMethods = (isArabic ? o.methods_ar : o.methods_en) ?? [];
     return {
-      ...s,
-      title: (isArabic ? o.title_ar : o.title_en) || s.title,
-      subtitle: (isArabic ? o.tag_ar : o.tag_en) || s.subtitle,
-      intro: (isArabic ? o.description_ar : o.description_en) || s.intro,
-      image: o.image_url || s.image,
+      id: o.slug,
+      Icon: iconBySlug[o.icon] || iconBySlug[o.slug] || IconShoring,
+      image: o.image_url || b?.image || imagePool[i % imagePool.length],
+      title: (isArabic ? o.title_ar : o.title_en) || b?.title || o.slug,
+      subtitle: (isArabic ? o.tag_ar : o.tag_en) || b?.subtitle || '',
+      intro: (isArabic ? o.description_ar : o.description_en) || b?.intro || '',
+      whenNeeded: (isArabic ? o.when_needed_ar : o.when_needed_en) || b?.whenNeeded || '',
+      methods: cmsMethods.length ? cmsMethods : b?.methods ?? [],
     };
   });
 
@@ -175,25 +188,31 @@ export const Services = ({ language }: ServicesProps) => {
                   <p className="text-muted-foreground text-lg leading-relaxed mb-6 text-pretty">
                     {s.intro}
                   </p>
-                  <div className={`bg-secondary/50 border-${isArabic ? 'r' : 'l'}-4 border-accent p-5 mb-8`}>
-                    <p className="text-sm font-bold text-primary mb-1 uppercase tracking-wide">
-                      {tx('services.card.when', 'متى تحتاج هذه الخدمة؟', 'When you need this service')}
-                    </p>
-                    <p className="text-foreground">{s.whenNeeded}</p>
-                  </div>
-                  <h3 className="text-lg font-bold text-foreground mb-4">
-                    {tx('services.card.methods', 'معداتنا وأساليبنا', 'Our Equipment & Methods')}
-                  </h3>
-                  <ul className="space-y-2.5 mb-8">
-                    {s.methods.map((m, idx) => (
-                      <li key={idx} className={`flex items-start gap-3`}>
-                        <span className="flex-shrink-0 w-5 h-5 bg-accent text-white flex items-center justify-center mt-0.5">
-                          <Check className="w-3.5 h-3.5" strokeWidth={3} />
-                        </span>
-                        <span className="text-foreground">{m}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {s.whenNeeded && (
+                    <div className={`bg-secondary/50 border-${isArabic ? 'r' : 'l'}-4 border-accent p-5 mb-8`}>
+                      <p className="text-sm font-bold text-primary mb-1 uppercase tracking-wide">
+                        {tx('services.card.when', 'متى تحتاج هذه الخدمة؟', 'When you need this service')}
+                      </p>
+                      <p className="text-foreground">{s.whenNeeded}</p>
+                    </div>
+                  )}
+                  {s.methods.length > 0 && (
+                    <>
+                      <h3 className="text-lg font-bold text-foreground mb-4">
+                        {tx('services.card.methods', 'معداتنا وأساليبنا', 'Our Equipment & Methods')}
+                      </h3>
+                      <ul className="space-y-2.5 mb-8">
+                        {s.methods.map((m, idx) => (
+                          <li key={idx} className={`flex items-start gap-3`}>
+                            <span className="flex-shrink-0 w-5 h-5 bg-accent text-white flex items-center justify-center mt-0.5">
+                              <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                            </span>
+                            <span className="text-foreground">{m}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
                   <div className={`flex flex-wrap gap-3 ${isArabic ? 'justify-end' : ''}`}>
                     <Link to="/contact" className="btn-primary-solid">
                       {cx('common.cta.quote', 'اطلب عرض سعر', 'Request a Quote')}

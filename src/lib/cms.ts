@@ -42,6 +42,12 @@ export interface ServiceItem {
   tag_en: string;
   description_ar: string;
   description_en: string;
+  /** "When you need this service" box. */
+  when_needed_ar: string;
+  when_needed_en: string;
+  /** "Our Equipment & Methods" checkmark list — one entry per bullet. */
+  methods_ar: string[];
+  methods_en: string[];
   icon: string;
   image_url: string;
   is_visible: boolean;
