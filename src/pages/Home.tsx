@@ -3,7 +3,7 @@ import { Phone, Mail, MapPin, Instagram, ArrowRight, ArrowLeft, Check } from 'lu
 import heroImg from '@/assets/real/hero/hero-drilling-sunrise.jpg';
 import coastalSiteImg from '@/assets/real/hero/hero-coastal-site.jpg';
 import pumpFleetImg from '@/assets/real/equipment/pump-fleet.jpg';
-import { company } from '@/lib/company-data';
+import { company, serviceIndex } from '@/lib/company-data';
 import { useCms, useText, getProjectImage } from '@/lib/cms-context';
 import { IconShoring, IconDewatering, IconWaterproofing, IconExcavation } from '@/components/ServiceIcons';
 import { SEO } from '@/components/SEO';
@@ -53,15 +53,6 @@ export const Home = ({ language }: HomeProps) => {
       ),
     },
     {
-      key: 'waterproofing',
-      title: t('العازل المائي', 'Waterproofing'),
-      tag: t('حماية طويلة الأمد للمنشآت', 'Long-term protection for structures'),
-      desc: t(
-        'أنظمة عزل متطورة للأساسات والجدران تحت الأرضية لحماية المنشأة من الرطوبة والمياه الجوفية خلال العمر التشغيلي.',
-        'Advanced insulation systems for foundations and below-grade walls, protecting the structure from moisture and groundwater throughout its service life.'
-      ),
-    },
-    {
       key: 'excavation',
       title: t('أعمال الحفر', 'Excavation'),
       tag: t('حفر متخصص لجميع أنواع التربة', 'Specialized excavation for all soil conditions'),
@@ -72,19 +63,26 @@ export const Home = ({ language }: HomeProps) => {
     },
   ];
 
-  const cmsBySlug = Object.fromEntries(cmsServices.map((s) => [s.slug, s]));
-  const services = baseServices.map((s) => {
-    const c = cmsBySlug[s.key];
+  // The CMS `services` table decides which cards render and in what order, so a
+  // service deleted in the admin disappears here too. Copy falls back per-field
+  // to the static definitions above, matched by slug.
+  const baseBySlug = Object.fromEntries(baseServices.map((s) => [s.key, s]));
+  const services = cmsServices.map((c) => {
+    const b = baseBySlug[c.slug];
     return {
-      key: s.key,
-      Icon: SERVICE_ICONS[c?.icon || s.key] || SERVICE_ICONS[s.key],
-      title: (isArabic ? c?.title_ar : c?.title_en) || s.title,
-      tag: (isArabic ? c?.tag_ar : c?.tag_en) || s.tag,
-      desc: (isArabic ? c?.description_ar : c?.description_en) || s.desc,
+      key: c.slug,
+      Icon: SERVICE_ICONS[c.icon] || SERVICE_ICONS[c.slug] || IconShoring,
+      title: (isArabic ? c.title_ar : c.title_en) || b?.title || c.slug,
+      tag: (isArabic ? c.tag_ar : c.tag_en) || b?.tag || '',
+      desc: (isArabic ? c.description_ar : c.description_en) || b?.desc || '',
     };
   });
+  // Project cards can carry tags for retired services, so fall back to
+  // serviceIndex (which keeps every historic slug) before showing a raw slug.
   const serviceTitle = (slug: string) =>
-    services.find((s) => s.key === slug)?.title ?? slug;
+    services.find((s) => s.key === slug)?.title
+    ?? (serviceIndex as Record<string, { ar: string; en: string }>)[slug]?.[isArabic ? 'ar' : 'en']
+    ?? slug;
 
   const featuredProjects = cmsProjects.slice(0, 6);
 

@@ -22,6 +22,8 @@ export const Services = ({ language }: ServicesProps) => {
   const tx = (key: string, ar: string, en: string) => text(key, language, t(ar, en));
   const cx = tx;
 
+  // Static fallback copy, keyed by slug. Only used for slugs that also exist in
+  // the CMS `services` table — this array does not decide what renders.
   const baseServices = [
     {
       id: 'shoring',
@@ -58,24 +60,6 @@ export const Services = ({ language }: ServicesProps) => {
       methods: isArabic
         ? ['أنظمة الآبار النقطية (Wellpoint)', 'مضخات طرد مركزي عالية الكفاءة', 'مضخات غاطسة متنوعة الأحجام', 'مضخات تفريغ HÜDIG الألمانية', 'مراقبة مستوى المياه ٢٤/٧', 'تصريف المياه وفقاً للمعايير البيئية']
         : ['Wellpoint dewatering systems', 'High-capacity centrifugal pumps', 'Submersible pumps in all sizes', 'HÜDIG Germany vacuum pumps', '24/7 water-level monitoring', 'Environmentally-compliant discharge'],
-    },
-    {
-      id: 'waterproofing',
-      Icon: IconWaterproofing,
-      image: pumpFleetImg,
-      title: t('العازل المائي', 'Waterproofing'),
-      subtitle: t('حماية طويلة الأمد للأساسات والجدران تحت الأرضية', 'Long-term protection for foundations and below-grade walls'),
-      intro: t(
-        'تطبيق أنظمة عزل مائي متطورة على الأساسات والجدران تحت الأرضية لحمايتها من الرطوبة والمياه الجوفية طوال العمر التشغيلي للمنشأة. العزل الصحيح يوفر تكاليف صيانة كبيرة ويحافظ على سلامة الخرسانة.',
-        'Application of advanced waterproofing systems to foundations and below-grade walls to protect them from moisture and groundwater throughout the structure\'s service life. Proper waterproofing prevents costly long-term maintenance and preserves concrete integrity.'
-      ),
-      whenNeeded: t(
-        'لازم لجميع الأساسات والأدوار السفلية في الكويت نظراً لارتفاع منسوب المياه الجوفية وملوحتها.',
-        'Required for all foundations and basements in Kuwait due to high groundwater levels and salinity.'
-      ),
-      methods: isArabic
-        ? ['أغشية عزل بيتومينية', 'أنظمة العزل الإيبوكسي', 'طبقات حماية الخرسانة', 'عزل الفواصل الإنشائية', 'أنظمة الحماية الكاثودية']
-        : ['Bituminous membrane systems', 'Epoxy waterproofing', 'Concrete protective coatings', 'Construction joint sealing', 'Cathodic protection systems'],
     },
     {
       id: 'excavation',

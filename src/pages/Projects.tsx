@@ -23,7 +23,7 @@ export const Projects = ({ language }: ProjectsProps) => {
   const [areaFilter, setAreaFilter] = useState<string>('all');
 
   // CMS-backed project list (falls back to static via the provider).
-  const { projects: cmsProjects } = useCms();
+  const { projects: cmsProjects, services: cmsServices } = useCms();
   const projectList = useMemo(
     () => cmsProjects.filter((p) => p.is_visible !== false).map((p) => ({
       id: p.slug,
@@ -55,12 +55,14 @@ export const Projects = ({ language }: ProjectsProps) => {
     });
   }, [serviceFilter, areaFilter, isArabic, projectList]);
 
+  // Filter chips follow the CMS service list, so retiring a service in the admin
+  // removes its chip. Historic project tags still render via serviceLabel below.
   const serviceFilters: { key: ServiceFilter; label: string }[] = [
     { key: 'all', label: tx('projects.filter.all_services', 'جميع الخدمات', 'All Services') },
-    { key: 'shoring', label: serviceIndex.shoring[isArabic ? 'ar' : 'en'] },
-    { key: 'dewatering', label: serviceIndex.dewatering[isArabic ? 'ar' : 'en'] },
-    { key: 'waterproofing', label: serviceIndex.waterproofing[isArabic ? 'ar' : 'en'] },
-    { key: 'excavation', label: serviceIndex.excavation[isArabic ? 'ar' : 'en'] },
+    ...cmsServices.map((s) => ({
+      key: s.slug as ServiceFilter,
+      label: (isArabic ? s.title_ar : s.title_en) || s.slug,
+    })),
   ];
 
   return (

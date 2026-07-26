@@ -37,7 +37,14 @@ const fallbackMenu: MenuItem[] = [
   { path: '/contact', label_ar: 'تواصل معنا', label_en: 'Contact', icon: 'Phone', is_visible: true, sort_order: 5 },
 ];
 
-const fallbackServices: ServiceItem[] = (Object.keys(serviceIndex) as Array<keyof typeof serviceIndex>).map(
+// Services shown before the live CMS fetch resolves (and in the SSG output).
+// This is an explicit list rather than every key of `serviceIndex`, because
+// serviceIndex must keep retired slugs (e.g. waterproofing) so historic project
+// tags still render a proper label — but a retired service must not appear as a
+// service. Keep this in sync with the `services` table.
+const fallbackServiceSlugs = ['shoring', 'dewatering', 'excavation'] as const;
+
+const fallbackServices: ServiceItem[] = fallbackServiceSlugs.map(
   (slug, i) => ({
     slug,
     title_ar: serviceIndex[slug].ar,

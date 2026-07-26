@@ -8,10 +8,10 @@
 -- backing columns and seeds them with the exact current values, matched by slug,
 -- so the live page looks identical until someone edits it.
 --
--- Also inserts the missing `waterproofing` row: the page renders four services
--- but only three existed in the table, which meant waterproofing was entirely
--- uneditable. Inserted at sort_order 3 (page order: shoring, dewatering,
--- waterproofing, excavation) with excavation pushed to 4.
+-- NOTE: this migration deliberately does NOT insert any service rows. The
+-- `services` table is the source of truth for which services exist; a service
+-- absent from it (e.g. waterproofing) has been retired on purpose and must not
+-- be re-created here, since Lovable re-runs migrations.
 --
 -- methods_ar / methods_en are text[] — one array element per checkmark bullet,
 -- same shape as equipment.specs_ar / specs_en.
@@ -25,27 +25,6 @@ alter table public.services add column if not exists when_needed_ar text   defau
 alter table public.services add column if not exists when_needed_en text   default '';
 alter table public.services add column if not exists methods_ar     text[] not null default '{}';
 alter table public.services add column if not exists methods_en     text[] not null default '{}';
-
--- ── Make room for waterproofing at position 3 ────────────────────────────────
-update public.services set sort_order = 4
-where slug = 'excavation'
-  and sort_order = 3
-  and not exists (select 1 from public.services where slug = 'waterproofing');
-
-insert into public.services
-  (slug, title_ar, title_en, tag_ar, tag_en, description_ar, description_en,
-   icon, image_url, is_visible, sort_order)
-values (
-  'waterproofing',
-  $t$العازل المائي$t$,
-  $t$Waterproofing$t$,
-  $t$حماية طويلة الأمد للأساسات والجدران تحت الأرضية$t$,
-  $t$Long-term protection for foundations and below-grade walls$t$,
-  $t$تطبيق أنظمة عزل مائي متطورة على الأساسات والجدران تحت الأرضية لحمايتها من الرطوبة والمياه الجوفية طوال العمر التشغيلي للمنشأة. العزل الصحيح يوفر تكاليف صيانة كبيرة ويحافظ على سلامة الخرسانة.$t$,
-  $t$Application of advanced waterproofing systems to foundations and below-grade walls to protect them from moisture and groundwater throughout the structure's service life. Proper waterproofing prevents costly long-term maintenance and preserves concrete integrity.$t$,
-  'waterproofing', '', true, 3
-)
-on conflict (slug) do nothing;
 
 -- ── Seed the new columns from the values previously hardcoded in the page ────
 update public.services set
@@ -87,25 +66,6 @@ update public.services set
     'Environmentally-compliant discharge'
   ]
 where slug = 'dewatering' and (methods_en = '{}' or methods_en is null);
-
-update public.services set
-  when_needed_ar = $t$لازم لجميع الأساسات والأدوار السفلية في الكويت نظراً لارتفاع منسوب المياه الجوفية وملوحتها.$t$,
-  when_needed_en = $t$Required for all foundations and basements in Kuwait due to high groundwater levels and salinity.$t$,
-  methods_ar = array[
-    $t$أغشية عزل بيتومينية$t$,
-    $t$أنظمة العزل الإيبوكسي$t$,
-    $t$طبقات حماية الخرسانة$t$,
-    $t$عزل الفواصل الإنشائية$t$,
-    $t$أنظمة الحماية الكاثودية$t$
-  ],
-  methods_en = array[
-    'Bituminous membrane systems',
-    'Epoxy waterproofing',
-    'Concrete protective coatings',
-    'Construction joint sealing',
-    'Cathodic protection systems'
-  ]
-where slug = 'waterproofing' and (methods_en = '{}' or methods_en is null);
 
 update public.services set
   when_needed_ar = $t$جميع أنواع المشاريع السكنية، التجارية، والصناعية — من الفلل الخاصة إلى الأبراج والمجمعات.$t$,
