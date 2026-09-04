@@ -8,6 +8,7 @@ import { Services } from './pages/Services';
 import { Projects } from './pages/Projects';
 import { Equipment } from './pages/Equipment';
 import { Contact } from './pages/Contact';
+import { Inquiry } from './pages/Inquiry';
 import NotFound from './pages/NotFound';
 
 const AdminRoot = lazy(() => import('./components/admin/AdminShell').then((m) => ({ default: m.AdminRoot })));
