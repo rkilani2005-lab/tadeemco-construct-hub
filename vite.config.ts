@@ -30,6 +30,7 @@ export default defineConfig(({ mode }) => {
         "projects",
         "equipment",
         "contact",
+        "inquiry",
       ]);
       return paths.filter((p) => publicRoutes.has(p));
     },

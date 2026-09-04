@@ -44,7 +44,7 @@ export const ServicesEditor = () => {
   const set = (id: string, k: keyof Row, v: string | boolean | string[]) =>
     setRows((rs) => rs.map((r) => (r.id === id ? { ...r, [k]: v } : r)));
   // "Our Equipment & Methods" bullets, stored per-language as string[].
-  const methodsKey = (lang: 'ar' | 'en') => (lang === 'ar' ? 'methods_ar' : 'methods_en') as const;
+  const methodsKey = (lang: 'ar' | 'en'): 'methods_ar' | 'methods_en' => (lang === 'ar' ? 'methods_ar' : 'methods_en');
   const setMethod = (id: string, lang: 'ar' | 'en', idx: number, v: string) =>
     setRows((rs) => rs.map((r) => {
       if (r.id !== id) return r;

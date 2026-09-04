@@ -150,6 +150,22 @@ export const seo = {
     },
     path: '/contact',
   },
+
+  inquiry: {
+    title: {
+      ar: 'استفسار | شركة تدعيمكو الكويت',
+      en: 'Inquiry | Tadeemco Kuwait',
+    },
+    description: {
+      ar: 'أرسل استفسارك مباشرةً إلى شركة تدعيمكو وسنرد عليك في أقرب وقت.',
+      en: 'Submit your inquiry directly to Tadeemco and we will get back to you as soon as possible.',
+    },
+    keywords: {
+      ar: 'استفسار تدعيمكو، نموذج استفسار، الكويت',
+      en: 'Tadeemco inquiry, inquiry form, Kuwait',
+    },
+    path: '/inquiry',
+  },
 } as const;
 
 // JSON-LD LocalBusiness schema — critical for local search ranking

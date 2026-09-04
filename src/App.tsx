@@ -8,6 +8,7 @@ import { Services } from './pages/Services';
 import { Projects } from './pages/Projects';
 import { Equipment } from './pages/Equipment';
 import { Contact } from './pages/Contact';
+import { Inquiry } from './pages/Inquiry';
 import NotFound from './pages/NotFound';
 
 const AdminRoot = lazy(() => import('./components/admin/AdminShell').then((m) => ({ default: m.AdminRoot })));
@@ -36,6 +37,7 @@ const ServicesRoute = () => { const { language } = useLanguage(); return <Servic
 const ProjectsRoute = () => { const { language } = useLanguage(); return <Projects language={language} />; };
 const EquipmentRoute = () => { const { language } = useLanguage(); return <Equipment language={language} />; };
 const ContactRoute = () => { const { language } = useLanguage(); return <Contact language={language} />; };
+const InquiryRoute = () => { const { language } = useLanguage(); return <Inquiry language={language} />; };
 
 export const routes: RouteObject[] = [
   {
@@ -48,6 +50,7 @@ export const routes: RouteObject[] = [
       { path: 'projects', element: <ProjectsRoute /> },
       { path: 'equipment', element: <EquipmentRoute /> },
       { path: 'contact', element: <ContactRoute /> },
+      { path: 'inquiry', element: <InquiryRoute /> },
       { path: '*', element: <NotFound /> },
     ],
   },
